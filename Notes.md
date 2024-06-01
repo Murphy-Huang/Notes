@@ -1,7 +1,7 @@
-- ![git流程图](gitlct.webp)
+- ![git流程图](./gitlct.webp)
 - [git常用命令](https://blog.csdn.net/qtiao/article/details/97783243)
 - 闭包可以从类变量与类函数来作用域来理解，函数的闭包如同类中的函数调用类的变量（自由变量）。在当前作用域之外将自由变量的状态保存下来，保持对词法作用域的引用。
-- ![热更新流程图](rgxlct.png)
+- ![热更新流程图](./rgxlct.png)
 - lua调用CS存在多种方式xlua,tolua,slua
 - setnativesize令image自适应大小
 - redis与monogo配合mysql实现冷热数据存储
@@ -26,3 +26,12 @@
     size = new Vector2(parentHeight * al, parentHeight);
     self.sizeDelta = size;
 ```
+- 物体在SetActive隐藏后，脚本仍会运行
+  - 脚本不被勾选，虽然大部分生命周期函数不会执行，但是内置的事件监测的方法，譬如OnMouseDown()，OnTriggerEnter();都能运行
+    - 可以考虑动态加载和卸载这个脚本
+- 动态设置RectTransform
+  - SetInsetAndSizeFromParentEdge 设定 RectTransform 到父对象的某一边（参数：edge）的距离（参数：inset），以及在该轴向上的大小（参数：size）。
+  - SetSizeWithCurrentAnchors 只设定 RectTransform 在某轴向（参数：axis）上的大小（参数：size），还需要 anchoredPosition 辅助设定其在该轴向上的位置。
+  - 当 Anchors 分散（即在某方向上存在 Stretch）时，需要使用 offsetMin 和 offsetMax 的对应分量来设定位置（即 RectTransform 到父对象边缘的距离）
+  - rectTransform.rect.size返回矩形大小，sizeDelta = offsetMax - offsetMin
+  - rectTransform.anchoredPosition返回pivot所处相对位置
