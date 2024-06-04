@@ -1,5 +1,6 @@
+- [markdown系列blog](https://www.cnblogs.com/hanzongze/category/1475469.html)
 - ![git流程图](./gitlct.webp)
-- [git常用命令](https://blog.csdn.net/qtiao/article/details/97783243)
+- git常用命令 <https://blog.csdn.net/qtiao/article/details/97783243>
 - 闭包可以从类变量与类函数来作用域来理解，函数的闭包如同类中的函数调用类的变量（自由变量）。在当前作用域之外将自由变量的状态保存下来，保持对词法作用域的引用。
 - ![热更新流程图](./rgxlct.png)
 - lua调用CS存在多种方式xlua,tolua,slua
@@ -35,3 +36,7 @@
   - 当 Anchors 分散（即在某方向上存在 Stretch）时，需要使用 offsetMin 和 offsetMax 的对应分量来设定位置（即 RectTransform 到父对象边缘的距离）
   - rectTransform.rect.size返回矩形大小，sizeDelta = offsetMax - offsetMin
   - rectTransform.anchoredPosition返回pivot所处相对位置
+- 随机数设置随机数种子的技巧
+  ```Lua
+    ToString(os.time():reverse():sub(1,7))
+  ```
