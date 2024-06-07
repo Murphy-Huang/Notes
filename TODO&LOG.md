@@ -44,7 +44,7 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 28. ~~标题出来停顿~~
 29. ~~多个神灯多次运行时最后得分重新出现~~
 30. ~~奖励数字過大导致文本重叠~~
-31. **改动ComFunc.FormatKMBT**
+31. ~~改动ComFunc.FormatKMBT~~
 
 
 ### CS Script
@@ -61,11 +61,29 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 ### Unity Editor
 
 1. ~~tip02目录图片，代替神灯smoke~~
-2. **icon_17（lamp）暂时缺少**
+2. **icon_16（lamp）暂时缺少**
+3. ~~等美术资源添加筛子游戏下注时的动画~~s
+4. **筛子游戏的新结算筛子图案**
+5. ~~筛子游戏的按钮颜色修改~~
    
 ### Lua Script
 
-1. **添加的lamp动画时的说明(sprite)，module/res/lamp目录下**
+1. ~~添加的lamp动画时的说明(sprite)，module/res/lamp目录下~~
+2. ~~SlotAniMgr:PlayAni报错cannot set sprite, no such field~~
+3. ~~完善按钮左右选择~~
+4. ~~元宝的位置重定位（ef_bet重定位）~~
+5. ~~模糊图像和结果筛子图像大小不一致~~
+6. ~~result自动格式~~
+7. ~~button颜色设定无效~~
+   1. ~~!GetButton函数可能对组件做出了修改~~
+   2. ~~UIBase:OnClick()修改了组件颜色~~
+      1. Button.colors参数修改无效，需要将整个结构重新赋予
+      2. BlockColor结构需要注意colorMultipier设置
+8. ~~image获取rectTransform失败~~
+   1. 不同组件的rectTransform的变量不能直接赋予
+9. ~~button的image闪烁越来越快，在多次以后几乎不能发现闪烁~~
+   1. 在脚本关闭时杀死动画
+10. self.node_wheel在RunTimeOnce之前已经处于活动状态
 
 ### CS
 1. ~~sizeDelta anchoredPosition offset~~
@@ -94,6 +112,8 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 10. Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束
 11. TcpClient.BeginConnect TcpClient.EndConnect组合使用，EndConnect会调用BeginConnect返回的IAsyncResult对象
 12. AppMain.cs:316:AppConfig.LoadConfig.ParseConfig.LoadVersions.LoadFileText()确认各个信息。
+13. SlotAniMgr:PlayAni(sp, ...)调用的Transform.Find()只能在子物体查找,不能找物体的组件，且sp需要spirit作为参数
+14. UIBase:OnClick()修改了组件颜色
 
 ### <font color = red name = "Unknow"> Unknow </font>
 
@@ -104,5 +124,6 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 5. 为何要将序列帧文件转json格式？
 6. 预加载缺少了生成路径导致报错，需要指定config路径生成PLABconfig.lua文件，并对应生成Assets\Editor\ABPack\PreLoad\config\preload_mammon.conf。preload_mammon.conf是自用的文件，不需要上传。两个文件之间的联系？
 7. 为何Coroutine需要专门用一个单例类来管理？
+8. RunTimeOnce与handler的运作原理,self在其中的作用
 
 ---
