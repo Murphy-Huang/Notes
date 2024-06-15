@@ -1,6 +1,6 @@
-local function A()
-    a = 1
-    print("this is A")
-end
+require "bit"
 
-print(a)
+local a = -1
+local b = 1
+
+print(a > b)
