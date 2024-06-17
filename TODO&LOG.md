@@ -64,7 +64,7 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 2. ~~icon_16（lamp）暂时缺少~~
 3. ~~等美术资源添加筛子游戏下注时的动画~~s
 4. ~~筛子游戏的新结算筛子图案~~
-   1. 动态修改image.rectTransform.rect.size适配大小
+   1. ~~动态修改image.rectTransform.rect.size适配大小~~
 5. ~~筛子游戏的按钮颜色修改~~
    
 ### Lua Script
@@ -78,27 +78,25 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 7. ~~button颜色设定无效~~
    1. ~~!GetButton函数可能对组件做出了修改~~
    2. ~~UIBase:OnClick()修改了组件颜色~~
-      1. Button.colors参数修改无效，需要将整个结构重新赋予
-      2. BlockColor结构需要注意colorMultipier设置
+      1. ~~Button.colors参数修改无效，需要将整个结构重新赋予~~
+      2. ~~BlockColor结构需要注意colorMultipier设置~~
 8. ~~image获取rectTransform失败~~
-   1. 不同组件的rectTransform的变量不能直接赋予
+   1. ~~不同组件的rectTransform的变量不能直接赋予~~
 9. ~~button的image闪烁越来越快，在多次以后几乎不能发现闪烁~~
-   1. 在脚本关闭时杀死动画
-10. self.node_wheel在RunTimeOnce之前已经处于活动状态，重新设置其他组件活动开始时间
-11. 左上角的奖励金额似乎提前更新了
+   1. ~~在脚本关闭时杀死动画~~
+10. ~~self.node_wheel等似乎在RunTimeOnce之前已经处于活动状态，重新设置其他组件活动开始时间~~
+11. ~~左上角的奖励金额似乎提前更新了~~
 12. ~~slotRoller.update(dt)是什么~~
-    1. 对应TimeMgr的update，在Game.Update统一调用
+    1. ~~对应TimeMgr的update，在Game.Update统一调用~~
 13. ~~元宝渐显~~
 14. ~~freetime的mask位置错位~~
-15. 在每次回调完成后删除回调函数
-16. ~~为什么在这个条件下生成end_data~~
-    1. 只有一个函数可以写入grid_icons，因此在一开始将最终呈现的结果确定下来
+15. ~~在每次回调完成后删除回调函数~~
 
 ### CS
 1. ~~sizeDelta anchoredPosition offset~~
 2. ~~AppMain.cs:320:HotDownLoadManager.InitLoadFile.LoadFileDatList()（加载文件）调用HotDirsUtil.LoadFileText时issuccess为false,因UnityWebRequest遇到错误HTTP响应代码和系统错误，导致不能运行（服务端配置文件获取失败）。在AppConst.curConfigUrl在对应地址获取文件失败，在初次运行需要线打包上传项目。~~
 3. ~~luaPanel是什么~~
-   1. luaPanel是lua脚本自身，在调用lua函数的时候充当self
+   1. ~~luaPanel是lua脚本自身，在调用lua函数的时候充当self~~
 
 ---
 
@@ -125,6 +123,8 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 12. AppMain.cs:316:AppConfig.LoadConfig.ParseConfig.LoadVersions.LoadFileText()确认各个信息。
 13. SlotAniMgr:PlayAni(sp, ...)调用的Transform.Find()只能在子物体查找,不能找物体的组件，且sp需要spirit作为参数
 14. UIBase:OnClick()修改了组件颜色
+15. 对应TimeMgr的update，在Game.Update统一调用
+16. luaPanel是lua脚本自身，在调用lua函数的时候充当self
 
 ### <font color = red name = "Unknow"> Unknow </font>
 
@@ -136,5 +136,9 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 6. 预加载缺少了生成路径导致报错，需要指定config路径生成PLABconfig.lua文件，并对应生成Assets\Editor\ABPack\PreLoad\config\preload_mammon.conf。preload_mammon.conf是自用的文件，不需要上传。两个文件之间的联系？
 7. 为何Coroutine需要专门用一个单例类来管理？
 8. RunTimeOnce与handler的运作原理,self在其中的作用
+9. self.node_wheel等似乎在RunTimeOnce之前已经处于活动状态
+10. 在每次回调完成后删除回调函数
+11. 为什么在这个条件下生成end_data
+   1. 只有一个函数可以写入grid_icons，因此在一开始将最终呈现的结果确定下来
 
 ---
