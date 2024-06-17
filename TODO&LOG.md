@@ -138,8 +138,3 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 8. RunTimeOnce与handler的运作原理,self在其中的作用
 
 ---
-
-切换工作流（提交让主枝审核）：
-   账号密码配置
-   fork
-   GitFlow
