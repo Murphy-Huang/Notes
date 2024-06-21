@@ -6,6 +6,7 @@
 ## <span style = "color:Purple"> Aladdin Slot </span>
 
 ### Unity Editor
+
 nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 
 ### LuaScript
@@ -100,6 +101,23 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 
 ---
 
+## <span style = "color:Green"> Water Margin Slot </span>
+
+### Unity Editor
+
+1. ~~缺少idle图集~~
+2. ~~marynode缺少一个icon~~
+
+### LuaScript
+1. 后端传的data打乱顺序，不能出现在同一个图标上
+   1. data长度对应times
+   2. 倍率对应图标
+   3. 用data的总数乘底分
+
+### CS Script
+
+---
+
 ## About The Project
 
 ### <span style = "color:blue" name = "Tips"> Tips </span>
@@ -108,23 +126,24 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 2. **项目改动和增加使用了注释 '101' 标记**
 3. **缺少XLua项，删掉Gen文件夹重新生成**
 4. **Document更新后要（工具）重新生成，并修改Config.json文件（重定向）**
-5. **在初次运行需要线打包上传项目。**
-6. AppConfig.config加载
+5. **在初次运行需要先打包上传项目。**
+6. **预加载需要配置目标文件**
+7. AppConfig.config加载
     1. AppConfig.LoadConfig:62 ParseConfig(configjson,...)
        - AppConfig.LoadingConfig:120 => PlayerPrefabs.HasKey()
        - System.Net.Sockets.TcpClient UnityEngine.PlayerPrefabs
-7. 没有自动同步到streamingassets
+8. 没有自动同步到streamingassets
    1. streamingassets会打包到apk文件，让应用开始时可能减少下载更新
-8.  DataUnpack在哪里调用了
+9.  DataUnpack在哪里调用了
    1. lua脚本通过NetManager.cs/PortManager.cs使用LuaMsgParse.cs,调用ProtoParse.lua进行通讯
-9. System.Net.IPAddress.TryParse 根据 IPv4 的点四表示法和 IPv6 的冒号十六进制表示法表示的 IP 地址创建 IPAddress 实例
-10. Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束
-11. TcpClient.BeginConnect TcpClient.EndConnect组合使用，EndConnect会调用BeginConnect返回的IAsyncResult对象
-12. AppMain.cs:316:AppConfig.LoadConfig.ParseConfig.LoadVersions.LoadFileText()确认各个信息。
-13. SlotAniMgr:PlayAni(sp, ...)调用的Transform.Find()只能在子物体查找,不能找物体的组件，且sp需要spirit作为参数
-14. UIBase:OnClick()修改了组件颜色
-15. 对应TimeMgr的update，在Game.Update统一调用
-16. luaPanel是lua脚本自身，在调用lua函数的时候充当self
+10. System.Net.IPAddress.TryParse 根据 IPv4 的点四表示法和 IPv6 的冒号十六进制表示法表示的 IP 地址创建 IPAddress 实例
+11. Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束
+12. TcpClient.BeginConnect TcpClient.EndConnect组合使用，EndConnect会调用BeginConnect返回的IAsyncResult对象
+13. AppMain.cs:316:AppConfig.LoadConfig.ParseConfig.LoadVersions.LoadFileText()确认各个信息。
+14. SlotAniMgr:PlayAni(sp, ...)调用的Transform.Find()只能在子物体查找,不能找物体的组件，且sp需要spirit作为参数
+15. UIBase:OnClick()修改了组件颜色
+16. 对应TimeMgr的update，在Game.Update统一调用
+17. luaPanel是lua脚本自身，在调用lua函数的时候充当self
 
 ### <font color = red name = "Unknow"> Unknow </font>
 
@@ -135,7 +154,7 @@ nothing left but all move to [Tips](#Tips) or [Unkonw](#Unknow) page
 5. 为何要将序列帧文件转json格式？
 6. 预加载缺少了生成路径导致报错，需要指定config路径生成PLABconfig.lua文件，并对应生成Assets\Editor\ABPack\PreLoad\config\preload_mammon.conf。preload_mammon.conf是自用的文件，不需要上传。两个文件之间的联系？
 7. 为何Coroutine需要专门用一个单例类来管理？
-8. RunTimeOnce与handler的运作原理,self在其中的作用
+8. RunTimeOnce与handler的运作原理,self在其中的作用？
 9. self.node_wheel等似乎在RunTimeOnce之前已经处于活动状态
 10. 在每次回调完成后删除回调函数
 11. 为什么在这个条件下生成end_data
