@@ -1,10 +1,10 @@
 <link rel = "stylesheet" type = "text/css" href = "Notes.css" />
 
 - [markdown系列blog](https://www.cnblogs.com/hanzongze/category/1475469.html)
-- ![git流程图](./gitlct.webp)
+- ![git流程图](./Picture/git%20flowChart.webp)
 - git常用命令 <https://blog.csdn.net/qtiao/article/details/97783243>
 - 闭包可以从类变量与类函数来作用域来理解，函数的闭包如同类中的函数调用类的变量（自由变量）。在当前作用域之外将自由变量的状态保存下来，保持对词法作用域的引用。
-- ![热更新流程图](./rgxlct.png)
+- ![热更新流程图](./Picture\hotRefresh%20flowChart.png)
 - lua调用CS存在多种方式xlua,tolua,slua
 - SetNativeSize()令image自适应大小
 - redis与monogo配合mysql实现冷热数据存储
@@ -23,11 +23,11 @@
 - 设置text的对齐方式 `GetComponent<Text>().alignment = CS.UnityEngine.TextAnchor.MiddleCenter`
 - image动态遮罩全屏幕
   ```C#
-    self.GetComponent<Image>().SetNativeSize();
-    olSize = self.sizeDelta;
-    al = olSize.x / olSize.y;
-    size = new Vector2(parentHeight * al, parentHeight);
-    self.sizeDelta = size;
+  self.GetComponent<Image>().SetNativeSize();
+  olSize = self.sizeDelta;
+  al = olSize.x / olSize.y;
+  size = new Vector2(parentHeight * al, parentHeight);
+  self.sizeDelta = size;
   ```
 - 物体在SetActive隐藏后，脚本仍会运行
   - 脚本不被勾选，虽然大部分生命周期函数不会执行，但是内置的事件监测的方法，譬如OnMouseDown()，OnTriggerEnter();都能运行
@@ -43,19 +43,19 @@
 - 随机数设置随机数种子
   - 利用毫秒级的最后几位
     ```Lua
-      ToString(os.time():reverse():sub(1,7))
+    ToString(os.time():reverse():sub(1,7))
     ```
-  - 利用guid
+  - [利用guid](./Common%20API.md#i)
     ```C#
-      byte[] buffer = Guid.NewGuid().ToByteArray();
-      int iSeed = BitCoverter.ToInt32(buffer, 0);
-      Random rand = Random(iSeed)
-      rand.Next()
+    byte[] buffer = Guid.NewGuid().ToByteArray();
+    int iSeed = BitCoverter.ToInt32(buffer, 0);
+    Random rand = Random(iSeed)
+    rand.Next()
     ```
   - 其他两种方法，效果更好但计算繁琐
     ```C#
-      string MemeberShip.GeneratePassword(int length, int numberOfNonAlphanumericCharacters);
-      RNGCrytoServiceProvider csp = RNGCrytoServiceProvider(); csp.GetBytes(byte[]);
+    string MemeberShip.GeneratePassword(int length, int numberOfNonAlphanumericCharacters);
+    RNGCrytoServiceProvider csp = RNGCrytoServiceProvider(); csp.GetBytes(byte[]);
     ```
 - [Lua的数据结构——Table](https://www.jianshu.com/p/56ca3d77c7de)
 - 关于碰撞检测
@@ -78,3 +78,18 @@
     4. （通过调整执行顺序的方式）将复杂的副作用函数延迟执行。（副作用：当调用函数时，函数在完成原本的计算任务同时还改变了外部数据），比如管理角色死亡的system，会在大部分system执行之后再执行。
     5. 系统不能调用其它系统的函数（解耦） 作者：MisakaNo10086 https://www.bilibili.com/read/cv16047480/ 出处：bilibili
 - 函数的参数合法性检测：一般只在用户的输入正确性，测试阶段调试或设计兼容性高的函数时需要检测合法性
+- git有多种工作流，fork flow、gitflow、GitHub flow等。其中github flow的重要部分在于PR（pull request），通过fork（上游仓库）/clone（远程仓库）、branch、merge命令工作，有一个长期分支main，branch一般只在PR过程中产生；gitlab flow的重要原则是上游优先（upstream first）。name和email旨在pull留名，用户需要账号密码登陆或pull，ssh（需要登陆设置且有时效）旨在本地机器加入认证、简化提交时需要输入账号密码、提高安全性。
+  - [github分支保护 和 pr规则](https://docs.github.com/zh/repositories)
+  - [合并commit](https://blog.csdn.net/Spade_/article/details/108698036)，git rebase -i HEAD~5
+  - 个人认为应该尽量少使用force push，应该在本地分支确定好commit再谨慎推送
+  - https方式使用账号和密码授权，简单易用，便于进行权限细分管理，而且防火墙一般会打开 http 和https协议的端口号80 和 443。可以进行匿名访问，对于开源项目，其他人即使没有任何权限也可以方便进行除提交之外的克隆和读取操作。但是可能需要每个项目成员都有一个代码托管平台的账号，而且缺乏凭证管理的话，可能要频繁的进行账号密码输入；<br/>ssh方式单独使用非对称的秘钥进行认证和加密传输，和账号密码分离开来，不需要账号也可以访问repo。生成和管理秘钥有点繁琐，需要管理员添加成员的public key。不能进行匿名访问，ssh不利于对权限进行细分，用户必须具有通过SSH协议访问你主机的权限，才能进行下一步操作，比较适合内部项目。
+- 在文件加入css方式
+  - <link rel = "" type = "" href = "" />
+  - 在标签添加*style*属性：<span style = "color:blue" ></span>
+- '/'forward slash在网络上使用，'\'backward slash在window文件系统和转义使用
+- URL保留字符：space %20
+- 委托是一个类型，将具体实现交付出去；回调是函数指针，将执行时机交付出去
+- 协程适用于处理Unity 对象、生命周期等与Unity API交互相关的任务，如延时、动画序列、协作动作；线程更适合计算密集型任务，如物理模拟、算法计算
+- 协程无法返回值，可以利用回调函数、共享变量、事件来返回结果
+- yield语句就是这条分界线，想要代码“停住”，就不执行后面语句对应的代码块，想要代码恢复，就接着执行后面语句对应的代码块。而调度上下文的保存，是通过将需要保存的变量都定义成成员变量来实现的。[参考](https://www.cnblogs.com/iwiniwin/p/14878498.html)
+- async/await：await不会开启新的线程；异步调用前的线程会在异步等待时放回线程池，异步等待结束后，会从线程池取一个空闲的线程，来运行异步等待调用结束后的后续代码。
