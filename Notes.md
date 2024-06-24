@@ -45,7 +45,7 @@
     ```Lua
     ToString(os.time():reverse():sub(1,7))
     ```
-  - [利用guid](./Common%20API.md#i)
+  - [利用guid](./Common%20API.md#guid)
     ```C#
     byte[] buffer = Guid.NewGuid().ToByteArray();
     int iSeed = BitCoverter.ToInt32(buffer, 0);

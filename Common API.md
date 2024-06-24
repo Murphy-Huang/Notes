@@ -38,7 +38,8 @@ Set Text Component alignment
 
 ---
 
-<span id = 'i'> Set Random seed with GUID </span>
+<span id = "guid" style = "display:none;"></span>
+Set Random seed with GUID 
 > ```C#
 > byte[] buffer = Guid.NewGuid().ToByteArray();
 > int seed = BitCoverter.ToInt32(buffer, 0);
