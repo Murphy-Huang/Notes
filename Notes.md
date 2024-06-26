@@ -33,12 +33,15 @@
   - 脚本不被勾选，虽然大部分生命周期函数不会执行，但是内置的事件监测的方法，譬如OnMouseDown()，OnTriggerEnter();都能运行
     - 可以考虑动态加载和卸载这个脚本
 - 动态设置RectTransform
+  - rectTransform.anchorMin/anchorMax设置锚点
   - SetInsetAndSizeFromParentEdge() 设定 RectTransform 到父对象的某一边（参数：edge）的距离（参数：inset），以及在该轴向上的大小（参数：size）。
   - SetSizeWithCurrentAnchors() 只设定 RectTransform 在某轴向（参数：axis）上的大小（参数：size），还需要 anchoredPosition 辅助设定其在该轴向上的位置。
-  - rectTransform.anchoredPosition改变元素Pivot到锚框中心点的距离或返回pivot所处相对位置
+  - rectTransform.rect.size(rect.height, rect.width)返回矩形大小，sizeDelta = offsetMax - offsetMin（ui本身大小减去锚框大小），
+  - rectTransform.anchoredPosition(从锚框的pivot位置，指向RectTransform的pivot的一个向量)，可以改变元素Pivot到锚框中心点的距离或返回pivot所处相对位置
+  - pivot的位置就是RectTransform.localPosition
   - 当 Anchors 分散（即在某方向上存在 Stretch）时，需要使用 offsetMin 和 offsetMax 的对应分量来设定位置（即 RectTransform 到父对象边缘的距离(UI元素的右上角的坐标，减去AnchorMax的值)）
-  - rectTransform.rect.size返回矩形大小，sizeDelta = offsetMax - offsetMin
   - rectTransform.GetWorldCorners(corners)获取四个角的坐标,间接设置
+  - 锚框(W,H) = (AnchorMax - AnchorMin) * 父物体(W,H)
   - 不同组件的rectTransform的变量不能直接赋予（存疑）
 - 随机数设置随机数种子
   - 利用毫秒级的最后几位
@@ -93,3 +96,4 @@
 - 协程无法返回值，可以利用回调函数、共享变量、事件来返回结果
 - yield语句就是这条分界线，想要代码“停住”，就不执行后面语句对应的代码块，想要代码恢复，就接着执行后面语句对应的代码块。而调度上下文的保存，是通过将需要保存的变量都定义成成员变量来实现的。[参考](https://www.cnblogs.com/iwiniwin/p/14878498.html)
 - async/await：await不会开启新的线程；异步调用前的线程会在异步等待时放回线程池，异步等待结束后，会从线程池取一个空闲的线程，来运行异步等待调用结束后的后续代码。
+- Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束；invoke（同步）和begininvoke（异步）的概念，其实它们所说的意思是相对于子线程而言的，其实对于控件的调用总是由主线程来执行的。
