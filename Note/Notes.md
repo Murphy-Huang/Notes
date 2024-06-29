@@ -1,10 +1,10 @@
 <link rel = "stylesheet" type = "text/css" href = "Notes.css" />
 
 - [markdown系列blog](https://www.cnblogs.com/hanzongze/category/1475469.html)
-- ![git流程图](./Picture/git%20flowChart.webp)
+- ![git流程图](../Picture/git%20flowChart.webp)
 - git常用命令 <https://blog.csdn.net/qtiao/article/details/97783243>
 - 闭包可以从类变量与类函数来作用域来理解，函数的闭包如同类中的函数调用类的变量（自由变量）。在当前作用域之外将自由变量的状态保存下来，保持对词法作用域的引用。
-- ![热更新流程图](./Picture\hotRefresh%20flowChart.png)
+- ![热更新流程图](../Picture\hotRefresh%20flowChart.png)
 - lua调用CS存在多种方式xlua,tolua,slua
 - SetNativeSize()令image自适应大小
 - redis与monogo配合mysql实现冷热数据存储
@@ -20,15 +20,6 @@
 - 避免使用foreach，因为会释放内存
 - 使用Mathf.PI时注意有效输入范围和结果精度（角度*PI/180 = 弧度）
 - 注意组件默认设置的Color
-- 设置text的对齐方式 `GetComponent<Text>().alignment = CS.UnityEngine.TextAnchor.MiddleCenter`
-- image动态遮罩全屏幕
-  ```C#
-  self.GetComponent<Image>().SetNativeSize();
-  olSize = self.sizeDelta;
-  al = olSize.x / olSize.y;
-  size = new Vector2(parentHeight * al, parentHeight);
-  self.sizeDelta = size;
-  ```
 - 物体在SetActive隐藏后，脚本仍会运行
   - 脚本不被勾选，虽然大部分生命周期函数不会执行，但是内置的事件监测的方法，譬如OnMouseDown()，OnTriggerEnter();都能运行
     - 可以考虑动态加载和卸载这个脚本
@@ -43,23 +34,6 @@
   - rectTransform.GetWorldCorners(corners)获取四个角的坐标,间接设置
   - 锚框(W,H) = (AnchorMax - AnchorMin) * 父物体(W,H)
   - 不同组件的rectTransform的变量不能直接赋予（存疑）
-- 随机数设置随机数种子
-  - 利用毫秒级的最后几位
-    ```Lua
-    ToString(os.time():reverse():sub(1,7))
-    ```
-  - [利用guid](./Common%20API.md#guid)
-    ```C#
-    byte[] buffer = Guid.NewGuid().ToByteArray();
-    int iSeed = BitCoverter.ToInt32(buffer, 0);
-    Random rand = Random(iSeed)
-    rand.Next()
-    ```
-  - 其他两种方法，效果更好但计算繁琐
-    ```C#
-    string MemeberShip.GeneratePassword(int length, int numberOfNonAlphanumericCharacters);
-    RNGCrytoServiceProvider csp = RNGCrytoServiceProvider(); csp.GetBytes(byte[]);
-    ```
 - [Lua的数据结构——Table](https://www.jianshu.com/p/56ca3d77c7de)
 - 关于碰撞检测
   - 多变体碰撞检测：分离轴定理（SAT）：依次再不同角度照射待检测物体，当存在一个角度两者影子没有重叠则分离轴存在

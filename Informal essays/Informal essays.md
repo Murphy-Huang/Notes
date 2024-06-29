@@ -1,1 +1,0 @@
-[Inspiration fragment](./Inspiration%20fragment.md)
