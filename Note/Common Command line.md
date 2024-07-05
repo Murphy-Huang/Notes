@@ -18,3 +18,6 @@
 17. git push --delete origin [branch name]
 18. git remote show origin
 19. git remote prune origin
+20. git stash save "..."
+21. git stash pop
+22. git stash list

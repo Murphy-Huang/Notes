@@ -47,7 +47,7 @@ InvokeRepeating(() => print("do something"), 1f, 1f)
 Set Random seed
 ```lua
 -- 用毫秒级的最后几位设置
-ToString(os.time():reverse():sub(1,7))
+math.randomseed(tostring(os.time()):reverse():sub(1,7))
 ```
 ```cs
 // use DataTime to set random seed
@@ -95,6 +95,24 @@ void SetWidthHight(float widthBorder, float heightBorder, bool lockPos)
     if (lockPos)
     {
         rectTransform.anchoredPosition = Vector2.zero;
+    }
+}
+```
+---
+
+不等概率的随机数，[.Net.Random文档]<https://learn.microsoft.com/zh-cn/dotnet/api/system.random?view=net-8.0>
+```CS
+// 通过不等长的区域，根据随机数落的区域作为索引
+int UnequalProbability(int[] probability)
+{
+    Random rand = Random(DataTime.Now.Millisecond);
+    float r = rand.Sample();
+    for(int i = 1; i < probability.size(); ++i)
+    {
+        if (r > probability[i-1] && r < probability[i])
+        {
+            return i;
+        }
     }
 }
 ```
