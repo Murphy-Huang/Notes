@@ -108,13 +108,193 @@
 
 ---
 
-TEMPLATE:
-<span></span>
+#### 物体是否被相机看到
+> 转换为视口坐标，正式使用不要有Camera.main
+> ```CS
+> bool ObjectVisible(Camera camera, GameObject obj) {
+>     vector3 viewPortPosition = camera.WorldToViewportPoint(obj.transform.position);
+>     if (viewportPosition.x > 0 && viewportPosition.x < 1 && viewportPosition.y > 0 && viewportPosition.y < 1){
+>         return true;
+>     }
+>     return false;
+> }
+> ```
 
-#### Title
-> Usage scenarios / Subject description
-> **` Function declarations `** `//exegesis`
->> Sample
->> ```CS
->> Sample
->> ```  
+---
+
+#### 关于GUID：
+> ```C#
+> if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
+> {
+>     property.stringValue = System.Guid.NewGuid().ToString();
+>     serializedObject.ApplyModifiedProperties();
+> }
+> ```
+> ```C#
+> string path = AssetDatabase.GetAssetPath(this);
+> itemId = AssetDatabase.AssetPathToGUID(path);
+> ```
+
+---
+
+#### 代码生成GUI
+> ```C#
+> private void OnGUI()
+> {
+>     if (GUI.Button(new Rect(0, 0, 100, 30), "1"))
+>     {
+>         animation.Play("step1");
+>     }
+> }
+> ```
+
+---
+
+#### 获取XR手柄射线接触到物体（射线有距离限制）
+> `XRRayInteractor.GetCurrentRaycastHit(out rayInfor)`
+
+---
+
+#### 启动InputSystem中的Actions
+> `InputActionProperty.EnableDirectAction()`
+
+---
+
+#### 通过Select Event，物体获取当前射线来源的对象（设备）
+> `void AttachTransform(SelectEnterEvenetArgs arg){
+>     Transform interactor = arg.interactorObject.transform;
+> }`
+
+---
+
+#### 脚本中常用属性
+- [ContextMenu("Delete save file")]
+- [MenuItem("Window/Dialogue Editor")]
+- [OnOpenAssetAttribute(num)]
+- EditorGUI/EditorGUILayout
+
+---
+
+#### 关于数据存储：两种方式
+> ```C#
+> public void Save(GameData _data)
+> {
+>     string fullPath = Path.Combine(dataDirPath, dataFileName);
+> 
+>     try
+>     {
+>         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+>         string dataToStore = JsonUtility.ToJson(_data, true);
+>         using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+>         {
+>             using (StreamWriter writer = new StreamWriter(stream))
+>             {
+>                 if(encryptData) 
+>                     dataToStore = EncryptDecrypt(dataToStore);
+>                 writer.Write(dataToStore);
+>             }
+>         }
+>     }   
+>     catch(Exception e)
+>     {
+>         Debug.LogError("Errror on trying to save data to file: " + fullPath + "\n" + e.ToString());
+>     }
+> }
+> public GameData Load()
+> {
+>     string fullPath = Path.Combine(dataDirPath, dataFileName);
+>     GameData loadData = null;
+>     if (File.Exists(fullPath))
+>     {
+>         try
+>         {
+>             string dataToLoad = "";
+>             using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+>             {
+>                 using (StreamReader reader = new StreamReader(stream))
+>                 {
+>                     dataToLoad = reader.ReadToEnd();
+>                     if (encryptData)
+>                         dataToLoad = EncryptDecrypt(dataToLoad);
+>                 }
+>             }
+>             loadData = JsonUtility.FromJson<GameData>(dataToLoad);
+>         }
+>         catch (Exception e)
+>         {
+>             Debug.LogError("Errror on trying to load data from file: " + fullPath + "\n" + e.ToString());
+>         }
+>     }
+>     return loadData;
+> }
+> ```
+> ```C#
+> private Dictionary<string, object> LoadFile(string saveFile)
+> {
+>     string path = GetPathFromSaveFile(saveFile);
+>     if (!File.Exists(path))
+>     {
+>         return new Dictionary<string, object>();
+>     }
+>     using (FileStream stream = File.Open(path, FileMode.Open))
+>     {
+>         BinaryFormatter formatter = new BinaryFormatter();
+>         return (Dictionary<string, object>)formatter.Deserialize(stream);
+>     }
+> }
+> 
+> private void SaveFile(string saveFile, object state)
+> {
+>     string path = GetPathFromSaveFile(saveFile);
+>     print("Saving to " + path);
+>     using (FileStream stream = File.Open(path, FileMode.Create))
+>     {
+>         BinaryFormatter formatter = new BinaryFormatter();
+>         formatter.Serialize(stream, state);
+>     }
+> }
+> ```
+
+---
+
+#### float到int
+> `Mathf.Approximate/RoundToInt/MoveTowards()`
+  
+---
+
+#### UnityEvent<T>有可能不能正常序列化可加上下面这段
+> `[System.Serializable]`
+> `public class TakeDamageEvent : UnityEvent<float>{}`
+
+---
+
+#### 获取鼠标在世界的射线
+> `Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);`
+
+---
+
+#### 物体移动方式
+> `Vector3.MoveTowards(transform.position, target.position, Time.deltaTime)`
+> `transform.Translate((target.positin - transform.position) * Time.deltaTime)`
+> `this.transform.position = Vector3.Lerp(objectPos, targetPos, curve.Evaluate(x));`*AnimationCurve变速调节应用*
+
+---
+
+#### NavMesh寻路
+> NavMesh.Raycast()、NavMesh.SamplePosition()
+> NavMesh.CalculatePath()智能寻路
+
+---
+
+<!--
+    TEMPLATE:
+    <span></span>
+
+    #### Title
+    > Usage scenarios / Subject description
+    > **` Function declarations `** `//exegesis`
+    >> Sample
+    >> ```CS
+    >> Sample
+    >> ```  
+-->

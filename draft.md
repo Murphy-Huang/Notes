@@ -3,6 +3,7 @@
 [Common API](./Note/Common%20API.md)
 [Common Command line](./Note/Common%20Command%20line.md)
 [Informal essays](./.secrets/Informal%20essays/Informal%20essays.md)
+[Inspiration fragment](./.secrets/Informal%20essays/Inspiration%20fragment.md)
 using github.dev on website
 
 mvc和esc设计的类同和区别，避免在游戏开发使用mvc

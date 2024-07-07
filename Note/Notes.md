@@ -1,5 +1,33 @@
 <link rel = "stylesheet" type = "text/css" href = "Notes.css" />
 
+- enum 和 interface 搭配使用
+- 使用动画关键帧（add property）代替脚本
+- EventSystem.current.IsPointerOverGameObject()检测UI
+- width height：多少像素点来渲染，因此更改大小最好使用scale。将ui和canvas结合使用获得适当的大小和分辨率
+  - 协程问题
+  1. Invoke受Time.timeScale影响，并且无法避免（若可以还请指正）Coroutine可以通过Time.unscaledDeltaTime，WaitForSecondsRealtime来执行不受Time.timeScale影响的代码。菜单、UI、HUD等可以考虑用Coroutine
+  2. 当类所属游戏对象active为false时，函数中的StartCoroutine无法执行，而函数中的Invoke仍可以执行。如果在SetActive(true)前需要进行一些与本体无关的额外处理而需要推迟SetActive(true)（如登场时的光效动画等），考虑使用Invoke。若用Coroutine，就需要很多额外代码来调整各部件的出现时间、Start中调用的函数何时开始执行等，或者就需要把动画和时间的处理函数写在其他类（如敌人或玩家角色的Manager类等）中
+- 在角色周围生成粒子可以形成在整个场景粒子的错觉
+- 利用unityevent，interface，unityaction解耦
+- where include a prefab often overrides the transform of root element of prefab
+- 私有接口函数：处理接口函数之间重用部分而不在实现类实现，实现类不可访问
+- Resources文件夹 Resources.LoadAll
+- Editor文件夹 EditorWindow类
+- 利用static作为全体类实体的存储库
+- 直接使用prefab有的组件生成实体
+- 利用config中prefab实例化（关于config的使用）
+- object.ReferenceEquals比较两个对象
+- 将存储实现ISavable依赖于SavingEntity调用，避开存在ISavable实现的多处地方调用形成相同的副本
+- 在不同场景物体GUID相同时，加载问题
+- List.AddRange()实现ICollection接口的一个泛型集合，所有指定元素到末尾
+- ScriptableObject的非持久化
+- 基于IEnumerable来隐藏替换List、Array等可迭代元素
+- UI设置
+  - Aspect Ratio Fitter固定图片比例
+  - Constant Size Fitter配合grid group使用限制范围
+- vr项目需要添加InputActionManager组件
+---
+
 - [markdown系列blog](https://www.cnblogs.com/hanzongze/category/1475469.html)
 - ![git流程图](../Picture/git%20flowChart.webp)
 - git常用命令 <https://blog.csdn.net/qtiao/article/details/97783243>
@@ -74,6 +102,8 @@
 - [optional]属性使方法参数可选：void func([optional] int num)
 - git-crypt issue: git cannot checkout after git-crypt encrypt file, use 'git crypt lock' then checkout can solve this problem. cannot do git-crypt init in same repo even id in different branch, one-to-one correspondence between git-crypt-key and repository. <https://github.com/AGWA/git-crypt/issues/125>
 - git-crypt add-gpg-user [gpgID]，会使用gpgID匹配的gpg公钥来加密由git-crypt init命令产生的对等密钥（.git/git-crypt/keys/default），并生成一个文件在根目录下来导出结果
+- 调用this.transform实际上是一个调用intenal method的过程（这是用C/C++写的，不是MONO的）。值得注意的是这个调用方法略慢，因为你需要调用外部的CIL（aka interop），花费了额外的性能
+- update()中尽量不使用Find()
 
 ---
 #### 设计模式总结
@@ -110,3 +140,19 @@
 ---
 
 硬派游戏AI，就是状态机和行为树。状态机是基本功，行为树可选(早年AI没行为树这东西，大家都是hard code的)。[FSM（状态机）、HFSM（分层状态机）、BT（行为树）的区别。](https://blog.csdn.net/qq_39885372/article/details/103950973)
+---
+
+
+# 参考BLOG
+- [游戏中近战攻击判定检测——射线检测](https://blog.csdn.net/wch3351028/article/details/122326021)
+- [实现物体围绕某一点进行旋转](https://blog.csdn.net/qiaoquan3/article/details/51306514)
+- [四种迷宫生成算法的实现和可视化](https://blog.csdn.net/imred/article/details/105329806)
+- [正则](https://refrf.dev/)
+- [UGUI相关文章](https://www.zhihu.com/column/c_1440746540318650368)
+- [Unity 射线检测的原理分析](https://zhuanlan.zhihu.com/p/585528006)
+- [操作系统](https://www.bilibili.com/list/watchlater?oid=857492315&bvid=BV1jV4y1H7Gj&spm_id_from=333.1007.top_right_bar_window_view_later.content.click)
+- [刷题中输入处理c++篇](https://blog.csdn.net/HappyHeavyRain/article/details/106750601)
+- [Unity-UGUI](https://juejin.cn/user/4143405263232440/posts)
+- [Unity-Scene功能](https://blog.csdn.net/weixin_44013533?type=blog)
+- [unity手册Graphic的API](https://docs.unity.cn/cn/2018.4/ScriptReference/UI.GraphicRaycaster.html)
+- [Cinemachine Camera详细讲解和使用](https://zhuanlan.zhihu.com/p/516625841)
