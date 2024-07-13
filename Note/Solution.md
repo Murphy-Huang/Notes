@@ -116,3 +116,131 @@ int UnequalProbability(int[] probability)
     }
 }
 ```
+
+---
+
+关于数据存储：两种方式
+> ```CS
+> public void Save(GameData _data)
+> {
+>     string fullPath = Path.Combine(dataDirPath, dataFileName);
+> 
+>     try
+>     {
+>         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+>         string dataToStore = JsonUtility.ToJson(_data, true);
+>         using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+>         {
+>             using (StreamWriter writer = new StreamWriter(stream))
+>             {
+>                 if(encryptData) 
+>                     dataToStore = EncryptDecrypt(dataToStore);
+>                 writer.Write(dataToStore);
+>             }
+>         }
+>     }   
+>     catch(Exception e)
+>     {
+>         Debug.LogError("Errror on trying to save data to file: " + fullPath + "\n" + e.ToString());
+>     }
+> }
+> public GameData Load()
+> {
+>     string fullPath = Path.Combine(dataDirPath, dataFileName);
+>     GameData loadData = null;
+>     if (File.Exists(fullPath))
+>     {
+>         try
+>         {
+>             string dataToLoad = "";
+>             using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+>             {
+>                 using (StreamReader reader = new StreamReader(stream))
+>                 {
+>                     dataToLoad = reader.ReadToEnd();
+>                     if (encryptData)
+>                         dataToLoad = EncryptDecrypt(dataToLoad);
+>                 }
+>             }
+>             loadData = JsonUtility.FromJson<GameData>(dataToLoad);
+>         }
+>         catch (Exception e)
+>         {
+>             Debug.LogError("Errror on trying to load data from file: " + fullPath + "\n" + e.ToString());
+>         }
+>     }
+>     return loadData;
+> }
+> ```
+
+> ```CS
+> private Dictionary<string, object> LoadFile(string saveFile)
+> {
+>     string path = GetPathFromSaveFile(saveFile);
+>     if (!File.Exists(path))
+>     {
+>         return new Dictionary<string, object>();
+>     }
+>     using (FileStream stream = File.Open(path, FileMode.Open))
+>     {
+>         BinaryFormatter formatter = new BinaryFormatter();
+>         return (Dictionary<string, object>)formatter.Deserialize(stream);
+>     }
+> }
+> 
+> private void SaveFile(string saveFile, object state)
+> {
+>     string path = GetPathFromSaveFile(saveFile);
+>     print("Saving to " + path);
+>     using (FileStream stream = File.Open(path, FileMode.Create))
+>     {
+>         BinaryFormatter formatter = new BinaryFormatter();
+>         formatter.Serialize(stream, state);
+>     }
+> }
+> ```
+
+---
+
+物体是否被相机看到
+> ```CS
+> // 转换为视口坐标，正式使用不要有Camera.main
+> bool ObjectVisible(Camera camera, GameObject obj) {
+>     vector3 viewPortPosition = camera.WorldToViewportPoint(obj.transform.position);
+>     if (viewportPosition.x > 0 && viewportPosition.x < 1 && viewportPosition.y > 0 && viewportPosition.y < 1){
+>         return true;
+>     }
+>     return false;
+> }
+> ```
+
+---
+
+代码生成GUI
+> ```CS
+> private void OnGUI()
+> {
+>     if (GUI.Button(new Rect(0, 0, 100, 30), "1"))
+>     {
+>         animation.Play("step1");
+>     }
+> }
+> ```
+
+---
+
+生成GUID
+> ```CS
+> if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
+> {
+>     property.stringValue = System.Guid.NewGuid().ToString();
+>     serializedObject.ApplyModifiedProperties();
+> }
+> ```
+
+> ```CS
+> string path = AssetDatabase.GetAssetPath(this);
+> itemId = AssetDatabase.AssetPathToGUID(path);
+> ```
+
+---

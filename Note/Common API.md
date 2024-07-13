@@ -108,48 +108,6 @@
 
 ---
 
-#### 物体是否被相机看到
-> 转换为视口坐标，正式使用不要有Camera.main
-> ```CS
-> bool ObjectVisible(Camera camera, GameObject obj) {
->     vector3 viewPortPosition = camera.WorldToViewportPoint(obj.transform.position);
->     if (viewportPosition.x > 0 && viewportPosition.x < 1 && viewportPosition.y > 0 && viewportPosition.y < 1){
->         return true;
->     }
->     return false;
-> }
-> ```
-
----
-
-#### 关于GUID：
-> ```C#
-> if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
-> {
->     property.stringValue = System.Guid.NewGuid().ToString();
->     serializedObject.ApplyModifiedProperties();
-> }
-> ```
-> ```C#
-> string path = AssetDatabase.GetAssetPath(this);
-> itemId = AssetDatabase.AssetPathToGUID(path);
-> ```
-
----
-
-#### 代码生成GUI
-> ```C#
-> private void OnGUI()
-> {
->     if (GUI.Button(new Rect(0, 0, 100, 30), "1"))
->     {
->         animation.Play("step1");
->     }
-> }
-> ```
-
----
-
 #### 获取XR手柄射线接触到物体（射线有距离限制）
 > `XRRayInteractor.GetCurrentRaycastHit(out rayInfor)`
 
@@ -161,9 +119,11 @@
 ---
 
 #### 通过Select Event，物体获取当前射线来源的对象（设备）
-> `void AttachTransform(SelectEnterEvenetArgs arg){
+> ```cs
+> void AttachTransform(SelectEnterEvenetArgs arg){
 >     Transform interactor = arg.interactorObject.transform;
-> }`
+> }
+> ```
 
 ---
 
@@ -172,88 +132,6 @@
 - [MenuItem("Window/Dialogue Editor")]
 - [OnOpenAssetAttribute(num)]
 - EditorGUI/EditorGUILayout
-
----
-
-#### 关于数据存储：两种方式
-> ```C#
-> public void Save(GameData _data)
-> {
->     string fullPath = Path.Combine(dataDirPath, dataFileName);
-> 
->     try
->     {
->         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
->         string dataToStore = JsonUtility.ToJson(_data, true);
->         using (FileStream stream = new FileStream(fullPath, FileMode.Create))
->         {
->             using (StreamWriter writer = new StreamWriter(stream))
->             {
->                 if(encryptData) 
->                     dataToStore = EncryptDecrypt(dataToStore);
->                 writer.Write(dataToStore);
->             }
->         }
->     }   
->     catch(Exception e)
->     {
->         Debug.LogError("Errror on trying to save data to file: " + fullPath + "\n" + e.ToString());
->     }
-> }
-> public GameData Load()
-> {
->     string fullPath = Path.Combine(dataDirPath, dataFileName);
->     GameData loadData = null;
->     if (File.Exists(fullPath))
->     {
->         try
->         {
->             string dataToLoad = "";
->             using (FileStream stream = new FileStream(fullPath, FileMode.Open))
->             {
->                 using (StreamReader reader = new StreamReader(stream))
->                 {
->                     dataToLoad = reader.ReadToEnd();
->                     if (encryptData)
->                         dataToLoad = EncryptDecrypt(dataToLoad);
->                 }
->             }
->             loadData = JsonUtility.FromJson<GameData>(dataToLoad);
->         }
->         catch (Exception e)
->         {
->             Debug.LogError("Errror on trying to load data from file: " + fullPath + "\n" + e.ToString());
->         }
->     }
->     return loadData;
-> }
-> ```
-> ```C#
-> private Dictionary<string, object> LoadFile(string saveFile)
-> {
->     string path = GetPathFromSaveFile(saveFile);
->     if (!File.Exists(path))
->     {
->         return new Dictionary<string, object>();
->     }
->     using (FileStream stream = File.Open(path, FileMode.Open))
->     {
->         BinaryFormatter formatter = new BinaryFormatter();
->         return (Dictionary<string, object>)formatter.Deserialize(stream);
->     }
-> }
-> 
-> private void SaveFile(string saveFile, object state)
-> {
->     string path = GetPathFromSaveFile(saveFile);
->     print("Saving to " + path);
->     using (FileStream stream = File.Open(path, FileMode.Create))
->     {
->         BinaryFormatter formatter = new BinaryFormatter();
->         formatter.Serialize(stream, state);
->     }
-> }
-> ```
 
 ---
 
@@ -273,16 +151,61 @@
 
 ---
 
+#### UI坐标、世界坐标、屏幕坐标转换
+实机尽量不使用Camera.main
+> ```CS
+> Vector2 screenPoint = Camera.main.WorldToScreenPoint(worldPoint);
+> Vector3 worldPoint = Camera.main.ScreenToWorldPoint(position);
+> Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(uiCamera, worldPoint);
+> 
+> // 当 Canvas renderMode 为 RenderMode.ScreenSpaceCamera、RenderMode.WorldSpace 时 uiCamera 不能为空
+> // 当 Canvas renderMode 为 RenderMode.ScreenSpaceOverlay 时 uiCamera 可以为空
+> RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, screenPoint, uiCamera, out globalMousePos);
+> RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRT, screenPoint, uiCamera, out localPos);
+> ```
+原文链接：<https://blog.csdn.net/LIQIANGEASTSUN/article/details/124413387>
+
+---
+
 #### 物体移动方式
 > `Vector3.MoveTowards(transform.position, target.position, Time.deltaTime)`
 > `transform.Translate((target.positin - transform.position) * Time.deltaTime)`
-> `this.transform.position = Vector3.Lerp(objectPos, targetPos, curve.Evaluate(x));`*AnimationCurve变速调节应用*
+> `this.transform.position = Vector3.Lerp(objectPos, targetPos, curve.Evaluate(x)); //AnimationCurve变速调节应用`
 
 ---
 
 #### NavMesh寻路
 > NavMesh.Raycast()、NavMesh.SamplePosition()
 > NavMesh.CalculatePath()智能寻路
+
+---
+
+#### Object比较运算
+> `Object.ReferenceEquals(object, object);  //对比的是所指向的地址 `
+> `Object.Equals(Object objA,Object objB);  //默认对比引用`
+<https://www.cnblogs.com/weicanpeng/p/8073763.html>
+
+---
+
+#### 添加实现ICollection接口的一个集合的所有元素
+> **`List.AddRange()`**
+>> Sample
+>> ```CS
+>> ArrayList myAL = new ArrayList();
+>> myAL.Add( "The" );
+>> myAL.Add( "quick" );
+>> myAL.Add( "brown" );
+>> myAL.Add( "fox" );
+>>  
+>> Queue myQueue = new Queue();
+>> myQueue.Enqueue( "jumped" );
+>> myQueue.Enqueue( "over" );
+>> myQueue.Enqueue( "the" );
+>> myQueue.Enqueue( "lazy" );
+>> myQueue.Enqueue( "dog" );
+>>  
+>> myAL.AddRange( myQueue );
+>> ```
 
 ---
 
