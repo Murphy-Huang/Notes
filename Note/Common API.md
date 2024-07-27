@@ -180,14 +180,14 @@
 
 ---
 
-#### Object比较运算
+#### .Net Object比较运算
 > `Object.ReferenceEquals(object, object);  //对比的是所指向的地址 `
 > `Object.Equals(Object objA,Object objB);  //默认对比引用`
 <https://www.cnblogs.com/weicanpeng/p/8073763.html>
 
 ---
 
-#### 添加实现ICollection接口的一个集合的所有元素
+#### .Net 添加实现ICollection接口的一个集合的所有元素
 > **`List.AddRange()`**
 >> Sample
 >> ```CS
@@ -209,6 +209,51 @@
 
 ---
 
+#### Unity游戏对象之间发送消息，在外部调用组件方法
+> ```CS
+> void GameObject.SendMessage(string ModName, object[] paramters, SendMessageOption options)           // 遍历自身所有组件调用对应函数，包括私有
+> void GameObject.SendMessageUpwards(string ModName, object[] paramters, SendMessageOption options)    // 推送消息给当前类以及其父类
+> void GameObject.BroadcastMessage(string ModName, object[] paramters, SendMessageOption options)      // 推送消息给所有子类
+> ```
+
+---
+
+#### UnityEngine.Networking
+> UnityWebRequest由三个元素组成：
+> 1. UpLoadHandler处理数据将数据上传到服务器的对象；
+> 2. DownLoadHandler从服务器下载数据的对象；
+> 3. UnityWebRequest负责与HTTP通信并管理上面两个对象。还处理 HTTP 流量控制。此对象是定义自定义标头和 URL 的位置，也是存储错误和重定向信息的位置
+> 
+> [构造创建的Request没有DownloadHandler和UploadHandler需要手动创建赋值](https://blog.csdn.net/qq_42345116/article/details/123413736)
+> ```CS
+> // 构造函数
+> public UnityWebRequest（）; 
+> public UnityWebRequest（Uri uri）;
+> public UnityWebRequest（Uri uri，string method）;
+> public UnityWebRequest（Uri uri，string method,Networking.DownloadHandler downloadHandler，Networking.UploadHandler uploadHandler）;
+> SendWebRequest()	    // 开始与远程服务器通信。在调用此方法之后，有必要的话UnityWebRequest将执行DNS解析，将HTTP请求发送到目标URL的远程服务器并处理服务器的响应。
+> Get(url)	            // 创建一个HTTP为传入URL的UnityWebRequest对象
+> Post（url)	        // 向Web服务器发送表单信息
+> Put(url)	            // 将数据上传到Web服务器
+> Abort()	            // 直接结束联网
+> Head()	            // 创建一个为传输HTTP头请求的UnityWebRequest对象
+> GetResponseHeader()	// 返回一个字典，内容为在最新的HTTP响应中收到的所有响应头
+> ```
+
+---
+
+#### .Net Activator创造实例
+> <https://learn.microsoft.com/zh-cn/dotnet/api/system.activator?view=net-8.0>
+> 通过调用与指定参数最匹配的构造函数来创建程序集中定义的类型的实例。必须具有足够的权限才能搜索和调用构造函数;否则，将引发异常。
+> ```CS
+> System.Activator.CreateInstance(Type)
+> System.Activator.CreateInstance(Type, Object[])
+> System.Activator.CreateInstance(string, string)
+> ```
+
+---
+
+---
 <!--
     TEMPLATE:
     <span></span>

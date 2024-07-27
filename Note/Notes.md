@@ -3,9 +3,10 @@
 
 - 利用config中prefab实例化（关于config的使用）
 - 将存储实现ISavable依赖于SavingEntity调用，避开存在ISavable实现的多处地方调用形成相同的副本
+- PowerShell对比目录文件差异：Compare-Object -ReferenceObject (Get-ChildItem -File -Path "<源文件夹路径>") -DifferenceObject (Get-ChildItem -File -Path "<目标文件夹路径>") -Property Name, Length, LastWriteTime | FT -AutoSize
 
 - 在文件加入css方式
-  - <link rel = "" type = "" href = "" />
+  - `<link rel = "" type = "" href = "" />`
   - 在标签添加*style*属性：<span style = "color:blue" ></span>
 - '/'forward slash在网络上使用，'\'backward slash在window文件系统和转义使用
 - URL保留字符：space %20
@@ -29,8 +30,18 @@
 - 整数ID比指针更容易指代无效的对象
 - 多层状态机中，上层状态机为下层状态机设置目标实现控制
 - mvc和esc设计的类同和区别，避免在游戏开发使用mvc
+- 欧拉角存在万向结死锁的情况，由于其旋转定义为先z、再x、再y的顺规定义，在某些情况存在某轴向自由度丢失的情况
+- 类是引用传递，结构体默认是值传递；类可以有虚方法也可以继承其他类，结构体没有虚方法也不能继承
+- 在仅仅使用方法时静态工具类取代单例，单例只在需要面向对象特性时使用
+- 使用事件来进行跨模块的传递，不需要引用数据实例
 
 ---
+
+#### 插件
+1. Unity-Logs-Viewer插件
+2. SimpleJson
+3. rapidJson解析器
+
 #### 报错处理
 1. 使用protobuf-net or protobuf
   - [官方实现版本过高，需要注意unity版本](https://www.cnblogs.com/caiger-blog/p/14040130.html)
@@ -42,6 +53,7 @@
   - 删掉Gen文件夹重新生成
 4. Component GUI Layer in Main Camera is no longer available.
   - remove Component Flare Layer in Camera
+5. <a id="unitylinker"></a>'could not produce class with id XXX', can find class id in <https://docs.unity3d.com/Manual/ClassIDReference.html>, add link.xml in Assets document and fill in following information: `<assembly fullname="UnityEngine"> <type fullname="UnityEngine.SphereCollider" preserve="all"/> </assembly>`
 
 #### Unity
 1. 在不同场景物体GUID相同时，加载问题，[冲突避免](https://blog.csdn.net/linjf520/article/details/127998024)
@@ -89,7 +101,9 @@
 27. yield语句就是这条分界线，想要代码“停住”，就不执行后面语句对应的代码块，想要代码恢复，就接着执行后面语句对应的代码块。而调度上下文的保存，是通过将需要保存的变量都定义成成员变量来实现的。[参考](https://www.cnblogs.com/iwiniwin/p/14878498.html)
 28. update()中尽量不使用Find()
 29. 调用this.transform实际上是一个调用intenal method的过程（这是用C/C++写的，不是MONO的）。值得注意的是这个调用方法略慢，因为你需要调用外部的CIL（aka interop），花费了额外的性能
-30. Unity-Logs-Viewer插件
+30. 改变position的时候需要注意缩放，特别是父物体的scale
+31. 处理好prefab的apply、reverse、copy的关系
+32. 关于代码剥离的构建：Unity会使用一个专门用于托管代码剥离的工具UnityLinker来进行剥离处理,其默认将unity中用到的所有程序集合并程一个整体程序集，然后根据一定规则，比如场景中游戏对象继承Monobehavior的对象，标记根元素，再次有根元素进行依赖查询，并将其他依赖的程序集或类或命名空间进行打标记。最后没有被标记的，将会被裁剪剥离。UnityLinker在构建时，会检查Assets/link.xml文件[sample](#unitylinker)，将里面设置的忽略的程序集或者类型直接标记为根元素。或者我们可以为需要保留的程序集、类和方法加上[Preserve]特性，针对性的解决错误代码剥离。<https://blog.csdn.net/zhush_2005/article/details/125229154>
 
 #### 碰撞检测
 - 多变体碰撞检测：分离轴定理（SAT）：依次再不同角度照射待检测物体，当存在一个角度两者影子没有重叠则分离轴存在
@@ -163,7 +177,8 @@
 
 ---
 # 参考BLOG
-  [动作游戏通用框架](https://github.com/ImYellowFish/ActionGameTips)
+- [烟雨迷离blog](https://www.lfzxb.top/categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/)
+- [动作游戏通用框架](https://github.com/ImYellowFish/ActionGameTips)
 - [硬派游戏AI，FSM（状态机）、HFSM（分层状态机）、BT（行为树）的区别。](https://blog.csdn.net/qq_39885372/article/details/103950973)
 - [Lua的数据结构——Table](https://www.jianshu.com/p/56ca3d77c7de)
 - [游戏中近战攻击判定检测——射线检测](https://blog.csdn.net/wch3351028/article/details/122326021)
