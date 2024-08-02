@@ -11,3 +11,5 @@ Applications that may be used:
 - 熊猫压缩
 - gpg
 - edge://flags/forcetodark
+
+将button的两个组件分开后有本能响应的问题，button.target graphic已经导向image的情况下依旧有这个问题，单个组件移出没有问题，两个都移出可能有问题

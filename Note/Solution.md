@@ -244,3 +244,19 @@ int UnequalProbability(int[] probability)
 > ```
 
 ---
+
+lua的table.remove的不安全问题，数值型解决方法
+> ```lua
+> local index, r_index, length = 1, 1, #obj
+> while index <= length do
+>     local v = obj[index]
+>     obj[index] = nil
+>     if not rm_func(v) then
+>         obj[r_index] = v
+>         r_index = r_index + 1
+>     end
+>     index = index + 1
+> end
+> ```
+
+---

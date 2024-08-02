@@ -34,6 +34,14 @@
 - 类是引用传递，结构体默认是值传递；类可以有虚方法也可以继承其他类，结构体没有虚方法也不能继承
 - 在仅仅使用方法时静态工具类取代单例，单例只在需要面向对象特性时使用
 - 使用事件来进行跨模块的传递，不需要引用数据实例
+- C#扩展方法
+  - 必须在非泛型的靜態類中聲明，且是静态方法
+  - 扩展方法必须有一个参数，且只有第一个参数使用this标记
+  - 靜態類本身必须具有文件作用域
+  - 编译要求导入扩展方法
+  - 调用时无需传递第一个参数，默认调用this作为第一个参数
+  - 是不是每个对象都加入了这个扩展方法？这个问题其实并未发生，因为C#使用的方式不是给每个对象加一个方法，而是另外提供了一个扩展方法的列表，在使用时通过列表找到被扩展的静态方法然后调用，也就是说方法还是只有那一个方法，并没有大范围的占据方法区。
+- Enum做为字典的key的时候，会有装箱的行为，因为Enum没有实现IEquatable,这是字典的key必要的接口。
 
 ---
 
@@ -54,6 +62,7 @@
 4. Component GUI Layer in Main Camera is no longer available.
   - remove Component Flare Layer in Camera
 5. <a id="unitylinker"></a>'could not produce class with id XXX', can find class id in <https://docs.unity3d.com/Manual/ClassIDReference.html>, add link.xml in Assets document and fill in following information: `<assembly fullname="UnityEngine"> <type fullname="UnityEngine.SphereCollider" preserve="all"/> </assembly>`
+6. attempt to index a boolean value：lua模块语句缺少return关键词
 
 #### Unity
 1. 在不同场景物体GUID相同时，加载问题，[冲突避免](https://blog.csdn.net/linjf520/article/details/127998024)
@@ -104,6 +113,7 @@
 30. 改变position的时候需要注意缩放，特别是父物体的scale
 31. 处理好prefab的apply、reverse、copy的关系
 32. 关于代码剥离的构建：Unity会使用一个专门用于托管代码剥离的工具UnityLinker来进行剥离处理,其默认将unity中用到的所有程序集合并程一个整体程序集，然后根据一定规则，比如场景中游戏对象继承Monobehavior的对象，标记根元素，再次有根元素进行依赖查询，并将其他依赖的程序集或类或命名空间进行打标记。最后没有被标记的，将会被裁剪剥离。UnityLinker在构建时，会检查Assets/link.xml文件[sample](#unitylinker)，将里面设置的忽略的程序集或者类型直接标记为根元素。或者我们可以为需要保留的程序集、类和方法加上[Preserve]特性，针对性的解决错误代码剥离。<https://blog.csdn.net/zhush_2005/article/details/125229154>
+33. 继承Mono和不继承Mono的单例的写法不同
 
 #### 碰撞检测
 - 多变体碰撞检测：分离轴定理（SAT）：依次再不同角度照射待检测物体，当存在一个角度两者影子没有重叠则分离轴存在
