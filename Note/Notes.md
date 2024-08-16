@@ -15,6 +15,10 @@
 - 基于IEnumerable来隐藏替换List、Array等可迭代元素
 - vr项目需要添加InputActionManager组件
 - 利用static作为全体类实体的存储库
+- const: 是静态的、编译期变量，只在聲明时赋值
+  readonly: 运行时变量，在聲明/构造时赋值
+  static readonly: 静态的、编译期时变量，只在静态构造时赋值
+- lock()应该锁定引用类型，推荐锁定私用的只读静态对象：private static readonly obj = new obj();
 - enum 和 interface 搭配使用
 - 私有接口函数：处理接口函数之间重用部分而不在实现类实现，实现类不可访问
 - lua调用CS存在多种方式xlua,tolua,slua
@@ -46,6 +50,10 @@
 - Enum做为字典的key的时候，会有装箱的行为，因为Enum没有实现IEquatable,这是字典的key必要的接口。
 - C#通用委托EvenArgs、EventHandler构建事件管理中心：CustomEventArgs.cs(继承EventArgs)/EventManager.cs/EventName.cs/EventTriggerExt.cs。也可以用泛型匹配方法的参数，不用EventArgs创建参数包装类。
 - lua设置元表，不能使lua寻找父类的方法或属性，需要设置原方法：self.__index = self。因table的查找逻辑是先判断是否有元表再判断元表的__index方法，不会直接查找元表。当在当前table找不到属性的时候会一直回溯到元表table声明时就存在的属性，这些属性在面向对象中会像静态变量一样存在。
+- 根据上一帧和当前帧的位置做一个胶囊体来检测碰撞，避免飞行过快发生子弹越过物体的现象
+- jps寻路，A*的改进算法，根据强迫邻居、jump point来确定路径，跳跃查找减少运算量
+- 关于android打包：unityhub 安装 android build support: OpenJDK & SDK；unity editor 设置 perferences 的external tools 的 JDK 和 SDK（可以不内置SDK，减少因安装不同版本Unity占用的硬盘空间）<https://developer.unity.cn/projects/5e6b6a78edbc2a00245cbbef>
+- 字符串比较一般情况下，建议调用不依赖于默认设置的方法，因为这会明确代码的意图。这进而使代码更具可读性且更易于调试和维护。StringComparison.CurrentCulture/InvariantCulture/Ordinal。<https://blog.csdn.net/dark_tone/article/details/101808816>
 
 ---
 

@@ -1,5 +1,5 @@
 [Notes](./Note/Notes.md)
-[Solution](./Note/Solution.md)
+[Solution](./Note/Solution/Solution.md)
 [Common API](./Note/Common%20API.md)
 [Common Command line](./Note/Common%20Command%20line.md)
 [Informal essays](./.secrets/Informal%20essays/Informal%20essays.md)
@@ -11,3 +11,4 @@ Applications that may be used:
 - 熊猫压缩
 - gpg
 - edge://flags/forcetodark
+- renderdoc shader调试
