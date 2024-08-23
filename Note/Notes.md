@@ -54,6 +54,7 @@
 - jps寻路，A*的改进算法，根据强迫邻居、jump point来确定路径，跳跃查找减少运算量
 - 关于android打包：unityhub 安装 android build support: OpenJDK & SDK；unity editor 设置 perferences 的external tools 的 JDK 和 SDK（可以不内置SDK，减少因安装不同版本Unity占用的硬盘空间）<https://developer.unity.cn/projects/5e6b6a78edbc2a00245cbbef>
 - 字符串比较一般情况下，建议调用不依赖于默认设置的方法，因为这会明确代码的意图。这进而使代码更具可读性且更易于调试和维护。StringComparison.CurrentCulture/InvariantCulture/Ordinal。<https://blog.csdn.net/dark_tone/article/details/101808816>
+- 运行时的公开数据用get、set避免在inspector面板上出现
 
 ---
 
@@ -126,6 +127,7 @@
 31. 处理好prefab的apply、reverse、copy的关系
 32. 关于代码剥离的构建：Unity会使用一个专门用于托管代码剥离的工具UnityLinker来进行剥离处理,其默认将unity中用到的所有程序集合并程一个整体程序集，然后根据一定规则，比如场景中游戏对象继承Monobehavior的对象，标记根元素，再次有根元素进行依赖查询，并将其他依赖的程序集或类或命名空间进行打标记。最后没有被标记的，将会被裁剪剥离。UnityLinker在构建时，会检查Assets/link.xml文件[sample](#unitylinker)，将里面设置的忽略的程序集或者类型直接标记为根元素。或者我们可以为需要保留的程序集、类和方法加上[Preserve]特性，针对性的解决错误代码剥离。<https://blog.csdn.net/zhush_2005/article/details/125229154>
 33. 继承Mono和不继承Mono的单例的写法不同
+34. 打包的目标目录必须是可以被删除的，例如：被打包的项目目录、桌面目录
 
 #### 碰撞检测
 - 多变体碰撞检测：分离轴定理（SAT）：依次再不同角度照射待检测物体，当存在一个角度两者影子没有重叠则分离轴存在
