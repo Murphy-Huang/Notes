@@ -5,21 +5,21 @@ namespace Solution.ActionSystem
 		/// <summary>
 		/// ·ÀÓùÁ¦
 		/// </summary>
-		public int shieldMultiplier;
+		public int ShieldMultiplier;
 		
 		/// <summary>
 		/// Ó²Ö±µÖ¿¹
 		/// </summary>
-		public int stunResistanceCapability;
+		public int StunResistanceCapability;
 
 		/// <summary>
 		/// ÎÈ¹ÌÁ¦
 		/// </summary>
-		public int solidityCapability;
+		public int SolidityCapability;
 
 		/// <summary>
 		/// ³ÁÖØ¶È
 		/// </summary>
-		public int heavyCapability;
+		public int HeavyCapability;
 	}
 }

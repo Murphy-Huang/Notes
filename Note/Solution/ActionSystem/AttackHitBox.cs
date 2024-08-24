@@ -5,31 +5,31 @@ namespace Solution.ActionSystem
 		/// <summary>
 		/// ¹¥»÷±¶ÂÊ
 		/// </summary>
-		public int attackMultiplier;
+		public int AttackMultiplier;
 
 		/// <summary>
 		/// ¿¨Ö¡
 		/// </summary>
-		public int stuckFrame;
+		public int StuckFrame;
 
 		/// <summary>
 		/// Ó²Ö±
 		/// </summary>
-		public int hitstun;
+		public int Hitstun;
 
 		/// <summary>
 		/// ´µ·ÉÁ¦
 		/// </summary>
-		public int knockblackVertical;
+		public int KnockblackVertical;
 
 		/// <summary>
 		/// »÷ÍËÁ¦
 		/// </summary>
-		public int knockblackHorizonal;
+		public int KnockblackHorizonal;
 
 		/// <summary>
 		/// Ó²Ö±Ö¡
 		/// </summary>
-		public int hitstunFrame;
+		public int HitstunFrame;
 	}
 }

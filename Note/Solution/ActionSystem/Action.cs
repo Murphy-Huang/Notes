@@ -6,29 +6,29 @@ namespace Solution.ActionSystem
         /// 动作名
         /// 不同的动作可以完全相等，需要巧妙的运用
         /// </summary>
-        public string actionName { get; private set; }
+        public string ActionName { get; private set; }
 
         /// <summary>
         /// 动作帧
         /// </summary>
-        public List<Frame> actionFrame;
+        public List<Frame> ActionFrame;
 
         /// <summary>
         /// 衔接的下个动作
         /// </summary>
-        public Action nextAction;
+        public Action NextAction;
 
         /// <summary>
         /// 动画信息
         /// string或者其他
         /// </summary>
-        public string animationInfo;
+        public string AnimationInfo;
 
         /// <summary>
         /// 输入指令
         /// 可以交给玩家配置
         /// </summary>
-        public Command[] command;
+        public Command[] Command;
 
         /// <summary>
         /// 可以Cancel别的动作的信息
@@ -38,17 +38,17 @@ namespace Solution.ActionSystem
         /// <summary>
         /// 基础优先级
         /// </summary>
-        public int prioritization;
+        public int Prioritization;
 
         /// <summary>
         /// 打击信息
         /// </summary>
-        public HitInfo hitInfo;
+        public HitInfo HitInfo;
 
 
         /// <summary>
         /// 其他数值：攻击倍率
         /// </summary>
-        public int multiplier;
+        public int Multiplier;
     }
 }

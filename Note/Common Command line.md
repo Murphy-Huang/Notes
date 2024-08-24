@@ -21,3 +21,6 @@
 20. git stash save "..."
 21. git stash pop
 22. git stash list
+
+## PowerShell
+- 对比目录文件差异：Compare-Object -ReferenceObject (Get-ChildItem -File -Path "<源文件夹路径>") -DifferenceObject (Get-ChildItem -File -Path "<目标文件夹路径>") -Property Name, Length, LastWriteTime | FT -AutoSize

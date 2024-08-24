@@ -10,12 +10,12 @@ namespace Solution.ActionSystem
         /// 同一个目标命中次数
         /// 当创建一个目标的HitRecord时，为HitRecord.timesCanHit赋值
         /// </summary>
-        public int countHitOnSameCharacter;
+        public int CountHitOnSameCharacter;
 
         /// <summary>
         /// 命中间隔帧数
         /// 为HitRecord.framesLeftCanHit赋值
         /// </summary>
-        public int countHitIntervalFrames;
+        public int CountHitIntervalFrames;
     }
 }

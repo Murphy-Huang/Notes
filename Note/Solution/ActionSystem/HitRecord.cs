@@ -5,16 +5,16 @@ namespace Solution.ActionSystem
         /// <summary>
         /// 目标
         /// </summary>
-        public Character character;
+        public Character TargetCharacter;
 
         /// <summary>
         /// 还剩多少帧可以打击目标
         /// </summary>
-        public int framesLeftCanHit;
+        public int FramesLeftCanHit;
 
         /// <summary>
         /// 还能打中多少次
         /// </summary>
-        public int timesCanHit;
+        public int TimesCanHit;
     }
 }
