@@ -1,6 +1,9 @@
+# Markdown Syntax
+
 [Markdown官网](https://markdown.com.cn/basic-syntax/)
 
-# <center>基本语法
+## <center>基本语法
+
 这些是 John Gruber 的原始设计文档中列出的元素。所有 Markdown 应用程序都支持这些元素。
 
 |元素	                   |Markdown 语法    |
@@ -16,7 +19,8 @@
 |链接（Link）	           | [title](https://www.example.com)|
 |图片（Image）	           | ![alt text](image.jpg)|
 
-# 扩展语法
+## 扩展语法
+
 这些元素通过添加额外的功能扩展了基本语法。但是，并非所有 Markdown 应用程序都支持这些元素。
 
 |元素	                    |Markdown 语法     |

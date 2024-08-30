@@ -1,3 +1,5 @@
+# Fragmentation Solutions
+
 ```cs
 // shuffle the array order
 public int[] Shuffle(int[] nums)
@@ -45,10 +47,12 @@ InvokeRepeating(() => print("do something"), 1f, 1f)
 ---
 
 Set Random seed
+
 ```lua
 -- 用毫秒级的最后几位设置
 math.randomseed(tostring(os.time()):reverse():sub(1,7))
 ```
+
 ```cs
 // use DataTime to set random seed
 public int DataTimeRandom()
@@ -73,6 +77,7 @@ RNGCrytoServiceProvider csp = RNGCrytoServiceProvider(); csp.GetBytes(byte[]);
 ---
 
 Image与父级最长边保持比例缩放
+
 ```CS
 void SetWidthHight(float widthBorder, float heightBorder, bool lockPos)
 {
@@ -98,9 +103,11 @@ void SetWidthHight(float widthBorder, float heightBorder, bool lockPos)
     }
 }
 ```
+
 ---
 
-不等概率的随机数，[.Net.Random文档]<https://learn.microsoft.com/zh-cn/dotnet/api/system.random?view=net-8.0>
+不等概率的随机数，[.Net.Random文档](https://learn.microsoft.com/zh-cn/dotnet/api/system.random?view=net-8.0)
+
 ```CS
 // 通过不等长的区域，根据随机数落的区域作为索引
 int UnequalProbability(int[] probability)
@@ -120,6 +127,7 @@ int UnequalProbability(int[] probability)
 ---
 
 物体是否被相机看到
+
 > ```CS
 > // 转换为视口坐标，正式使用不要有Camera.main
 > bool ObjectVisible(Camera camera, GameObject obj) {
@@ -134,6 +142,7 @@ int UnequalProbability(int[] probability)
 ---
 
 代码生成GUI
+
 > ```CS
 > private void OnGUI()
 > {
@@ -147,6 +156,7 @@ int UnequalProbability(int[] probability)
 ---
 
 生成GUID
+
 > ```CS
 > if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
 > {
@@ -154,7 +164,7 @@ int UnequalProbability(int[] probability)
 >     serializedObject.ApplyModifiedProperties();
 > }
 > ```
-
+>
 > ```CS
 > string path = AssetDatabase.GetAssetPath(this);
 > itemId = AssetDatabase.AssetPathToGUID(path);
@@ -163,6 +173,7 @@ int UnequalProbability(int[] probability)
 ---
 
 lua的table.remove的不安全问题，数值型解决方法
+
 > ```lua
 > local index, r_index, length = 1, 1, #obj
 > while index <= length do
@@ -177,3 +188,15 @@ lua的table.remove的不安全问题，数值型解决方法
 > ```
 
 ---
+
+技能特效系统
+Skill(Class)
+SkillEntity(ScriptObject).Controller(Monobehaviour)
+List<Effect(Class)>
+
+```cs
+void Skill:UseSkill(Prefab controller, Callback effect)
+{
+
+}
+```

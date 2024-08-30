@@ -1,8 +1,20 @@
 
 namespace Solution.SaveSystem
 {
-    public class SaveAsStruct
+    public class SaveHandler
     {
+        private string dataDirPath = "";
+        private string dataFileName = "";
+
+        private bool encryptData = false;
+        private string codeWord = "26082024";
+
+        public FileDataHandler(string _dataDirPath, string _dataFileName, bool _encryptData)
+        {
+            dataDirPath = _dataDirPath;
+            dataFileName = _dataFileName;
+            this.encryptData = _encryptData;
+        }
         public void Save(GameData _data)
         {
             string fullPath = Path.Combine(dataDirPath, dataFileName);
@@ -53,6 +65,23 @@ namespace Solution.SaveSystem
                 }
             }
             return loadData;
+        }
+
+        public void Delete()
+        {
+            string fullPath = Path.Combine(dataDirPath, dataFileName);
+            if (File.Exists(fullPath)) 
+                File.Delete(fullPath);
+        }
+
+        private string EncryptDecrypt(string _data)
+        {
+            string modifiedData = "";
+            for (int i = 0; i < _data.Length; i++)
+            {
+                modifiedData += (char)(_data[i] ^ codeWord[i % codeWord.Length]);
+            }
+            return modifiedData;
         }
     }
 }
