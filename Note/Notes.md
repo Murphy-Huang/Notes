@@ -29,6 +29,7 @@
 1. Unity-Logs-Viewer插件
 2. SimpleJson
 3. rapidJson解析器
+4. flutter_unity_widget[android打包](https://juejin.cn/post/7021063008143015950)
 
 ### 注释说明
 
@@ -75,6 +76,7 @@
    - remove Component Flare Layer in Camera
 5. `<a id="unitylinker"></a>`'could not produce class with id XXX', can find class id in [https://docs.unity3d.com/Manual/ClassIDReference.html](https://docs.unity3d.com/Manual/ClassIDReference.html), add link.xml in Assets document and fill in following information: `<assembly fullname="UnityEngine"> <type fullname="UnityEngine.SphereCollider" preserve="all"/> </assembly>`
 6. attempt to index a boolean value：lua模块语句缺少return关键词
+7. Android打包libmain.os不能加载，Configuration的il2cpp模式缺少ARM64平台作为目标
 
 ### 面向对象提示
 
@@ -125,7 +127,7 @@
     - System32目录
     - 环境变量目录
 16. [MonoPInvokeCallbackAttribute()]，此属性在静态函数上有效，Mono 的提前编译器使用它来生成支持回调用托管代码的本机调用所需的代码。
-17. DllImport & MonoPInvokeCallbackAttribute 配合使用，Unity 聲明 [DllImport("__Internal")]，IOS实现函数，DLL名字是 __Internal，这是固定语法，意思是这个函数是静态链接在 iOS 的 App 中的
+17. DllImport & MonoPInvokeCallbackAttribute 配合使用，
 18. 字符'$'作用：代替string.format()；格式：$"string{}"
 19. 字符'@'作用：原意标识符，即除了("")不会按字面解释，简单转义、Unicode转义序列都将按字面解释；格式：@"string"
 
@@ -139,6 +141,18 @@
 6. 外部调用通过: void SendMessage(string methodName, object value = null, SendMessageOptions options = SendMessageOption.RequireReceiver);
 7. UnityWebRequest和HttpWebRequest系列都可以用来进行通信，功能上是一样的
 8. [插件默认下载位置](C:\Users\Administrator\AppData\Roaming\Unity)
+9. 聲明 [DllImport("__Internal")]表示这个函数位于DLL中，DLL名字是 __Internal，这是固定语法，意思是这个函数是静态链接在 iOS 的 App 中的
+10. [MonoPInvokeCallback()]，用来标记这个函数会被iOS反向调用<https://www.jianshu.com/p/f01c7e3f666c>
+11. Burst Compiler的代码优化过程主要包括以下几个步骤：
+    1. 将C#代码编译为中间语言IL代码。
+    2. 将IL代码转换为C++代码。
+    3. 使用C++编译器将C++代码编译为本地代码。
+    4. 使用Burst Compiler的代码生成器生成多个版本的本地代码。
+    5. 使用SIMD指令和多线程技术来优化代码的性能。
+    6. 使用缓存优化技术来优化代码的性能。
+12. Burst就是LLVM将C#代码转换成LLVM IR中间代码，通过LLVM的优化和代码生成功能生成目标平台的Native机器码。这个过程中，Burst利用了LLVM中内置的向量化指令优化技术，将一些常规的循环和算法转换成SIMD指令集，以实现对代码的高效优化。但Burst只支持值类型的数据编译，不支持引用类型数据编译。<https://zhuanlan.zhihu.com/p/623274986>
+13. 多线程方式：TPL（task）、job system，TPL是.Net 5后基于ThreadPool设计的一组api，job system是unity提供配合brust使用的多线程解决方案
+14. async 用在方法定义前面，await只能写在带有async标记的方法中；注意await异步等待的地方，await后面的代码和前面的代码执行的线程可能不一样；async关键字创建了一个状态机，类似yield return 语句；await会解除当前线程的阻塞，完成其他任务；处理本地IO和网络IO任务是尽量使用async/await来提高任务执行效率
 
 #### Editor
 
