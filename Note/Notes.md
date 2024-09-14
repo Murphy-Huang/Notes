@@ -21,15 +21,17 @@
 - 四元素是一种人为定义的数学工具，让相对坐标轴的平滑的旋转移动可以通过一个数值的变化表现出来，摆脱以往需要多个数值变化的繁杂
 - jps寻路，A*的改进算法，根据强迫邻居、jump point来确定路径，跳跃查找减少运算量
 - smb共享：专用防火墙关闭，固定ip，开启网络发现，密码保护共享，smb文件共享功能，完成后重启
+- 混合編程（Lua & C#）：程序操作數據/内存，不同语言是不同操作模式的表达方式，不同语言是不同的手套，手套套手套是经常使用的方式，在程序中不同语言在程序里面转移控制权
 
 ---
 
-### 常用插件
+### 插件
 
 1. Unity-Logs-Viewer插件
 2. SimpleJson
 3. rapidJson解析器
 4. flutter_unity_widget[android打包](https://juejin.cn/post/7021063008143015950)
+5. [paq8压缩](https://github.com/hxim/paq8px)
 
 ### 注释说明
 
@@ -190,7 +192,8 @@
 2. Resources文件夹 Resources.LoadAll
 3. playerPrefs存储玩家简单的数据：string,int,float在注册表上，但可以使用JsonUtility工具将unity可序列化的类转换成json格式存储，间接存储更复杂数据
 4. 调用打包函数BuildPipeline.BuildAssetBundles时，需要传进去一个Path，用于存放打包的AssetBundle，通常传进去的是Application.streamingAssets。然后在打包完成后，unity会默认生成一个存放AssetBundle的文件夹同名的assetbundle文件，用来存放所有AssetBundle的依赖关系，在这里，就会生成一个叫StreamingAssets的AssetBundle文件。因此，在加载某一个AssetBundle之前，我们都必须先加载这个名称叫做StreamingAssets的bundle文件，然后通过这个bundle文件寻找任意一个AssetBundle需要的依赖文件。<https://www.jianshu.com/p/95af464020c7>
-5. 持久化路径：Application.dataPath跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；Application.persistantDataPath改文件在安装完apk后，里面的数据持久存在，可读写，常在运行时使用；Application.StreamingAsset只可读，常在初始化阶段使用。[参考](https://zhuanlan.zhihu.com/p/141641436)
+5. 持久化路径：Application.dataPath跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；Application.persistantDataPath改文件在安装完apk后，里面的数据持久存在，可读写，在运行时使用；Application.StreamingAsset只可读，常在初始化阶段使用。[参考](https://zhuanlan.zhihu.com/p/141641436)
+6. 构建 AssetBundle 后，除了会生成用户指定的 AssetBundle，Unity 还会自动生成一个额外的 AssetBundle，默认情况下该 AssetBundle 与输出路径最内层文件夹名相同，例如我设定的输出路径为：\Assets\StreamingAssets，在该路径下就会出现 StreamingAssets 以及 StreamingAssets.manifest 文件。在该 AssetBundle 中包含名为"assetbundlemanifest"的总 Manifest 文件，总 Manifest 文件记录了所有 AssetBundle 间的依赖关系，在运行中加载 AssetBundle 时需要先从该 AssetBundle 读取 assetbundlemanifest 文件，确定所有需要加载的 AssetBundle。在与服务器简历链接并判断哪些资源需要热更新时，也需要从本地与服务器读取该 AssetBundle 。<https://www.jianshu.com/p/ce823cc82837>
 
 #### 打包
 

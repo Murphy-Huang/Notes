@@ -160,7 +160,8 @@ namespace Solution.Util
                     }
                     else
                     {
-                        if (extName.Equals(ext, StringComparison.CurrentCulture)) // XXX: unexplicit compare function
+                        if (ext.IndexOf(file.Substring(file.LastIndexOf(".") + 1)) > -1)
+                        // if (extName.Equals(ext, StringComparison.CurrentCulture)) // XXX: unexplicit compare function
                         {
                             FileInfo fi = new FileInfo(file);
                             extFile.Add(fi.FullName);

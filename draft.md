@@ -24,6 +24,7 @@
 - edge://flags/forcetodark
 - renderdoc (shader调试)
 - <https://github.com/mcmilk/7-Zip-zstd>
+- Amplify shader
 
 ## 规范建议
 
