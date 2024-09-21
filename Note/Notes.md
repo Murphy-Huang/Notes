@@ -132,29 +132,46 @@
 17. DllImport & MonoPInvokeCallbackAttribute 配合使用，
 18. 字符'$'作用：代替string.format()；格式：$"string{}"
 19. 字符'@'作用：原意标识符，即除了("")不会按字面解释，简单转义、Unicode转义序列都将按字面解释；格式：@"string"
+20. .Net.Sockets命名空间
+    1. NetFrameWork为Socket通讯提供System.Net.Socket命名空间
+    2. .Net.Sockets命名空间重要的类
+       - Socket：用于管理链接，WebRequest/TcpClient/UdpClient在内部使用这个类
+       - NetworkStream：从Stream派生，接收来自网络的数据流
+       - TcpClient：允许创建并使用Tcp链接
+       - TcpListener：允许监听传入的Tcp链接请求
+       - UdpClient：用于客户端创建UDP链接
+    3. Socket/TcpClient异步通信:BeginConnect(); EndConnect();
+       - BeginConnet方法在操作完成前不会组设，使用该方法时系统会动用独立的线程来执行，直到链接成功或抛出异常；EndConnet是一种阻塞的方法，用于完成BeginConnect方法的异步链接到远程主机的请求。异步BeginConnet只有在调用了EndConnet方法后才算执行完成，程序需要在提供给requestCallback委托调用的方法中调用TcpClient对象的EndConnet方法
 
 ### Unity
 
-1. ![热更新流程图](../Picture/hotRefresh%20flowChart.png)
-2. 关于代码剥离的构建：Unity会使用一个专门用于托管代码剥离的工具UnityLinker来进行剥离处理,其默认将unity中用到的所有程序集合并程一个整体程序集，然后根据一定规则，比如场景中游戏对象继承Monobehavior的对象，标记根元素，再次有根元素进行依赖查询，并将其他依赖的程序集或类或命名空间进行打标记。最后没有被标记的，将会被裁剪剥离。UnityLinker在构建时，会检查Assets/link.xml文件[sample](#unitylinker)，将里面设置的忽略的程序集或者类型直接标记为根元素。或者我们可以为需要保留的程序集、类和方法加上[Preserve]特性，针对性的解决错误代码剥离。[https://blog.csdn.net/zhush_2005/article/details/125229154](https://blog.csdn.net/zhush_2005/article/details/125229154)
-3. 利用config中prefab实例化（关于config的使用）
-4. 将存储实现ISavable依赖于SavingEntity调用，避开存在ISavable实现的多处地方调用形成相同的副本
-5. AppInfoBack是安卓和iOS写死的回调方式
-6. 外部调用通过: void SendMessage(string methodName, object value = null, SendMessageOptions options = SendMessageOption.RequireReceiver);
-7. UnityWebRequest和HttpWebRequest系列都可以用来进行通信，功能上是一样的
-8. [插件默认下载位置](C:\Users\Administrator\AppData\Roaming\Unity)
-9. 聲明 [DllImport("__Internal")]表示这个函数位于DLL中，DLL名字是 __Internal，这是固定语法，意思是这个函数是静态链接在 iOS 的 App 中的
-10. [MonoPInvokeCallback()]，用来标记这个函数会被iOS反向调用<https://www.jianshu.com/p/f01c7e3f666c>
-11. Burst Compiler的代码优化过程主要包括以下几个步骤：
+1. 关于代码剥离的构建：Unity会使用一个专门用于托管代码剥离的工具UnityLinker来进行剥离处理,其默认将unity中用到的所有程序集合并程一个整体程序集，然后根据一定规则，比如场景中游戏对象继承Monobehavior的对象，标记根元素，再次有根元素进行依赖查询，并将其他依赖的程序集或类或命名空间进行打标记。最后没有被标记的，将会被裁剪剥离。UnityLinker在构建时，会检查Assets/link.xml文件[sample](#unitylinker)，将里面设置的忽略的程序集或者类型直接标记为根元素。或者我们可以为需要保留的程序集、类和方法加上[Preserve]特性，针对性的解决错误代码剥离。[https://blog.csdn.net/zhush_2005/article/details/125229154](https://blog.csdn.net/zhush_2005/article/details/125229154)
+2. 利用config中prefab实例化（关于config的使用）
+3. 将存储实现ISavable依赖于SavingEntity调用，避开存在ISavable实现的多处地方调用形成相同的副本
+4. AppInfoBack是安卓和iOS写死的回调方式
+5. 外部调用通过: void SendMessage(string methodName, object value = null, SendMessageOptions options = SendMessageOption.RequireReceiver);
+6. UnityWebRequest和HttpWebRequest系列都可以用来进行通信，功能上是一样的
+7. [插件默认下载位置](C:\Users\Administrator\AppData\Roaming\Unity)
+8. 聲明 [DllImport("__Internal")]表示这个函数位于DLL中，DLL名字是 __Internal，这是固定语法，意思是这个函数是静态链接在 iOS 的 App 中的
+9. [MonoPInvokeCallback()]，用来标记这个函数会被iOS反向调用<https://www.jianshu.com/p/f01c7e3f666c>
+10. Burst Compiler的代码优化过程主要包括以下几个步骤：
     1. 将C#代码编译为中间语言IL代码。
     2. 将IL代码转换为C++代码。
     3. 使用C++编译器将C++代码编译为本地代码。
     4. 使用Burst Compiler的代码生成器生成多个版本的本地代码。
     5. 使用SIMD指令和多线程技术来优化代码的性能。
     6. 使用缓存优化技术来优化代码的性能。
-12. Burst就是LLVM将C#代码转换成LLVM IR中间代码，通过LLVM的优化和代码生成功能生成目标平台的Native机器码。这个过程中，Burst利用了LLVM中内置的向量化指令优化技术，将一些常规的循环和算法转换成SIMD指令集，以实现对代码的高效优化。但Burst只支持值类型的数据编译，不支持引用类型数据编译。<https://zhuanlan.zhihu.com/p/623274986>
-13. 多线程方式：TPL（task）、job system，TPL是.Net 5后基于ThreadPool设计的一组api，job system是unity提供配合brust使用的多线程解决方案
-14. async 用在方法定义前面，await只能写在带有async标记的方法中；注意await异步等待的地方，await后面的代码和前面的代码执行的线程可能不一样；async关键字创建了一个状态机，类似yield return 语句；await会解除当前线程的阻塞，完成其他任务；处理本地IO和网络IO任务是尽量使用async/await来提高任务执行效率
+11. Burst就是LLVM将C#代码转换成LLVM IR中间代码，通过LLVM的优化和代码生成功能生成目标平台的Native机器码。这个过程中，Burst利用了LLVM中内置的向量化指令优化技术，将一些常规的循环和算法转换成SIMD指令集，以实现对代码的高效优化。但Burst只支持值类型的数据编译，不支持引用类型数据编译。<https://zhuanlan.zhihu.com/p/623274986>
+12. 多线程方式：TPL（task）、job system，TPL是.Net 5后基于ThreadPool设计的一组api，job system是unity提供配合brust使用的多线程解决方案
+13. async 用在方法定义前面，await只能写在带有async标记的方法中；注意await异步等待的地方，await后面的代码和前面的代码执行的线程可能不一样；async关键字创建了一个状态机，类似yield return 语句；await会解除当前线程的阻塞，完成其他任务；处理本地IO和网络IO任务是尽量使用async/await来提高任务执行效率
+
+#### 热更新
+
+1. ![热更新流程图](../Picture/hotRefresh%20flowChart.png)
+2. 需要IL注入的是打[HotFix]标签的类和函数，因此不需要热更C#代码的项目不需要IL注入<https://www.cnblogs.com/gangtie/p/13665727.html>
+3. XLua默认会到Resource目录寻找txt/bytes后缀的Lua脚本呢，在LuaEnv调用env.AddLoader(CUstomLoader)重定向查找优先查找的目录
+4. 加载静态库方法env.AddBuildin
+5. XLua提供的只是一个库，并不包括下载的功能，需要自行安排目录、执行顺序、热更新资源
 
 #### Editor
 

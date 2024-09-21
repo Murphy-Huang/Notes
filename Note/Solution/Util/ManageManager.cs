@@ -1,12 +1,25 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Note.Solution.Util
+namespace Solution.Util
 {
+    public class Manager:using UnityEngine;
+    
+    public class Manager : MonoBehaviour 
+    {
+        protected bool _init = false;
+
+        public bool Init { get { return _init; } }
+
+        private void Start()
+        {
+            _init = true;
+        }
+    }
+
     public class ManageManager
     {
+        // 管理所有Manager类
         private static List<Manager> lManagers = new List<Manager>();
 
         // 初始化管理器

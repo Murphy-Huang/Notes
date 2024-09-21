@@ -51,3 +51,4 @@
   Apply用于应用，不用于申请
   Command用于名词，不用于动词
 - 尽量不使用单复数不符合常见形式的（适当的违背语法）
+- toc == to client / tos == to server 为分发事件名称
