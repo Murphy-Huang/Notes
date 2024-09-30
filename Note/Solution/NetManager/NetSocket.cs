@@ -76,7 +76,6 @@ namespace Solution.NetManager
                     if (type > 0) // 不用break，一帧内处理完
                     {
                         this._netRecbuf.DelBytesForReaded(type);
-                        //this._netRecbuf.Clear();
                     }
                     // 该协议号不存在，bug错误[丢弃整个缓存包]
                     else if (type == 0)
@@ -94,7 +93,6 @@ namespace Solution.NetManager
                     // 数据不完整
                     else if (type == -2)
                     {
-                        //this._netRecbuf.Clear();
                         Debug.LogWarning("NetManager: Big Data miss");
                         break;
                     }

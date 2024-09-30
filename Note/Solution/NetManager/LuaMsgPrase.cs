@@ -52,7 +52,13 @@ namespace Solution.NetManager
         /// 数据解包
         /// </summary>
         /// <param name="buf"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// 返回类型：
+        /// type > 0 数据解析成功；
+        /// type == 0 该协议号不存在，bug错误[丢弃整个缓存包]；
+        /// type == -1 不合法的数据[丢弃整个缓存包]；
+        /// type == -2 数据不完整；
+        /// </returns>
         public int DataUnpack(byte[] buf, int length)
         {
             int type = 0;

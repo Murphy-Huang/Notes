@@ -28,7 +28,7 @@ namespace Solution.NetManager
         /// <summary>
         /// 连接成功或失败回调函数
         /// </summary>
-        public Action<bool> callbackConnected;
+        public Action<bool> CallbackConnected;
         private int _connectState; // 连接回调状态 0正常 1连接成功 2连接失败
 
         // PUBLIC 
@@ -40,11 +40,11 @@ namespace Solution.NetManager
                 if (_connectState == 1)
                 {
                     InitRead();       // 初始化接收消息接口
-                    callbackConnected(true);
+                    CallbackConnected(true);
                 }
                 else
                 {
-                    callbackConnected(false);
+                    CallbackConnected(false);
                 }
                 _connectState = 0;
             }
@@ -61,14 +61,14 @@ namespace Solution.NetManager
         public void Connect(string ip, int port, NetReceiveBuf netRecbuf, Action<bool> resfunc)
         {
             this._connectState = 0;
-            this.callbackConnected = resfunc;
+            this.CallbackConnected = resfunc;
             if (_client != null)
             {
-                CCLog.Log("网络还存在，先断开之前的网络");
+                Debug.Log("网络还存在，先断开之前的网络");
                 Dispose(); // 断开网络
                 resfunc(false);
             }
-            CCLog.Log("开始新的Connect");
+            Debug.Log("开始新的Connect");
             _client = new TcpClient();
 
             this._netRecbuf = netRecbuf;
@@ -91,7 +91,7 @@ namespace Solution.NetManager
             catch (Exception exception)
             {
                 this._connectState = 2;
-                CCLog.LogError("ip解析失败 "+ exception.Message);
+                Debug.LogError("ip解析失败 "+ exception.Message);
             }
         }
 
@@ -222,7 +222,7 @@ namespace Solution.NetManager
 #region 关闭网络
         public void Dispose()
         {
-            CCLog.Log("析构Dispose Net");
+            Debug.Log("析构Dispose Net");
             if (_ns != null)
             {
                 _ns.Close();
@@ -235,7 +235,7 @@ namespace Solution.NetManager
                 _client.Dispose();
                 _client = null;
                 _netRecbuf = null;
-                CCLog.Log("析构网络");
+                Debug.Log("析构网络");
             }
         }
 #endregion

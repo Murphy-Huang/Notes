@@ -241,6 +241,48 @@
    - 锚框(W,H) = (AnchorMax - AnchorMin) * 父物体(W,H)
    - 不同组件的rectTransform的变量不能直接赋予（存疑）
 
+#### Unity Shader
+
+[常用函数](https://blog.csdn.net/u012722551/article/details/103926660)
+vertex 顶点着色器
+fragment 片元着色器
+M模型空间 V观察空间 P投影矩阵（裁剪空间）
+语义让shader知道从哪里拿数据，并将数据输出到哪里；Unity shader的语义从模型空间获取数据填充变量，由使用该材质的 Mesh Render 组件提供
+SV(system-value)开头的语义在渲染流水线上有特殊含义，用这类语义赋值的变量不能随意赋值，因其用于流水线特定的目的
+在Unity5.6后:
+UNITY_METRAX_MVP系列 换成 UnityObjectToClipPos()系列 :
+
+``` shader
+  #include "UnityCG.cginc" 
+  UnityWorldToClipPos()
+  UnityViewToClipPos()
+```
+
+COLOR0语义可以 fixed3 也可以是 fixed4
+Unity内置CGIncludes路径，安装目录路径\Data\CGIncludes
+
+常用内置函数：(内置函数返回的向量都是没有归一化的)
+UNITY_INITIALIZE_OUTPUT()
+UnityObjectToWorldNormal(float3) 法线方向从模型空间转换到世界空间
+UnityObjectToWorldDir(in float3) 方向矢量从模型空间转换到世界空间
+UnityWorldToObjectDir(in float3) 方向矢量从世界空间转换到模型空间
+UnityWorldSpaceViewDir(float4) 输入一个模型空间的顶点位置，返回世界空间中从该点到摄像机的观察方向
+UNITY_LIGHTMODEL_AMBIENT 环境光照信息
+unity_WorldToObject 当前世界矩阵的逆矩阵
+_LightColor0 光源的颜色强度信息
+_WorldSpaceLightPos0 世界空间平行光方向
+_WorldSpaceCameraPos 摄像机再世界空间的位置
+reflect(i, n) 给定入射方向i和法线方向n时，返回光线反射方向
+
+在Unity中，需要使用 “纹理名_ST” 的方式来声明纹理的属性，.xy 存储的是缩放值, .zw 存储的是偏移值
+
+对内置.xyz .rgb的访问再进行运算
+
+尽可能减少分支循环的运算量
+注意除零的问题
+
+Project Setting -> Quality -> Anti Aliasing 设置反锯齿
+
 ---
 
 ### 碰撞检测
@@ -277,6 +319,7 @@
   - https方式使用账号和密码授权，简单易用，便于进行权限细分管理，而且防火墙一般会打开 http 和https协议的端口号80 和 443。可以进行匿名访问，对于开源项目，其他人即使没有任何权限也可以方便进行除提交之外的克隆和读取操作。但是可能需要每个项目成员都有一个代码托管平台的账号，而且缺乏凭证管理的话，可能要频繁的进行账号密码输入；`<br/>`ssh方式单独使用非对称的秘钥进行认证和加密传输，和账号密码分离开来，不需要账号也可以访问repo。生成和管理秘钥有点繁琐，需要管理员添加成员的public key。不能进行匿名访问，ssh不利于对权限进行细分，用户必须具有通过SSH协议访问你主机的权限，才能进行下一步操作，比较适合内部项目。
 - git-crypt issue: git cannot checkout after git-crypt encrypt file, use 'git crypt lock' then checkout can solve this problem. cannot do git-crypt init in same repo even id in different branch, one-to-one correspondence between git-crypt-key and repository. [https://github.com/AGWA/git-crypt/issues/125](https://github.com/AGWA/git-crypt/issues/125)
 - git-crypt add-gpg-user [gpgID]，会使用gpgID匹配的gpg公钥来加密由git-crypt init命令产生的对等密钥（.git/git-crypt/keys/default），并生成一个文件在根目录下来导出结果
+- git在window系统将凭证交给window管理，用户账号->管理凭证
 
 ---
 

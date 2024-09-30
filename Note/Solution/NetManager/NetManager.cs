@@ -91,7 +91,7 @@ namespace Solution.NetManager
             }
             if (_nets.ContainsKey(key))
             {
-                CCLog.LogError("联网id已存在 key=" + key);
+                Debug.LogError("联网id已存在 key=" + key);
                 return -1;
             }
             NetSocket socket = new NetSocket();

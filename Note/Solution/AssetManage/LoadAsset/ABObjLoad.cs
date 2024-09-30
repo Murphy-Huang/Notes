@@ -286,7 +286,7 @@ namespace Solution.AssetManage
     #endif
             if (audio == null)
             {
-                CCLog.LogError("找不到音频文件:path=" + path);
+                Debug.LogError("找不到音频文件:path=" + path);
                 return null;
             }
             else
@@ -311,13 +311,13 @@ namespace Solution.AssetManage
                 string moduleName = respath.Substring(respath.IndexOf("cshader/")).Split('/')[1];
                 string filename = Path.GetFileNameWithoutExtension(respath);
                 string assPath = respath.Substring(0, respath.IndexOf("/" + moduleName)) + "/cshader.shass";
-                CCLog.LogError(assPath);
+                Debug.LogError(assPath);
                 AssetBundle bundle = ABManager.ins.LoadAB(assPath);
                 cs = bundle.LoadAsset<ComputeShader>(filename);   // 不能用的
     #endif
             if (cs == null)
             {
-                CCLog.LogError("找不到ComputeShader文件:path=" + path);
+                Debug.LogError("找不到ComputeShader文件:path=" + path);
                 return null;
             }
             else

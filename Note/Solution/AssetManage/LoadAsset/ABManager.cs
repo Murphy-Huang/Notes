@@ -204,7 +204,7 @@ namespace Solution.AssetManage
                 if (HotCheckManager.ins.IsHot(assPath))
                 {
                     trueAssPath = AssetPath.CachePath + assPath;
-                    CCLog.Log("读取缓存abPath:<color=#00ff00>" + trueAssPath + "</color>");
+                    Debug.Log("读取缓存abPath:<color=#00ff00>" + trueAssPath + "</color>");
                 }
                 else
                 {
@@ -270,7 +270,7 @@ namespace Solution.AssetManage
                 }
                 else
                 {
-                    CCLog.LogError("存在重复引用的包:"+b);
+                    Debug.LogError("存在重复引用的包:"+b);
                 }
             }
         }
@@ -294,7 +294,7 @@ namespace Solution.AssetManage
                 if (HotCheckManager.ins.IsHot(assPath))
                 {
                     trueAssPath = AssetPath.CachePath + assPath;
-                    CCLog.Log("读取缓存abPath:<color=#00ff00>" + trueAssPath + "</color>");
+                    Debug.Log("读取缓存abPath:<color=#00ff00>" + trueAssPath + "</color>");
                 }
                 else
                 {
@@ -320,7 +320,7 @@ namespace Solution.AssetManage
             if (HotCheckManager.ins.IsHot(assPath))
             {
                 trueAssPath = AssetPath.CachePath + assPath;
-                CCLog.Log("读取缓存abPath:<color=#00ff00>" + trueAssPath + "</color>");
+                Debug.Log("读取缓存abPath:<color=#00ff00>" + trueAssPath + "</color>");
             }
             else
             {
