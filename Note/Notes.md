@@ -283,6 +283,27 @@ reflect(i, n) 给定入射方向i和法线方向n时，返回光线反射方向
 
 Project Setting -> Quality -> Anti Aliasing 设置反锯齿
 
+纹理的 Wrap Mode 分别为 Repeat 和 Clamp 模式，Repeat模式在值超过范围后会舍弃整数只保留小数
+
+TANGENT_SPACE_ROTATION; 之后可以使用rotation（世界空间到切线空间的矩阵）
+
+法线纹理存储的是表面的法线方向，把法线经过映射后得到的像素值
+
+法线都是单位向量，因此tangentNormal.z值可由tangentNormal.xy值计算得出
+
+UnpackNormal:对法线纹理采样，Unity自动根据纹理压缩方式解压获得对应的法线分量
+
+通常将一些自定义数据从顶点着色器传输到片元着色器，一般选用 TEXCOORD0 语义
+
+\#pragma multi_compile_fwdbase 保证在shader中使用光照衰减和光照变量可以被正确赋值
+\#pragma multi_compile_fwdadd 保证在Addition Pass中访问到正确的光照变量
+
+_LightMatrix0 世界空间到光源空间的转换矩阵
+
+宏 SHADOW_COORDS 实际上就是声明了 一个名为_ShadowCoord的阴影纹理坐标变址。 而 TRANSFER_SHADOW的实现会根据平台不同而有所差异。这个宏的参数需要是下一个可用的插值寄存器的索引值。
+如果当前平台可以使用屏幕空间的阴影映射技术（通过判断是否定义了UNITY_NO_SCREENSPACE_SHADOWS来得到），TRANSFER_SHADOW会调用内罚的ComputeScreenPos函数来计算_ShadowCoord; 如果该平台不支待屏幕空的阴影映射技术，就会使用传统的阴影映射技术，TRANSFER_SHADOW会把顶点坐标从模型空间变换到光源空间后存储到_ShadowCoord中。
+然后，SHADOW_ATTENUATION负责使用_ShadowCoord对相关的纹理进行采样，得到阴影信息。
+
 ---
 
 ### 碰撞检测
@@ -341,3 +362,4 @@ Project Setting -> Quality -> Anti Aliasing 设置反锯齿
 - [Unity-Scene功能](https://blog.csdn.net/weixin_44013533?type=blog)
 - [unity手册Graphic的API](https://docs.unity.cn/cn/2018.4/ScriptReference/UI.GraphicRaycaster.html)
 - [Cinemachine Camera详细讲解和使用](https://zhuanlan.zhihu.com/p/516625841)
+- [Youtube: series of extra credits]
