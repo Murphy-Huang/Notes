@@ -283,7 +283,7 @@ reflect(i, n) 给定入射方向i和法线方向n时，返回光线反射方向
 
 Project Setting -> Quality -> Anti Aliasing 设置反锯齿
 
-纹理的 Wrap Mode 分别为 Repeat 和 Clamp 模式，Repeat模式在值超过范围后会舍弃整数只保留小数
+纹理的 Wrap Mode 分别为 Repeat 和 Clamp 模式，Repeat模式在值超过范围后会舍弃整数只保留小数，Clamp防止在接缝处不匹配问题
 
 TANGENT_SPACE_ROTATION; 之后可以使用rotation（世界空间到切线空间的矩阵）
 
@@ -301,8 +301,29 @@ UnpackNormal:对法线纹理采样，Unity自动根据纹理压缩方式解压�
 _LightMatrix0 世界空间到光源空间的转换矩阵
 
 宏 SHADOW_COORDS 实际上就是声明了 一个名为_ShadowCoord的阴影纹理坐标变址。 而 TRANSFER_SHADOW的实现会根据平台不同而有所差异。这个宏的参数需要是下一个可用的插值寄存器的索引值。
-如果当前平台可以使用屏幕空间的阴影映射技术（通过判断是否定义了UNITY_NO_SCREENSPACE_SHADOWS来得到），TRANSFER_SHADOW会调用内罚的ComputeScreenPos函数来计算_ShadowCoord; 如果该平台不支待屏幕空的阴影映射技术，就会使用传统的阴影映射技术，TRANSFER_SHADOW会把顶点坐标从模型空间变换到光源空间后存储到_ShadowCoord中。
+如果当前平台可以使用屏幕空间的阴影映射技术（通过判断是否定义了UNITY_NO_SCREENSPACE_SHADOWS来得到），TRANSFER_SHADOW 会调用内罚的ComputeScreenPos函数来计算_ShadowCoord; 如果该平台不支待屏幕空的阴影映射技术，就会使用传统的阴影映射技术，TRANSFER_SHADOW 会把顶点坐标从模型空间变换到光源空间后存储到_ShadowCoord中。
 然后，SHADOW_ATTENUATION负责使用_ShadowCoord对相关的纹理进行采样，得到阴影信息。
+
+UNITY_LIGHT_ATTENUATION 内置的用于计算光照衰减和阴影的宏，我们可以在内置的AutoLight.cginc里找到它们的相关声明。它接受3个参数，它会将光照衰减和阴影值相乘后的结果存储到第一个参数中。我们并没有在代码中声明第一个参数atten，这是因为UNITY_LIGHT_ATTENUATION会帮我们声明这个变量。它的第二个参数是结构体v2f，这个参数会传递给SHADOW_ATTENUATION，用来计算阴影值。而第三个参数是世界空间的坐标，正如我们在前面讲的那样，这个参数会用于计算光源空间下的坐标，再对光照衰减纹理采样得到的光照衰减。
+
+由于入射光线可逆，reflect(-worldDir, worldNormal) 计算反射的时候使用负数
+
+```cs
+frac(float v)
+{
+   return v - floor(v);
+}
+```
+
+关键词: 剔除 Cull Off / 深度写入 Zwrite Off / 混合 Blend SrcAlpha oneMinusSrcAlpha
+
+标签 DisableBatching：是否对物体进行批处理，批处理会合并所以相关的模型，这些模型各自的模型空间就会丢失。因此在技术需要使用模型空间计算时，限制shader的批处理操作。
+
+XXX_ST XXX纹理的缩放和偏移
+XXX_TexelSize 访问XXX纹理对应的纹素大小，例如512*512纹理，纹素值为1/512
+
+[ImageEffectOpaque] // 在执行完不透明物体渲染后执行该函数（Background，Geometry，AlphaTest），而不对透明物体产生影响（Transparent）
+void OnRenderImage()
 
 ---
 
