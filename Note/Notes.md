@@ -142,6 +142,7 @@
        - UdpClient：用于客户端创建UDP链接
     3. Socket/TcpClient异步通信:BeginConnect(); EndConnect();
        - BeginConnet方法在操作完成前不会组设，使用该方法时系统会动用独立的线程来执行，直到链接成功或抛出异常；EndConnet是一种阻塞的方法，用于完成BeginConnect方法的异步链接到远程主机的请求。异步BeginConnet只有在调用了EndConnet方法后才算执行完成，程序需要在提供给requestCallback委托调用的方法中调用TcpClient对象的EndConnet方法
+21. System.Reactive.Subjects.Subject 实现观察订阅模式
 
 ### Unity
 
@@ -315,7 +316,7 @@ frac(float v)
 }
 ```
 
-关键词: 剔除 Cull Off / 深度写入 Zwrite Off / 混合 Blend SrcAlpha oneMinusSrcAlpha
+关键词: 片面剔除 Cull Off / 深度写入 Zwrite Off / 混合 Blend SrcAlpha oneMinusSrcAlpha
 
 标签 DisableBatching：是否对物体进行批处理，批处理会合并所以相关的模型，这些模型各自的模型空间就会丢失。因此在技术需要使用模型空间计算时，限制shader的批处理操作。
 
@@ -324,6 +325,14 @@ XXX_TexelSize 访问XXX纹理对应的纹素大小，例如512*512纹理，纹�
 
 [ImageEffectOpaque] // 在执行完不透明物体渲染后执行该函数（Background，Geometry，AlphaTest），而不对透明物体产生影响（Transparent）
 void OnRenderImage()
+
+SAMPLE_DEPTH_TEXTURE 对深度纹理采样；LinearEyeDepth 视角空间的线性深度值（可从深度纹理中计算出线性深度值）
+
+使用网格的顶点参数存储同材质但纹理不同的数据，方便静态批处理
+
+Screen.SetResolution(width, height, true) 强制设置屏幕分辨率，在Android系统上可能很有用；横屏游戏前后台切换的时候，可能会需要重新设置分辨率
+
+![常用数学公式](./../Picture/ShaderCommonFunction.jpg)
 
 ---
 
