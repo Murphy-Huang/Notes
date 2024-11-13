@@ -302,6 +302,23 @@
 
 ---
 
+#### C# String.Format
+>
+> ```CS
+> string.Format("{0:C3}", 2)                  // $2.000
+> string.Format("{0:D3}", 2)                  // 002
+> string.Format("{0:N2}", 56789)              // 56,789.00
+> string.Format("{0:X000}", 12)               // C
+> string.Format("{0:P1}", 0.23456)            // 23.5%
+> string.Format("{0:0000.00}", 195.038)       // 0195.04
+> string.Format("{0:###.##}", 12568.039)      // 12568.04
+> string.Format("{0:g}", System.DateTime.Now) // 2009-3-20 15:38
+> string.Format("{0:d}",System.DateTime.Now)  // 2009-3-20
+> string.Format("{0:T}",System.DateTime.Now)  // 15:41:50
+> ```
+
+---
+
 #### 从非托管函数导出函数
 >
 > - DllImport是System.Runtime.InteropServices命名空间下的一个属性类
