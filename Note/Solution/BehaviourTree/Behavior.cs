@@ -60,5 +60,13 @@ namespace Note.Solution.BehaviourTree
             OnTerminate();
             status = EStatus.Aborted;
         }
+
+        // TODO:
+        // 当status == EStatus.Running 时或必要时，
+        // 将需要某种不可取消的动作作为协程挂起执行，并阻塞行为树的运行直到动作结束
+        protected IEnumerator ExcutionCoroutine()
+        {
+
+        }
     }
 }

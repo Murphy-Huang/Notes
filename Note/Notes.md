@@ -379,6 +379,7 @@ Screen.SetResolution(width, height, true) 强制设置屏幕分辨率，在Andro
 - [havok](https://www.cnblogs.com/AMzz/p/12597808.html)
 - [事件管理系统三种](https://blog.csdn.net/qq_46044366/article/details/122722948)
 - [烟雨迷离blog](https://www.lfzxb.top/categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/)
+- [狐王加护](https://developer.unity.cn/u/hu-wang-jia-hu)
 - [动作游戏通用框架](https://github.com/ImYellowFish/ActionGameTips)
 - [Lua的数据结构——Table](https://www.jianshu.com/p/56ca3d77c7de)
 - [游戏中近战攻击判定检测——射线检测](https://blog.csdn.net/wch3351028/article/details/122326021)

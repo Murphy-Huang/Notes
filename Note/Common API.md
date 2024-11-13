@@ -208,6 +208,7 @@
 #### 物体移动方式
 >
 > `Vector3.MoveTowards(transform.position, target.position, Time.deltaTime)`
+> `Mathf.MoveTowards(float position, float target, float maxDelta)`
 > `transform.Translate((target.positin - transform.position) * Time.deltaTime)`
 > `this.transform.position = Vector3.Lerp(objectPos, targetPos, curve.Evaluate(x)); //AnimationCurve变速调节应用`
 

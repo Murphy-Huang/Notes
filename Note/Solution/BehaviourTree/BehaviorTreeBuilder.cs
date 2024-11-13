@@ -7,10 +7,12 @@ namespace Note.Solution.BehaviourTree
     {
         private readonly Stack<Behavior> nodeStack;
         private readonly BehaviorTree bhTree;
+        private Backboard backboard;
         public BehaviorTreeBuilder()
         {
             bhTree = new BehaviorTree(null);
             nodeStack = new Stack<Behavior>();
+            backboard = new Backboard(null);
         }
         private void AddBehavior(Behavior behavior)
         {

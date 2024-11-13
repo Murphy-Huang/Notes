@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Note.Solution.BehaviourTree
 {
+    // 组合节点基类
     public abstract class Composite : Behavior
     {
         protected LinkedList<Behavior> children;//用双向链表构建子节点列表
