@@ -165,6 +165,7 @@
 11. Burst就是LLVM将C#代码转换成LLVM IR中间代码，通过LLVM的优化和代码生成功能生成目标平台的Native机器码。这个过程中，Burst利用了LLVM中内置的向量化指令优化技术，将一些常规的循环和算法转换成SIMD指令集，以实现对代码的高效优化。但Burst只支持值类型的数据编译，不支持引用类型数据编译。<https://zhuanlan.zhihu.com/p/623274986>
 12. 多线程方式：TPL（task）、job system，TPL是.Net 5后基于ThreadPool设计的一组api，job system是unity提供配合brust使用的多线程解决方案
 13. async 用在方法定义前面，await只能写在带有async标记的方法中；注意await异步等待的地方，await后面的代码和前面的代码执行的线程可能不一样；async关键字创建了一个状态机，类似yield return 语句；await会解除当前线程的阻塞，完成其他任务；处理本地IO和网络IO任务是尽量使用async/await来提高任务执行效率
+14. sprite editor 的Custom Outline减少渲染大小，Custom physics初始化碰撞形状
 
 #### 热更新
 
@@ -346,6 +347,15 @@ Screen.SetResolution(width, height, true) 强制设置屏幕分辨率，在Andro
   - 扫掠算法（SAP）：根据对应场景选择坐标轴，对待检测物体遍历，若不满足max1>min2&&max2>min1则不会发生碰撞
 - 散弹的碰撞检测：根据项目而定，可能会生成多个碰撞体单独检测/生成单个碰撞体检测碰撞面积
 - 根据上一帧和当前帧的位置做一个胶囊体来检测碰撞，避免飞行过快发生子弹越过物体的现象
+- 包围盒：AABB包围盒、包围球、OBB方向包围、FDH固定方向包围盒。
+    包围盒应满足特性：
+    1. 快速的碰撞检测
+    2. 能紧密的覆盖所包围的对象
+    3. 包围盒容易计算
+    4. 能方便旋转和变换坐标
+    5. 低内存占用
+   Unity中的Bounds结构体，与世界坐标轴对齐而不会相对于坐标轴旋转，2D和3D以及精灵都是有bounds属性的（ Collider.bounds、Mesh.bounds 和 Renderer.bounds ）；Collider方框属于obb包围盒：有向且精度较好，随着模型放大缩小；Bounds属于AABB包围盒：无向且精度较差，随着模型旋转放大缩小
+   Bounds.Encapsulate()，用于增大Bounds以包围该点或Bounds
 
 ### Dots（Data-Oriented-Tech-Stack）/ ECS
 
@@ -374,12 +384,16 @@ Screen.SetResolution(width, height, true) 强制设置屏幕分辨率，在Andro
 
 ---
 
-### 参考BLOG
+### 参考Link
 
+- [Game AI Pro by Steve Rabin](http://www.gameaipro.com/)
+- [腾讯AI框架 HTN BT FSM](https://github.com/Tencent/behaviac/?tab=readme-ov-file)
+- [游戏猴的C#全教程](https://www.youtube.com/watch?v=qZpMX8Re_2Q)
+- [HybridCLR框架](https://hybridclr.doc.code-philosophy.com/docs/beginner/quickstart)
 - [havok](https://www.cnblogs.com/AMzz/p/12597808.html)
 - [事件管理系统三种](https://blog.csdn.net/qq_46044366/article/details/122722948)
 - [烟雨迷离blog](https://www.lfzxb.top/categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/)
-- [狐王加护](https://developer.unity.cn/u/hu-wang-jia-hu)
+- [狐王加护blog](https://developer.unity.cn/u/hu-wang-jia-hu)
 - [动作游戏通用框架](https://github.com/ImYellowFish/ActionGameTips)
 - [Lua的数据结构——Table](https://www.jianshu.com/p/56ca3d77c7de)
 - [游戏中近战攻击判定检测——射线检测](https://blog.csdn.net/wch3351028/article/details/122326021)

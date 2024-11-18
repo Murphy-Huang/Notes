@@ -10,7 +10,8 @@ namespace Note.Solution.BehaviourTree
     {
         public Backboard()
         {
-
+            // 记录当前行为，方便废弃（Abort()）
+            public Behavior currentBehavior;
         }
     }
 }

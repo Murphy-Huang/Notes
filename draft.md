@@ -1,5 +1,7 @@
 # Draft
 
+## draft
+
 ## Common Links
 
 [Notes](./Note/Notes.md)
@@ -27,6 +29,11 @@
 - Amplify shader
 
 ## may help
+
+Unity shader 源码地址：\Unity\Editor\Data\CGIncludes
+[腾讯AI框架 HTN BT FSM](https://github.com/Tencent/behaviac/?tab=readme-ov-file)
+[HybridCLR框架](https://hybridclr.doc.code-philosophy.com/docs/beginner/quickstart)
+[游戏猴的C#全教程](https://www.youtube.com/watch?v=qZpMX8Re_2Q)
 
 ## 规范建议
 
