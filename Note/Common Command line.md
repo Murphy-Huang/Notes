@@ -26,6 +26,9 @@
 22. git stash save "..."
 23. git stash pop
 24. git stash list
+25. git log -10
+26. git reset --soft [commit ID]
+27. git switch [branch name]
 
 ## PowerShell
 

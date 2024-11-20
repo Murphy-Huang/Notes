@@ -388,6 +388,7 @@ Screen.SetResolution(width, height, true) 强制设置屏幕分辨率，在Andro
 
 - [Game AI Pro by Steve Rabin](http://www.gameaipro.com/)
 - [腾讯AI框架 HTN BT FSM](https://github.com/Tencent/behaviac/?tab=readme-ov-file)
+- [硬派游戏AI，FSM（状态机）、HFSM（分层状态机）、BT（行为树）的区别](https://blog.csdn.net/qq_39885372/article/details/103950973)
 - [游戏猴的C#全教程](https://www.youtube.com/watch?v=qZpMX8Re_2Q)
 - [HybridCLR框架](https://hybridclr.doc.code-philosophy.com/docs/beginner/quickstart)
 - [havok](https://www.cnblogs.com/AMzz/p/12597808.html)
