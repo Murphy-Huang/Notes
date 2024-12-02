@@ -335,6 +335,8 @@ Screen.SetResolution(width, height, true) 强制设置屏幕分辨率，在Andro
 
 ![常用数学公式](./../Picture/ShaderCommonFunction.jpg)
 
+Create->legacy->CubeMap在反射中作用
+
 ---
 
 ### 碰撞检测
@@ -386,6 +388,7 @@ Screen.SetResolution(width, height, true) 强制设置屏幕分辨率，在Andro
 
 ### 参考Link
 
+- [CS-Note](http://www.cyc2018.xyz/)
 - [Game AI Pro by Steve Rabin](http://www.gameaipro.com/)
 - [腾讯AI框架 HTN BT FSM](https://github.com/Tencent/behaviac/?tab=readme-ov-file)
 - [硬派游戏AI，FSM（状态机）、HFSM（分层状态机）、BT（行为树）的区别](https://blog.csdn.net/qq_39885372/article/details/103950973)
