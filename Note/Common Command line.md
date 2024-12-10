@@ -30,6 +30,15 @@
 26. git reset --soft [commit ID]
 27. git switch [branch name]
 
+### [Git Submodules](https://cloud.tencent.com/developer/article/2136829)
+
+1. git submodule add [GitURL/倉庫地址]
+2. git submodule add [倉庫地址] [希望submodule位於的文件路徑]
+3. git submodule update --remote [submodule文件夹相对路径]
+4. git submodule update [submodule文件夹相对路径]
+5. git submodule init [submodule的文件夹的相对路径]
+6. git submodule update [submodule的文件夹的相对路径]
+
 ## PowerShell
 
 - 对比目录文件差异：Compare-Object -ReferenceObject (Get-ChildItem -File -Path "<源文件夹路径>") -DifferenceObject (Get-ChildItem -File -Path "<目标文件夹路径>") -Property Name, Length, LastWriteTime | FT -AutoSize
