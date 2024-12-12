@@ -61,6 +61,15 @@
   Apply用于应用，不用于申请
   Command用于名词，不用于动词
 - 尽量不使用单复数不符合常见形式的（适当的违背语法）
+- toc == to client / tos == to server 为分发事件名称
+
+---
+
+### 格式規範
+
+- Utility 工具类目录
+- Common 公用类目录
+- 尽量不要在根目录创建目录，就算创建也最好有清晰的命名
 
 ---
 
@@ -174,6 +183,7 @@
 3. XLua默认会到Resource目录寻找txt/bytes后缀的Lua脚本呢，在LuaEnv调用env.AddLoader(CUstomLoader)重定向查找优先查找的目录
 4. 加载静态库方法env.AddBuildin
 5. XLua提供的只是一个库，并不包括下载的功能，需要自行安排目录、执行顺序、热更新资源
+6. [HybridCLR](https://github.com/focus-creative-games/hybridclr_trial)
 
 #### Editor
 
@@ -211,8 +221,12 @@
 2. Resources文件夹 Resources.LoadAll
 3. playerPrefs存储玩家简单的数据：string,int,float在注册表上，但可以使用JsonUtility工具将unity可序列化的类转换成json格式存储，间接存储更复杂数据
 4. 调用打包函数BuildPipeline.BuildAssetBundles时，需要传进去一个Path，用于存放打包的AssetBundle，通常传进去的是Application.streamingAssets。然后在打包完成后，unity会默认生成一个存放AssetBundle的文件夹同名的assetbundle文件，用来存放所有AssetBundle的依赖关系，在这里，就会生成一个叫StreamingAssets的AssetBundle文件。因此，在加载某一个AssetBundle之前，我们都必须先加载这个名称叫做StreamingAssets的bundle文件，然后通过这个bundle文件寻找任意一个AssetBundle需要的依赖文件。<https://www.jianshu.com/p/95af464020c7>
-5. 持久化路径：Application.dataPath跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；Application.persistantDataPath改文件在安装完apk后，里面的数据持久存在，可读写，在运行时使用；Application.StreamingAsset只可读，常在初始化阶段使用。[参考](https://zhuanlan.zhihu.com/p/141641436)
+5. 持久化路径：[参考](https://zhuanlan.zhihu.com/p/141641436)
+   Application.dataPath跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；
+   Application.persistantDataPath改文件在安装完apk后，里面的数据持久存在，可读写，在运行时使用；
+   Application.StreamingAsset只可读，常在初始化阶段使用，获得文件夹实际位置，规避平台之间的差异。改文件夹下的资源会保持原有格式，dll文件或脚本在此文件夹中不会参与编译。
 6. 构建 AssetBundle 后，除了会生成用户指定的 AssetBundle，Unity 还会自动生成一个额外的 AssetBundle，默认情况下该 AssetBundle 与输出路径最内层文件夹名相同，例如我设定的输出路径为：\Assets\StreamingAssets，在该路径下就会出现 StreamingAssets 以及 StreamingAssets.manifest 文件。在该 AssetBundle 中包含名为"assetbundlemanifest"的总 Manifest 文件，总 Manifest 文件记录了所有 AssetBundle 间的依赖关系，在运行中加载 AssetBundle 时需要先从该 AssetBundle 读取 assetbundlemanifest 文件，确定所有需要加载的 AssetBundle。在与服务器简历链接并判断哪些资源需要热更新时，也需要从本地与服务器读取该 AssetBundle 。<https://www.jianshu.com/p/ce823cc82837>
+7. UnityWebRequest Win平台(file:///) WebGl(http://) Android平台(jar:file:///) iOS平台(Application/)
 
 #### 打包
 
@@ -242,6 +256,18 @@
    - rectTransform.GetWorldCorners(corners)获取四个角的坐标,间接设置
    - 锚框(W,H) = (AnchorMax - AnchorMin) * 父物体(W,H)
    - 不同组件的rectTransform的变量不能直接赋予（存疑）
+10. 局内UI注意事项：
+    1. Canvas尽量不嵌套
+    2. 战斗中需要切换显隐状态，使用SetLocalScale或CanvasGroup的Alpha（MeshUI除外）
+    3. 带动画或需要频繁更新状态的UI，用SpriteRenderer或UIMeshImage替代
+    4. 动画与自动布局组件计算的数值要保持一致，如果无法保持一致，可能要考虑变更做法。因为会导致不断修改Layout
+11. DrawCall
+    1. [使用动态图集](https://liomiss.github.io/2022/09/03/dynamicImage/)
+    2. SpriteRenderer或其他Mesh不要设置Scale
+    3. Image/Text不能设置坐标隐藏，因为UI在剔除时是以Canvas为单位，该Canvas下的UI只要有一个还在屏幕内就不会剔除，且改变Z轴会影响深度计算，打断合批，应该使用设置Scale或设置CanvasGroup的Alpha，或者勾选CanvasRenderer组件上的CullTransparentMesh，然后再设置Image或Text的Alpha
+    4. 自定义的UI组件、shader，可以尝试用顶点信息来设置参数，避免因为SetProperty而导致材质不同，打断合批。
+12. Overdraw
+    1. 注意透明物体和不透明物体的渲染顺序
 
 #### Unity Shader
 
@@ -390,7 +416,8 @@ Create->legacy->CubeMap在反射中作用
 
 - [CS-Note](http://www.cyc2018.xyz/)
 - [Game AI Pro by Steve Rabin](http://www.gameaipro.com/)
-- [腾讯AI框架 HTN BT FSM](https://github.com/Tencent/behaviac/?tab=readme-ov-file)
+- [腾讯AI框架 HTN BT FSM](https://github.com/Tencent/behaviac/?tab=readme-ov-file) 有点老，中文资料少
+- [扁鹊日志](https://github.com/Tencent/BqLog)
 - [硬派游戏AI，FSM（状态机）、HFSM（分层状态机）、BT（行为树）的区别](https://blog.csdn.net/qq_39885372/article/details/103950973)
 - [游戏猴的C#全教程](https://www.youtube.com/watch?v=qZpMX8Re_2Q)
 - [HybridCLR框架](https://hybridclr.doc.code-philosophy.com/docs/beginner/quickstart)

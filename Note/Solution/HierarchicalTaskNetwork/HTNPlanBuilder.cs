@@ -32,7 +32,7 @@ namespace Note.Solution.HierarchicalTaskNetwork
                 taskStack.Push(task);
             }
         }
-        //剩下的代码都很简单，我相信能直接看得懂
+        
         public void RunPlan()
         {
             runner.RunPlan();

@@ -18,24 +18,34 @@
 
 [Current Log](./LegacyLog/TODO&LOG.md)
 
-## Applications that may be used
+## Tips
 
-- github.dev on website
-- 熊猫压缩
-- gpg
-- edge://flags/forcetodark
-- renderdoc (shader调试)
-- <https://github.com/mcmilk/7-Zip-zstd>
-- Amplify shader
+### Resources that may be useful
 
-## may help
-
+github.dev on website
+熊猫压缩
+gpg
+edge://flags/forcetodark
+renderdoc (shader调试)
+<https://github.com/mcmilk/7-Zip-zstd>
+Amplify shader
 Unity shader 源码地址：\Unity\Editor\Data\CGIncludes
-[腾讯AI框架 HTN BT FSM](https://github.com/Tencent/behaviac/?tab=readme-ov-file)
-[HybridCLR框架](https://hybridclr.doc.code-philosophy.com/docs/beginner/quickstart)
-[游戏猴的C#全教程](https://www.youtube.com/watch?v=qZpMX8Re_2Q)
 
-## 规范建议
+### Summary that may help
+
+多看官方文档
+重构
+工作日志，有自己心里的工作日报
+先用profiler，再优化
+注释贵精不贵多
+先实现再有框架，从原型中提炼出框架
+重构/优化/修Bug，一次只能做一样
+隔离是方法，起名时关键，测试时主角，调试是补充，版本控制
+需求是一切的开头，之后才是编码
+对小黄鸭说话，讲问题思路
+Debug从高层往底层找
+
+### 规范建议
 
 - 注释*TODO*：说明在标识处有功能代码待编写，待实现的功能在说明中会简略说明
 - 注释*FIXME*：说明标识处代码需要修正，甚至代码是错误的，不能工作，需要修复，如何修正会在说明中简略说明
@@ -61,3 +71,5 @@ Unity shader 源码地址：\Unity\Editor\Data\CGIncludes
   Command用于名词，不用于动词
 - 尽量不使用单复数不符合常见形式的（适当的违背语法）
 - toc == to client / tos == to server 为分发事件名称
+
+![开源协议](./Picture/Open%20Resource%20License.png)
