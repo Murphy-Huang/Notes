@@ -218,19 +218,43 @@
 #### 资源持久化
 
 1. 在不同场景物体GUID相同时，加载问题，[冲突避免](https://blog.csdn.net/linjf520/article/details/127998024)
-2. Resources文件夹 Resources.LoadAll
-3. playerPrefs存储玩家简单的数据：string,int,float在注册表上，但可以使用JsonUtility工具将unity可序列化的类转换成json格式存储，间接存储更复杂数据
-4. 调用打包函数BuildPipeline.BuildAssetBundles时，需要传进去一个Path，用于存放打包的AssetBundle，通常传进去的是Application.streamingAssets。然后在打包完成后，unity会默认生成一个存放AssetBundle的文件夹同名的assetbundle文件，用来存放所有AssetBundle的依赖关系，在这里，就会生成一个叫StreamingAssets的AssetBundle文件。因此，在加载某一个AssetBundle之前，我们都必须先加载这个名称叫做StreamingAssets的bundle文件，然后通过这个bundle文件寻找任意一个AssetBundle需要的依赖文件。<https://www.jianshu.com/p/95af464020c7>
-5. 持久化路径：[参考](https://zhuanlan.zhihu.com/p/141641436)
+2. Resources文件夹中加载，`Resources.LoadAll(path); path = 文件夹路径名称`
+3. 编辑器中加载资源，`UnityEditor.AssetDatabase.LoadAssetAtPath<Material>(assetsPath); assetsPath = "Assets/xx/xx.xx"；`
+4. StreamingAssets文件夹，`Application.streamingAssetsPath(path);`
+5. PlayerPrefs存储玩家简单的数据：string,int,float在注册表上，但可以使用JsonUtility工具将unity可序列化的类转换成json格式存储，间接存储更复杂数据
+6. 持久化路径：[参考](https://zhuanlan.zhihu.com/p/141641436)
    Application.dataPath跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；
    Application.persistantDataPath改文件在安装完apk后，里面的数据持久存在，可读写，在运行时使用；
    Application.StreamingAsset只可读，常在初始化阶段使用，获得文件夹实际位置，规避平台之间的差异。改文件夹下的资源会保持原有格式，dll文件或脚本在此文件夹中不会参与编译。
-6. 构建 AssetBundle 后，除了会生成用户指定的 AssetBundle，Unity 还会自动生成一个额外的 AssetBundle，默认情况下该 AssetBundle 与输出路径最内层文件夹名相同，例如我设定的输出路径为：\Assets\StreamingAssets，在该路径下就会出现 StreamingAssets 以及 StreamingAssets.manifest 文件。在该 AssetBundle 中包含名为"assetbundlemanifest"的总 Manifest 文件，总 Manifest 文件记录了所有 AssetBundle 间的依赖关系，在运行中加载 AssetBundle 时需要先从该 AssetBundle 读取 assetbundlemanifest 文件，确定所有需要加载的 AssetBundle。在与服务器简历链接并判断哪些资源需要热更新时，也需要从本地与服务器读取该 AssetBundle 。<https://www.jianshu.com/p/ce823cc82837>
-7. UnityWebRequest Win平台(file:///) WebGl(http://) Android平台(jar:file:///) iOS平台(Application/)
+
+   | Window | Path |
+   |:---:|:---:|
+   | Application.dataPath | /Assets |
+   | Application.StreamingAsset | /Assets/StreamingAssets |
+   | Application.persistantDataPath | /AppData/LocalLow/CompanyName/ProductName |
+   | Application.temporaryCachePath | /AppData/Local/Temp/CompanyName/ProductName |
+
+   | Android | Path |
+   |:---:|:---:|
+   | Application.dataPath | /data/app/xxx.xxx.xxx.apk |
+   | Application.StreamingAsset | jar:file:///data/app/xxx.xxx.xxx.apk/!/assets |
+   | Application.persistantDataPath | /data/data/xxx.xxx.xxx/files |
+   | Application.temporaryCachePath | /data/data/xxx.xxx.xxx/cache |
+
+   | IOS | Path |
+   |:---:|:---:|
+   | Application.dataPath | Application/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/xxx.app/Data |
+   | Application.StreamingAsset | Application/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/xxx.app/Data/Raw |
+   | Application.persistantDataPath | Application/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/Documents |
+   | Application.temporaryCachePath | Application/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/Library/Caches |
+
+7. 调用打包函数BuildPipeline.BuildAssetBundles时，需要传进去一个Path，用于存放打包的AssetBundle，通常传进去的是Application.streamingAssets。然后在打包完成后，unity会默认生成一个存放AssetBundle的文件夹同名的assetbundle文件，用来存放所有AssetBundle的依赖关系，在这里，就会生成一个叫StreamingAssets的AssetBundle文件。因此，在加载某一个AssetBundle之前，我们都必须先加载这个名称叫做StreamingAssets的bundle文件，然后通过这个bundle文件寻找任意一个AssetBundle需要的依赖文件。<https://www.jianshu.com/p/95af464020c7>
+8. 构建 AssetBundle 后，除了会生成用户指定的 AssetBundle，Unity 还会自动生成一个额外的 AssetBundle，默认情况下该 AssetBundle 与输出路径最内层文件夹名相同，例如设定的输出路径为：\Assets\StreamingAssets，在该路径下就会出现 StreamingAssets 以及 StreamingAssets.manifest 文件。在该 AssetBundle 中包含名为"assetbundlemanifest"的总 Manifest 文件，总 Manifest 文件记录了所有 AssetBundle 间的依赖关系，在运行中加载 AssetBundle 时需要先从该 AssetBundle 读取 AssetBundleManifest 文件(`AssetBundle bundle = AssetBundle.LoadFromFile(manifestpath); AssetBundleManifest manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest")`)，确定所有需要加载的 AssetBundle。在与服务器简历链接并判断哪些资源需要热更新时，也需要从本地与服务器读取该 AssetBundle。<https://www.jianshu.com/p/ce823cc82837>
+9. UnityWebRequest Win平台(file:///) WebGl(http://) Android平台(jar:file:///) iOS平台(Application/)
 
 #### 打包
 
-1. 关于android打包：unityhub 安装 android build support: OpenJDK & SDK；unity editor 设置 perferences 的external tools 的 JDK 和 SDK（可以不内置SDK，减少因安装不同版本Unity占用的硬盘空间）[https://developer.unity.cn/projects/5e6b6a78edbc2a00245cbbef](https://developer.unity.cn/projects/5e6b6a78edbc2a00245cbbef)
+1. 关于android打包：unityhub 安装 android build support: OpenJDK & SDK；unity editor 设置 perferences 的external tools 的 JDK 和 SDK（可以不内置SDK，减少因安装不同版本Unity占用的硬盘空间）<https://developer.unity.cn/projects/5e6b6a78edbc2a00245cbbef>
 2. 打包的目标目录必须是可以被删除的，例如：被打包的项目目录、桌面目录
 
 #### UGUI
