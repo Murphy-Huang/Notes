@@ -133,7 +133,7 @@
 12. 字符串比较一般情况下，建议调用不依赖于默认设置的方法，因为这会明确代码的意图。这进而使代码更具可读性且更易于调试和维护。StringComparison.CurrentCulture/InvariantCulture/Ordinal。[https://blog.csdn.net/dark_tone/article/details/101808816](https://blog.csdn.net/dark_tone/article/details/101808816)
 13. 适当使用弃元"_"减少内存的分配，例：swicth、out、元组、函数无用返回值
 14. 使用partial将类分到不同的地方实现，逻辑清晰些；例：扩展方法、引用外部扩展
-15. DllImport其功能是提供从非托管DLL导出的函数的必要调用信息。会按照顺序自动去寻找的地方
+15. DllImport("Dll Name")其功能是提供从非托管DLL导出的函数的必要调用信息。会按照顺序自动去寻找的地方
     - exe所在目录
     - System32目录
     - 环境变量目录

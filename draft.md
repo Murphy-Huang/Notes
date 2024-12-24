@@ -30,6 +30,8 @@ renderdoc (shader调试)
 <https://github.com/mcmilk/7-Zip-zstd>
 Amplify shader
 Unity shader 源码地址：\Unity\Editor\Data\CGIncludes
+C:\Windows\System32目录下有一系列.cpl文件，分别对应着控制面板的项目（main.cpl控制鼠标属性）
+Beyond Compare
 
 ### Summary that may help
 

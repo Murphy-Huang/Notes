@@ -142,9 +142,85 @@
 
 ---
 
-#### 启动InputSystem中的Actions
+#### InputSystem
+
+> BehaviorType中我们有四种不同的调用方式
+> 使用Send Message时，每次的触发会调用一个对应的函数（就是在对应的Actions名前面加个On-）
 >
-> `InputActionProperty.EnableDirectAction()`
+>> Sample
+>>
+>> ```cs
+>> public class PlayerController : MonoBehaviour
+>> {
+>>     void OnAction1(InputValue value)
+>>     {
+>>         bool isAction1Pressd = value.isPressed;
+>>         Debug.Log(isAction1Pressd);
+>>     }
+>>     void OnMove(InputValue value)
+>>     {
+>>         Vector2 moveVal = value.Get<Vector2>();
+>>         Debug.Log(moveVal);
+>>     }
+>> }
+>> ```
+>
+> ```cs
+> InputActionProperty.EnableDirectAction() // 启动InputSystem中的Actions
+> ```
+>
+> Invoke C Sharp Events
+> 与Invoke Unity Events方式其实大致相同，需要我们自己先写好一个带有InputAction.CallbackContext类型入参的动作方法，不同的是我们挂载方式变成了脚本事件加载而不是在Unity界面上的可视化挂载
+>> Sample
+>>
+>> ```cs
+>> // 输入控制类的实例  
+>> private TestInputControls InputControls;
+>> //将对应的ActionMaps中对应的Action进行传址引用
+>> private Vector2 keyboardMoveAxes = InputControls.Keyboard.moveControl.ReadValue<Vector2>();  
+>> 
+>> void OnEnable()  
+>> {  
+>>     InputControls = new TestInputControls(); // 创建输入控制实例  
+>>     InputControls.Keyboard.Fire.started += OnFireDown; // 注册开火开始动作的回调  
+>>     InputControls.Keyboard.Fire.performed  += OnLongPress; // 注册长按动作的回调  
+>>     InputControls.Keyboard.Fire.canceled += OnFireUp; // 注册开火结束动作的回调  
+>>     InputControls.Enable(); // 启用InputActions下的所有ActionMap
+>> }  
+>> 
+>> //当开火动作被触发时调用此方法。  
+>> private void OnFireDown(InputAction.CallbackContext Obj)  
+>> {  
+>>     Debug.Log($"Fire Down | KeyName:{Obj.control.name}"); // 输出"Fire Down"到控制台 
+>> }  
+>> 
+>> //当开火动作持续时调用的方法。  
+>> private void OnLongPress(InputAction.CallbackContext Obj)  
+>> {  
+>>     Debug.Log($"Fire Long Press | KeyName:{Obj.control.name},持续时间{Obj.duration}"); // 输出动作持续时间  
+>> }  
+>> 
+>> //当开火动作释放时调用此方法。  
+>> private void OnFireUp(InputAction.CallbackContext Obj)  
+>> {  
+>>     Debug.Log($"Fire Up | KeyName:{Obj.control.name}"); // 输出"Fire Up"到控制台  
+>> }  
+>> //主要用于移除输入动作的回调函数，并禁用输入控制。  
+>> private void OnDisable()  
+>> {  
+>>     InputControls.Keyboard.Fire.started -= OnFireDown; // 移除开火开始事件的监听  
+>>     InputControls.Keyboard.Fire.performed  -= OnLongPress; // 移除长按事件的监听 
+>>     InputControls.Keyboard.Fire.canceled -= OnFireUp; // 移除开火结束事件的监听 
+>>     InputControls.Disable(); // 禁用输入控制  
+>> }
+>> private void Update()
+>> {
+>>     if (keyboardMoveAxes != Vector2.zero)
+>>     {
+>>         Debug.Log(keyboardMoveAxes);
+>>     }
+>> }
+>> ```
 
 ---
 
