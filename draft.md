@@ -22,14 +22,17 @@
 
 ### Resources that may be useful
 
+Search way: site:/filetype:/+/-/""/inurl/intitle/*
 github.dev on website
 熊猫压缩
 gpg
 edge://flags/forcetodark
 renderdoc (shader调试)
 <https://github.com/mcmilk/7-Zip-zstd>
-Amplify shader
+Unity插件：Amplify shader/[Unity-Logs-Viewer](https://github.com/aliessmael/Unity-Logs-Viewer)
 Unity shader 源码地址：\Unity\Editor\Data\CGIncludes
+Unity 崩溃日志地址：\Users\Administrator\AppData\Loacl\Unity\Editor\Editor.log
+Unity 证书日志地址：\Users\Administrator\AppData\Loacl\Unity\Unity.Licensing.Client.log
 C:\Windows\System32目录下有一系列.cpl文件，分别对应着控制面板的项目（main.cpl控制鼠标属性）
 Beyond Compare
 

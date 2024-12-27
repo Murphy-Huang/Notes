@@ -42,3 +42,13 @@
 ## PowerShell
 
 - 对比目录文件差异：Compare-Object -ReferenceObject (Get-ChildItem -File -Path "<源文件夹路径>") -DifferenceObject (Get-ChildItem -File -Path "<目标文件夹路径>") -Property Name, Length, LastWriteTime | FT -AutoSize
+
+## 批处理文件
+
+.bat批处理文件，将由命令行组成的文本文件后缀改为.bat，成为可运行的程序
+
+1. mklink：创建文件夹的链接：可用于减少同一个项目不同版本的大小问题，公用Assets|ProjectSettings目录，不同版本独立的Unity Setting
+    - /D 目录的符号链接（相对路径）；/H 文件硬链接；/J 目录的链接点（绝对路径）；
+2. pause： 暂停批处理文件执行的关键字 = Ctrl + S
+3. rem：注释命令，该命令后的内容不被执行，但是能回显（echo）
+4. if： if[not] var1 compare-op var2 (do action1) else (do action2)
