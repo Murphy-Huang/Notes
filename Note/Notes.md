@@ -108,6 +108,18 @@
 1. lua调用CS存在多种方式xlua,tolua,slua
 2. lua调用CS脚本的绑定函数（事件实现），将对应函数绑定在cs脚本（生命周期）上，实现lua的逻辑
 3. lua设置元表，不能使lua寻找父类的方法或属性，需要设置原方法：self.__index = self。因table的查找逻辑是先判断是否有元表再判断元表的__index方法，不会直接查找元表。当在当前table找不到属性的时候会一直回溯到元表table声明时就存在的属性，这些属性在面向对象中会像静态变量一样存在。
+4. VSCode + EmmyLua + XLua 调试，配置.vscode/launch.json
+
+   ```json
+   "configurations": [
+        {
+            "type": "emmylua_attach",
+            "request": "attach",
+            "name": "通过进程ID附加",
+            "pid": 0
+        }
+    ]
+   ```
 
 ### C\#
 
