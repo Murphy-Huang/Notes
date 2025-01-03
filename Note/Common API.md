@@ -243,16 +243,22 @@
 
 ---
 
-#### float到int
+#### float到int/限制位数
 >
-> `Mathf.Approximate/RoundToInt/MoveTowards()`
+> ```cs
+> Mathf.Approximate/RoundToInt/MoveTowards()
+> (float)Math.Round(double, int)
+> string.Format("{0,N2}", float)
+> ```
   
 ---
 
 #### UnityEvent\<T>有可能不能正常序列化可加上下面这段
 >
-> `[System.Serializable]`
-> `public class TakeDamageEvent : UnityEvent<float>{}`
+> ```cs
+> [System.Serializable]
+> public class TakeDamageEvent : UnityEvent<float>{}
+> ```
 
 ---
 
@@ -425,6 +431,8 @@
 >>```
 
 ---
+
+### Template
 <!--
     TEMPLATE:
     <span></span>

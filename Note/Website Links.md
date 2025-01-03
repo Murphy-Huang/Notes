@@ -1,4 +1,6 @@
-# 全球开放电子图书馆及免费资源
+# Untitle
+
+## 全球开放电子图书馆及免费资源
 
 0. [马克思主义文库](https://www.marxists.org/chinese/index.html)
 1. [z-library](https://vlink.cc/zlibrary)
@@ -32,7 +34,7 @@
 29. [Gallica.bnf.fr (法兰西国家图书馆资助的网站,法文)](http://gallica.bnf.fr/)
 30. [世界图书馆(世界图书馆，法语)](http://abu.cnam.fr/)
 31. [意大利电子书网站(包括小说,诗歌,古典文学，戏剧，传记，恐怖和幻想小说，新经济学等)](http://www.ebookgratis.it/)
-32. [日本文学著作( 格式包括 HTML , ZIP(下载)和日文电子书格式)](http://www.aozora.gr.jp/)
+32. [日本文学著作(格式包括 HTML , ZIP(下载)和日文电子书格式)](http://www.aozora.gr.jp/)
 33. [今日美国开放图书计划 (一家报纸网站的独立部门，一些有名的小说家开放了他们的版权，供所有的访客阅)](http://www.usatoday.com/life/boo...unding-gutter_x.htm)
 34. [英语文学网站 (超过一千位学生为这个巨大的网站捐助成果，焦点是英语文学)](http://www.litencyc.com/)
 35. [计算机程序设计电子书 (包括:Abap, Java, Linux, Php, Oracle & Vb.net 。 PDF 格式。注意，在下载之前，需先建立一个账户)](http://www.downloadfreepdf.com/)
@@ -45,7 +47,18 @@
 42. [National Academy Press (美国国家科学院、国家工程院、医学协会等机构的论文/报告/PPT,内容几乎涵盖所有学科)](http://www.nationalacademies.org/publications/)
 43. [UNESCO (联合国教科文组织提供的文档,包含自然科学与社会科学,有多种语言,包括中文)](http://unesdoc.unesco.org/ulis/)
 
-website
+## Uncategorized Website
 
 1. [Numbeo: world's largest cost of living database](https://www.numbeo.com/cost-of-living/)
-2. [笨鸟书库](http://8.137.9.9/)
+2. [经济指标](https://zh.tradingeconomics.com/)
+3. [笨鸟书库](http://8.137.9.9/)
+4. [站酷](https://www.zcool.com.cn/)
+5. [Verge](https://www.theverge.com/)
+6. [涂鸦](https://link.zhihu.com/?target=https%3A//gracg.com/)
+7. [lofter](https://link.zhihu.com/?target=https%3A//www.lofter.com/)
+8. [碧蓝图片](https://ww-rm.github.io/azurlane/)
+9. [碧蓝工具箱](https://al.pelom.cn/home)
+10. [游戏新闻1:Escapist](https://www.escapistmagazine.com/)
+11. [游戏新闻2:polygon](https://www.polygon.com/)
+12. [游戏新闻3:game developer](https://www.gamedeveloper.com/)
+13. [游戏新闻4:GameRes](https://www.gameres.com/)

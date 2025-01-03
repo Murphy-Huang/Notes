@@ -32,3 +32,11 @@
 |定义列表（Definition List）|	term : definition|
 |删除线（Strikethrough）	|~~The world is flat.~~|
 |任务列表（Task List）	|- [x] Write the press release<br> - [ ] Update the website<br> - [ ] Contact the media|
+
+## Other
+
+- `<link rel = "stylesheet" type = "text/css" href = "Notes.css" />`
+- [markdown系列blog](https://www.cnblogs.com/hanzongze/category/1475469.html)
+- 在文件加入css方式
+  - `<link rel = "" type = "" href = "" />`
+  - 在标签添加*style*属性：`<span style = "color:blue" >`

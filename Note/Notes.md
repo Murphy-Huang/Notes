@@ -2,18 +2,10 @@
 
 ## Untitled
 
-### Markdown相关
-
-- `<link rel = "stylesheet" type = "text/css" href = "Notes.css" />`
-- [markdown系列blog](https://www.cnblogs.com/hanzongze/category/1475469.html)
-- 在文件加入css方式
-  - `<link rel = "" type = "" href = "" />`
-  - 在标签添加*style*属性：`<span style = "color:blue" >`
-- '/'forward slash在网络上使用，'\'backward slash在window文件系统和转义使用
-- URL保留字符：space %20
-
 ### 其他
 
+- '/'forward slash在网络上使用，'\'backward slash在window文件系统和转义使用
+- URL保留字符：space=%20
 - redis与monogo配合mysql实现冷热数据存储
 - 多层状态机中，上层状态机为下层状态机设置目标实现控制
 - mvc和esc设计的类同和区别，避免在游戏开发使用mvc
@@ -27,11 +19,12 @@
 
 ### 插件
 
-1. Unity-Logs-Viewer插件
+1. [Unity-Logs-Viewer](https://github.com/aliessmael/Unity-Logs-Viewer)
 2. SimpleJson
 3. rapidJson解析器
 4. flutter_unity_widget[android打包](https://juejin.cn/post/7021063008143015950)
 5. [paq8压缩](https://github.com/hxim/paq8px)
+6. Unity Amplify Shader
 
 ### 注释说明
 
@@ -235,9 +228,9 @@
 4. StreamingAssets文件夹，`Application.streamingAssetsPath(path);`
 5. PlayerPrefs存储玩家简单的数据：string,int,float在注册表上，但可以使用JsonUtility工具将unity可序列化的类转换成json格式存储，间接存储更复杂数据
 6. 持久化路径：[参考](https://zhuanlan.zhihu.com/p/141641436)
-   Application.dataPath跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；
+   Application.dataPath（相对路径）跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；
    Application.persistantDataPath改文件在安装完apk后，里面的数据持久存在，可读写，在运行时使用；
-   Application.StreamingAsset只可读，常在初始化阶段使用，获得文件夹实际位置，规避平台之间的差异。改文件夹下的资源会保持原有格式，dll文件或脚本在此文件夹中不会参与编译。
+   Application.StreamingAsset（相对路径）只可读，常在初始化阶段使用，获得文件夹实际位置，规避平台之间的差异。改文件夹下的资源会保持原有格式，dll文件或脚本在此文件夹中不会参与编译。
 
    | Window | Path |
    |:---:|:---:|

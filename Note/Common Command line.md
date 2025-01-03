@@ -10,25 +10,26 @@
 6. git checkout '...' (switch to assigned branch) / git checkout -b [local branch name] origin/[remote branch name]
 7. git reset HEAD [commited file]
 8. git mv -v [oldfolder] [newfolder]
-9. git push [remote host branch name] [local branch name]
-10. git push --delete origin [branch name]
-11. git branch -a (check out all remote and local branch)
-12. git branch -r (check out remote branch)
-13. git branch --set-upstream-to=[alias]/[remote branch name] [local branch name] (establish a tracking relationship, alias default name origin)
-14. git branch -d [branch name]
-15. git branch -m [branch name] [new branch name]
-16. git fetch [alias] (Synchronize the local branch with remote)
-17. git fetch [repo] [remote_branch_name] : [local_branch_name]
-18. git remote -v
-19. git remote add [alias] [remote repository url]
-20. git remote show origin
-21. git remote prune origin
-22. git stash save "..."
-23. git stash pop
-24. git stash list
-25. git log -10
-26. git reset --soft [commit ID]
-27. git switch [branch name]
+9. git pull [remote host name] [branch name]
+10. git push [remote host branch name] [local branch name]
+11. git push --delete origin [branch name]
+12. git branch -a (check out all remote and local branch)
+13. git branch -r (check out remote branch)
+14. git branch --set-upstream-to=[alias]/[remote branch name] [local branch name] (establish a tracking relationship, alias default name origin)
+15. git branch -d [branch name]
+16. git branch -m [branch name] [new branch name]
+17. git fetch [alias] (Synchronize the local branch with remote)
+18. git fetch [repo] [remote_branch_name] : [local_branch_name]
+19. git remote -v
+20. git remote add [alias] [remote repository url]
+21. git remote show origin
+22. git remote prune origin
+23. git stash save "..."
+24. git stash pop
+25. git stash list
+26. git log -10
+27. git reset --soft [commit ID]
+28. git switch [branch name]
 
 ### [Git Submodules](https://cloud.tencent.com/developer/article/2136829)
 
@@ -38,6 +39,39 @@
 4. git submodule update [submodule文件夹相对路径]
 5. git submodule init [submodule的文件夹的相对路径]
 6. git submodule update [submodule的文件夹的相对路径]
+
+### Git Commit Message
+
+#### Format
+
+```json
+<type>(<scope>): <subject>
+// blank line
+<body>
+// blank line
+<footer>
+```
+
+#### Partical Realization
+
+- Header
+  - type：必须
+     1. feat
+     2. fix
+     3. docs
+     4. style
+     5. refactor
+     6. test：增加测试
+     7. chore：构建过程和辅助工具变动
+  - scope：可选
+    - 影响层级和范围
+  - subject：必须
+- Body
+  - 第一人称现在时
+  - 变动的动机以及与之前的对比
+- Footer
+  1. 不兼容变动：BREAKING CHANGE开头
+  2. 关闭issue：Closes #123，#456
 
 ## PowerShell
 
