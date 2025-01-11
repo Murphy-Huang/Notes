@@ -7,7 +7,7 @@ namespace Solution.EventSystem
 {
     public class MonoEventManager: using UnityEngine;
     
-    public class MonoEventManager : MonoBehaviour 
+    public class MonoEventManager : Manager 
     {
         private static MonoEventManager _instance;
 

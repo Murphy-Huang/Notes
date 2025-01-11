@@ -116,37 +116,38 @@
 
 ### C\#
 
-1. C#通用委托EvenArgs、EventHandler构建事件管理中心：CustomEventArgs.cs(继承EventArgs)/EventManager.cs/EventName.cs/EventTriggerExt.cs。也可以用泛型匹配方法的参数，不用EventArgs创建参数包装类。
-2. C#扩展方法
+1. Event：不可赋值（=）委托；Action：有参无返回委托；Func：有参有返回委托
+2. C#通用委托EvenArgs、EventHandler构建事件管理中心：CustomEventArgs.cs(继承EventArgs)/EventManager.cs/EventName.cs/EventTriggerExt.cs。也可以用泛型匹配方法的参数，不用EventArgs创建参数包装类。
+3. C#扩展方法
    - 必须在非泛型的靜態類中聲明，且是静态方法
    - 扩展方法必须有一个参数，且只有第一个参数使用this标记
    - 靜態類本身必须具有文件作用域
    - 编译要求导入扩展方法
    - 调用时无需传递第一个参数，默认调用this作为第一个参数
    - 是不是每个对象都加入了这个扩展方法？这个问题其实并未发生，因为C#使用的方式不是给每个对象加一个方法，而是另外提供了一个扩展方法的列表，在使用时通过列表找到被扩展的静态方法然后调用，也就是说方法还是只有那一个方法，并没有大范围的占据方法区。
-3. Enum做为字典的key的时候，会有装箱的行为，因为Enum没有实现IEquatable,这是字典的key必要的接口。
-4. ArrayList不是类型安全的，List时类型安全，而且使用时会有拆箱装箱操作，连着对比array优点在于动态长度
-5. async/await：await不会开启新的线程；异步调用前的线程会在异步等待时放回线程池，异步等待结束后，会从线程池取一个空闲的线程，来运行异步等待调用结束后的后续代码。
-6. Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束；invoke（同步）和begininvoke（异步）的概念，其实它们所说的意思是相对于子线程而言的，其实对于控件的调用总是由主线程来执行的。
-7. 使用Mathf.PI时注意有效输入范围和结果精度（角度*PI/180 = 弧度）
-8. 利用static作为全体类实体的存储库
-9. const: 是静态的、编译期变量，只在聲明时赋值
+4. Enum做为字典的key的时候，会有装箱的行为，因为Enum没有实现IEquatable,这是字典的key必要的接口。
+5. ArrayList不是类型安全的，List时类型安全，而且使用时会有拆箱装箱操作，连着对比array优点在于动态长度
+6. async/await：await不会开启新的线程；异步调用前的线程会在异步等待时放回线程池，异步等待结束后，会从线程池取一个空闲的线程，来运行异步等待调用结束后的后续代码。
+7. Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束；invoke（同步）和begininvoke（异步）的概念，其实它们所说的意思是相对于子线程而言的，其实对于控件的调用总是由主线程来执行的。
+8. 使用Mathf.PI时注意有效输入范围和结果精度（角度*PI/180 = 弧度）
+9. 利用static作为全体类实体的存储库
+10. const: 是静态的、编译期变量，只在聲明时赋值
    readonly: 运行时变量，在聲明/构造时赋值
    static readonly: 静态的、编译期时变量，只在静态构造时赋值
-10. lock()应该锁定引用类型，推荐锁定私用的只读静态对象：private static readonly obj = new obj();
-11. [optional]属性使方法参数可选：void func([optional] int num)
-12. 字符串比较一般情况下，建议调用不依赖于默认设置的方法，因为这会明确代码的意图。这进而使代码更具可读性且更易于调试和维护。StringComparison.CurrentCulture/InvariantCulture/Ordinal。[https://blog.csdn.net/dark_tone/article/details/101808816](https://blog.csdn.net/dark_tone/article/details/101808816)
-13. 适当使用弃元"_"减少内存的分配，例：swicth、out、元组、函数无用返回值
-14. 使用partial将类分到不同的地方实现，逻辑清晰些；例：扩展方法、引用外部扩展
-15. DllImport("Dll Name")其功能是提供从非托管DLL导出的函数的必要调用信息。会按照顺序自动去寻找的地方
+11. lock()应该锁定引用类型，推荐锁定私用的只读静态对象：private static readonly obj = new obj();
+12. [optional]属性使方法参数可选：void func([optional] int num)
+13. 字符串比较一般情况下，建议调用不依赖于默认设置的方法，因为这会明确代码的意图。这进而使代码更具可读性且更易于调试和维护。StringComparison.CurrentCulture/InvariantCulture/Ordinal。[https://blog.csdn.net/dark_tone/article/details/101808816](https://blog.csdn.net/dark_tone/article/details/101808816)
+14. 适当使用弃元"_"减少内存的分配，例：swicth、out、元组、函数无用返回值
+15. 使用partial将类分到不同的地方实现，逻辑清晰些；例：扩展方法、引用外部扩展
+16. DllImport("Dll Name")其功能是提供从非托管DLL导出的函数的必要调用信息。会按照顺序自动去寻找的地方
     - exe所在目录
     - System32目录
     - 环境变量目录
-16. [MonoPInvokeCallbackAttribute()]，此属性在静态函数上有效，Mono 的提前编译器使用它来生成支持回调用托管代码的本机调用所需的代码。
-17. DllImport & MonoPInvokeCallbackAttribute 配合使用，
-18. 字符'$'作用：代替string.format()；格式：$"string{}"
-19. 字符'@'作用：原意标识符，即除了("")不会按字面解释，简单转义、Unicode转义序列都将按字面解释；格式：@"string"
-20. .Net.Sockets命名空间
+17. [MonoPInvokeCallbackAttribute()]，此属性在静态函数上有效，Mono 的提前编译器使用它来生成支持回调用托管代码的本机调用所需的代码。
+18. DllImport & MonoPInvokeCallbackAttribute 配合使用，
+19. 字符'$'作用：代替string.format()；格式：$"string{}"
+20. 字符'@'作用：原意标识符，即除了("")不会按字面解释，简单转义、Unicode转义序列都将按字面解释；格式：@"string"
+21. .Net.Sockets命名空间
     1. NetFrameWork为Socket通讯提供System.Net.Socket命名空间
     2. .Net.Sockets命名空间重要的类
        - Socket：用于管理链接，WebRequest/TcpClient/UdpClient在内部使用这个类
@@ -156,7 +157,7 @@
        - UdpClient：用于客户端创建UDP链接
     3. Socket/TcpClient异步通信:BeginConnect(); EndConnect();
        - BeginConnet方法在操作完成前不会组设，使用该方法时系统会动用独立的线程来执行，直到链接成功或抛出异常；EndConnet是一种阻塞的方法，用于完成BeginConnect方法的异步链接到远程主机的请求。异步BeginConnet只有在调用了EndConnet方法后才算执行完成，程序需要在提供给requestCallback委托调用的方法中调用TcpClient对象的EndConnet方法
-21. System.Reactive.Subjects.Subject 实现观察订阅模式
+22. System.Reactive.Subjects.Subject 实现观察订阅模式
 
 ### Unity
 
@@ -180,6 +181,7 @@
 12. 多线程方式：TPL（task）、job system，TPL是.Net 5后基于ThreadPool设计的一组api，job system是unity提供配合brust使用的多线程解决方案
 13. async 用在方法定义前面，await只能写在带有async标记的方法中；注意await异步等待的地方，await后面的代码和前面的代码执行的线程可能不一样；async关键字创建了一个状态机，类似yield return 语句；await会解除当前线程的阻塞，完成其他任务；处理本地IO和网络IO任务是尽量使用async/await来提高任务执行效率
 14. sprite editor 的Custom Outline减少渲染大小，Custom physics初始化碰撞形状
+15. EventTrigger继承了许多接口，接收来自 EventSystem 的事件，并为每个事件调用已注册的函数；（注意）将此组件附加到游戏对象将导致该对象拦截所有事件，并且所有事件都不会传播到父对象。
 
 #### 热更新
 

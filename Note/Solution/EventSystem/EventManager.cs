@@ -15,12 +15,12 @@ namespace Solution.EventSystem
     {
         public static void TriggerEvent(this object sender, string eventName)
         {
-            EventSystem.instance.TriggerEvent(eventName, sender);
+            EventManager.Instance.TriggerEvent(eventName, sender);
         }
 
         public static void TriggerEvent(this object sender, string eventName, EventArgs eventArgs)
         {
-            EventSystem.instance.TriggerEvent(eventName, sender, eventArgs);
+            EventManager.Instance.TriggerEvent(eventName, sender, eventArgs);
         }
     }
 
