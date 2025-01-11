@@ -20,16 +20,17 @@
 16. git branch -m [branch name] [new branch name]
 17. git fetch [alias] (Synchronize the local branch with remote)
 18. git fetch [repo] [remote_branch_name] : [local_branch_name]
-19. git remote -v
-20. git remote add [alias] [remote repository url]
-21. git remote show origin
-22. git remote prune origin
-23. git stash save "..."
-24. git stash pop
-25. git stash list
-26. git log -10
-27. git reset --soft [commit ID]
-28. git switch [branch name]
+19. git switch [branch name]
+20. git remote -v
+21. git remote add [alias] [remote repository url]
+22. git remote show origin
+23. git remote prune origin
+24. git stash save "..."
+25. git stash pop
+26. git stash list
+27. git log -10
+28. git reset --soft [commit ID]
+29. git revert [commit ID]
 
 ### [Git Submodules](https://cloud.tencent.com/developer/article/2136829)
 

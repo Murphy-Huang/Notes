@@ -28,7 +28,7 @@
 23. [麻省理工学院的开放文献网站](http://ocw.mit.edu/OcwWeb/web/home/home/index.htm)
 24. [美国国家科学院在线数据据库 (超过3000部科学,工程和健康卫生方面的著作,可以在线阅读,这些文献代表了美国在这些领域的研究精华)](http://www.nap.edu/)
 25. [Ndltd.org (搜集了来自澳大利亚，加拿大，许多欧洲国家，香港，台湾和美国的论文)](http://www.ndltd.org/)
-26. [宾夕法尼亚大学网站 (有超过 16000 部在线电子书 ,值得一读) ](http://digital.library.upenn.edu/books/)
+26. [宾夕法尼亚大学网站 (有超过 16000 部在线电子书 ,值得一读)](http://digital.library.upenn.edu/books/)
 27. [牛津大学档案馆 (建于1976年,这里有用于研究和教学的大量高品质文献 资料公共区域可以免费在线检索目录，下载)](http://ota.ahds.ac.uk/)
 28. [弗吉尼亚大学电子文献中心 (超过10000 部可以公开或取的著作（以及超过 164000 幅图像）](http://www2.lib.virginia.edu/etext/index.html)
 29. [Gallica.bnf.fr (法兰西国家图书馆资助的网站,法文)](http://gallica.bnf.fr/)

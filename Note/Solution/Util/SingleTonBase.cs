@@ -7,24 +7,24 @@ namespace Solution.Util
 {
     public class SingleTonBase<T> where T : class
     {
-        private static T _instance;
-        private static readonly object _locker = new object();
+        private static T instance;
+        private static readonly object locker = new object();
 
-        public static T instance
+        public static T Instance
         {
             get
             {
-                if (instance == null)
+                if (Instance == null)
                 {
-                    lock (_locker)
+                    lock (locker)
                     {
-                        if (_instance == null)
+                        if (instance == null)
                         {
-                            _instance = new T();
+                            instance = new T();
                         }
                     }
                 }
-                return _instance;
+                return Instance;
             }
         }
     }

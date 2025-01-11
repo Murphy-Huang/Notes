@@ -432,6 +432,75 @@
 
 ---
 
+#### EventTrigger
+>
+> |公共函数|说明|
+> |:---:|:---:|
+> |OnBeginDrag|在拖动事件开始之前调用|
+> |OnCancel|在取消事件发生时由 EventSystem 调用。|
+> |OnDeselect|在选择新对象时由 EventSystem 调用。|
+> |OnDrag|在拖动期间，每次移动指针时由 EventSystem 调用。|
+> |OnDrop|当对象接受拖放时由 EventSystem 调用。|
+> |OnEndDrag|拖动结束时由 EventSystem 调用。|
+> |OnInitializePotentialDrag|找到了拖动事件，但在它变得有效以开始拖动之前由 EventSystem 调用。|
+> |OnMove|发生移动事件时由 EventSystem 调用。|
+> |OnPointerClick|发生单击事件时由 EventSystem 调用。|
+> |OnPointerDown|发生 PointerDown 事件时由 EventSystem 调用。|
+> |OnPointerEnter|当指针进入与此 EventTrigger 关联的对象时由 EventSystem 调用。|
+> |OnPointerExit|当指针退出与此 EventTrigger 关联的对象时由 EventSystem 调用。|
+> |OnPointerUp|发生 PointerUp 事件时由 EventSystem 调用。|
+> |OnScroll|发生滚动事件时由 EventSystem 调用。|
+> |OnSelect|发生选择事件时由 EventSystem 调用。|
+> |OnSubmit|发生提交事件时由 EventSystem 调用。|
+> |OnUpdateSelected|与此 EventTrigger 关联的对象更新时由 EventSystem 调用。|
+>
+>> Sample
+>>
+>> ```cs
+>> public class LongEventTrigger : EventTrigger
+>> {
+>>     public Action clickDown;
+>> 
+>>     public override void OnPointerDown(PointerEventData eventData)
+>>     {
+>>         base.OnPointerDown(eventData);
+>>         //Debug.Log("按下" + this.gameObject.name);
+>>         if (clickDown != null)
+>>         {
+>>             clickDown();
+>>         }
+>> 
+>>     }
+>> }
+>> ```
+
+---
+
+#### 反射判断对象是否包含某个属性
+
+> 参考<https://blog.csdn.net/wang_xinyu/article/details/107464083>
+>
+> ```cs
+> /// <summary>
+> /// 利用反射来判断对象是否包含某个属性
+> /// </summary>
+> /// <param name="instance">object</param>
+> /// <param name="propertyName">需要判断的属性</param>
+> /// <returns>是否包含</returns>
+> public static bool ContainProperty(this object instance, string propertyName)
+> {
+>   if (instance != null && !string.IsNullOrEmpty(propertyName))
+>   {
+>       PropertyInfo _findedPropertyInfo = instance.GetType().GetProperty(propertyName);
+>       MethodInfo _findedMethodInfo = instance.GetType().GetMethod(methodName);
+>       return (_findedPropertyInfo != null);
+>   }
+>   return false;
+> }
+> ```
+
+---
+
 ### Template
 <!--
     TEMPLATE:
