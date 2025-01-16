@@ -89,7 +89,7 @@ namespace Solution.Util
         {
             FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate);
             fs.SetLength(0);
-            fs.Write(buf, 0, buf.Length,);
+            fs.Write(buf, 0, buf.Length);
             fs.Close();
         }
 
@@ -221,6 +221,7 @@ namespace Solution.Util
             try
             {
                 DirectoryInfo dir = new DirectoryInfo(srcPath);
+                // DirectoryInfo & FileInfo 基类 FileSystemInfo
                 FileSystemInfo[] fileInfo = dir.GetFileSystemInfos();   //获取目录下（不包含子目录）的文件和子目录
                 if (!Directory.Exists(destPath)) Directory.CreateDirectory(destPath);
                 foreach (FileSystemInfo fi in fileInfo)

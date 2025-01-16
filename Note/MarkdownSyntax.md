@@ -40,3 +40,4 @@
 - 在文件加入css方式
   - `<link rel = "" type = "" href = "" />`
   - 在标签添加*style*属性：`<span style = "color:blue" >`
+- 换行：行尾两个空格 || \<br\>

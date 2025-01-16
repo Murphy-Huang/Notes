@@ -230,9 +230,9 @@
 4. StreamingAssets文件夹，`Application.streamingAssetsPath(path);`
 5. PlayerPrefs存储玩家简单的数据：string,int,float在注册表上，但可以使用JsonUtility工具将unity可序列化的类转换成json格式存储，间接存储更复杂数据
 6. 持久化路径：[参考](https://zhuanlan.zhihu.com/p/141641436)
-   Application.dataPath（相对路径）跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；
-   Application.persistantDataPath改文件在安装完apk后，里面的数据持久存在，可读写，在运行时使用；
-   Application.StreamingAsset（相对路径）只可读，常在初始化阶段使用，获得文件夹实际位置，规避平台之间的差异。改文件夹下的资源会保持原有格式，dll文件或脚本在此文件夹中不会参与编译。
+   Application.dataPath（相对路径）跟apk同级，常用于访问Assets目录，可读写，但可能有权限问题，写入优先考虑persistentDataPath；  
+   Application.persistantDataPath改文件在安装完apk后，里面的数据持久存在，可读写，在运行时使用；  
+   Application.StreamingAsset（相对路径）只可读，常在初始化阶段使用，获得文件夹实际位置，规避平台之间的差异。改文件夹下的资源会保持原有格式，dll文件或脚本在此文件夹中不会参与编译。  
 
    | Window | Path |
    |:---:|:---:|
@@ -287,6 +287,7 @@
    - rectTransform.GetWorldCorners(corners)获取四个角的坐标,间接设置
    - 锚框(W,H) = (AnchorMax - AnchorMin) * 父物体(W,H)
    - 不同组件的rectTransform的变量不能直接赋予（存疑）
+   - 使用 Layout Group 时要注意Pviot的位置，Pviot控制缩放；例：当为0.5 0.5 时候添加新的组成员，会从中心向外扩展
 10. 局内UI注意事项：
     1. Canvas尽量不嵌套
     2. 战斗中需要切换显隐状态，使用SetLocalScale或CanvasGroup的Alpha（MeshUI除外）
