@@ -14,6 +14,7 @@
 - jps寻路，A*的改进算法，根据强迫邻居、jump point来确定路径，跳跃查找减少运算量
 - smb共享：专用防火墙关闭，固定ip，开启网络发现，密码保护共享，smb文件共享功能，完成后重启
 - 混合編程（Lua & C#）：程序操作數據/内存，不同语言是不同操作模式的表达方式，不同语言是不同的手套，手套套手套是经常使用的方式，在程序中不同语言在程序里面转移控制权
+- 異步常用回調函數
 
 ---
 
@@ -182,6 +183,26 @@
 13. async 用在方法定义前面，await只能写在带有async标记的方法中；注意await异步等待的地方，await后面的代码和前面的代码执行的线程可能不一样；async关键字创建了一个状态机，类似yield return 语句；await会解除当前线程的阻塞，完成其他任务；处理本地IO和网络IO任务是尽量使用async/await来提高任务执行效率
 14. sprite editor 的Custom Outline减少渲染大小，Custom physics初始化碰撞形状
 15. EventTrigger继承了许多接口，接收来自 EventSystem 的事件，并为每个事件调用已注册的函数；（注意）将此组件附加到游戏对象将导致该对象拦截所有事件，并且所有事件都不会传播到父对象。
+16. 点乘(dot)求角度，实际应用中可以判断当前方向与目标之间的角度，例如计算角色朝向和目标方向夹角，判断角色左转还是右转
+17. Unity使用的矩阵通常为4*4矩阵，用以描述向量平移、旋转、缩放等所有线性变换，为了简化用户编程接口，Unity将矩阵运算融合到了常用Vector3和Quaternion类中
+18. 引入齐次坐标的主要目的
+    1. 为了更好的区分向量和点，（x，y，z，1）标识坐标点，（x，y，z，0）表示向量
+    2. 可以标识平移变换
+    3. 当分量w=0时可以表示无穷远的点
+19. 三种表示方式区别
+
+      | \ |欧拉角|矩阵|四元数|
+      |:---:|:---:|:---:|:---:|
+      |旋转一个位置点  |不支持    |支持       |不支持|
+      |增量旋转       |不支持    |支持，速度慢|支持，速度快|
+      |平滑插值       |支持      |基本不支持  |支持|
+      |内存占用       |3个数值    |16个数值   |4个数值|
+      |表达是否唯一   |无数种组合 |位移       |互为负的两种|
+      |可能会遇到的问题|万向锁    |矩阵蠕变   |误差累计导致非法|
+
+20. Transform组件的Rotation属性返回的就是一个四元数，但不能直接对Quaternion.rotation赋值，而是使用Quaternion.euler（vector3 v）：
+transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
+21. 一个场景只能有一个AudioListener
 
 #### 热更新
 
@@ -255,7 +276,7 @@
    | Application.persistantDataPath | Application/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/Documents |
    | Application.temporaryCachePath | Application/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/Library/Caches |
 
-7. 调用打包函数BuildPipeline.BuildAssetBundles时，需要传进去一个Path，用于存放打包的AssetBundle，通常传进去的是Application.streamingAssets。然后在打包完成后，unity会默认生成一个存放AssetBundle的文件夹同名的assetbundle文件，用来存放所有AssetBundle的依赖关系，在这里，就会生成一个叫StreamingAssets的AssetBundle文件。因此，在加载某一个AssetBundle之前，我们都必须先加载这个名称叫做StreamingAssets的bundle文件，然后通过这个bundle文件寻找任意一个AssetBundle需要的依赖文件。<https://www.jianshu.com/p/95af464020c7>
+7. 调用打包函数BuildPipeline.BuildAssetBundles时，需要传进去一个Path，用于存放打包的AssetBundle，通常传进去的是Application.streamingAssets。然后在打包完成后，unity会默认生成一个存放AssetBundle的文件夹同名的assetbundle文件，用来存放所有AssetBundle的依赖关系，例在StreamingAssets目录下打包，就会生成一个叫StreamingAssets的AssetBundle文件。因此，在加载某一个AssetBundle之前，我们都必须先加载这个名称叫做StreamingAssets的bundle文件，然后通过这个bundle文件寻找任意一个AssetBundle需要的依赖文件。<https://www.jianshu.com/p/95af464020c7>
 8. 构建 AssetBundle 后，除了会生成用户指定的 AssetBundle，Unity 还会自动生成一个额外的 AssetBundle，默认情况下该 AssetBundle 与输出路径最内层文件夹名相同，例如设定的输出路径为：\Assets\StreamingAssets，在该路径下就会出现 StreamingAssets 以及 StreamingAssets.manifest 文件。在该 AssetBundle 中包含名为"assetbundlemanifest"的总 Manifest 文件，总 Manifest 文件记录了所有 AssetBundle 间的依赖关系，在运行中加载 AssetBundle 时需要先从该 AssetBundle 读取 AssetBundleManifest 文件(`AssetBundle bundle = AssetBundle.LoadFromFile(manifestpath); AssetBundleManifest manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest")`)，确定所有需要加载的 AssetBundle。在与服务器简历链接并判断哪些资源需要热更新时，也需要从本地与服务器读取该 AssetBundle。<https://www.jianshu.com/p/ce823cc82837>
 9. UnityWebRequest Win平台(file:///) WebGl(http://) Android平台(jar:file:///) iOS平台(Application/)
 
@@ -312,7 +333,7 @@ SV(system-value)开头的语义在渲染流水线上有特殊含义，用这类�
 在Unity5.6后:
 UNITY_METRAX_MVP系列 换成 UnityObjectToClipPos()系列 :
 
-``` shader
+```shader
   #include "UnityCG.cginc" 
   UnityWorldToClipPos()
   UnityViewToClipPos()
@@ -407,7 +428,7 @@ Create->legacy->CubeMap在反射中作用
   - 扫掠算法（SAP）：根据对应场景选择坐标轴，对待检测物体遍历，若不满足max1>min2&&max2>min1则不会发生碰撞
 - 散弹的碰撞检测：根据项目而定，可能会生成多个碰撞体单独检测/生成单个碰撞体检测碰撞面积
 - 根据上一帧和当前帧的位置做一个胶囊体来检测碰撞，避免飞行过快发生子弹越过物体的现象
-- 包围盒：AABB包围盒、包围球、OBB方向包围、FDH固定方向包围盒。
+- 包围盒：AABB包围盒（射线检测法）、包围球、OBB方向包围、FDH固定方向包围盒。
     包围盒应满足特性：
     1. 快速的碰撞检测
     2. 能紧密的覆盖所包围的对象
