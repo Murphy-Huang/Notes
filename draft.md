@@ -29,12 +29,26 @@
 - gpg
 - edge://flags/forcetodark
 - renderdoc (shader调试)
-- <https://github.com/mcmilk/7-Zip-zstd>
+- [7-zip](https://github.com/mcmilk/7-Zip-zstd)
 - Unity shader 源码地址：\Unity\Editor\Data\CGIncludes
 - Unity 崩溃日志地址：\Users\Administrator\AppData\Loacl\Unity\Editor\Editor.log
 - Unity 证书日志地址：\Users\Administrator\AppData\Loacl\Unity\Unity.Licensing.Client.log
 - C:\Windows\System32目录下有一系列.cpl文件，分别对应着控制面板的项目（main.cpl控制鼠标属性）
+- 右键添加：空白处   HKEY_CLASSES_ROOT/Directory/background/shell  
+           文件夹处 HKEY_CLASSES_ROOT/Directory/shell  
+           文件处   HKEY_CLASSES_ROOT/*/shell
 - Beyond Compare
+- Everything 本地文件搜索
+- [BCUninstaller](https://github.com/Klocman/Bulk-Crap-Uninstaller)/HiBitUninstaller
+- Snipaste
+- git-crypt
+- PngSplit
+- CrystalDiskInfo
+- IDM
+- Ollama Foocus/Stable Diffusion
+- [Dism++：Windows 系统底层组件 DISM 的增强型工具](https://github.com/Chuyu-Team/Dism-Multi-language/releases/tag/v10.1.1002.2)
+- 录制宏：Macro Recorder
+- 清垃圾：[spacesniffer：分区可视化](http://www.uderzo.it/main_products/space_sniffer/) / Temp %temp% $Windows.~WS Windows.old Windows\Logs Windows\Pretfetch
 
 ### Summary that may help
 
