@@ -101,8 +101,11 @@
 
 1. lua调用CS存在多种方式xlua,tolua,slua
 2. lua调用CS脚本的绑定函数（事件实现），将对应函数绑定在cs脚本（生命周期）上，实现lua的逻辑
-3. lua设置元表，不能使lua寻找父类的方法或属性，需要设置原方法：self.__index = self。因table的查找逻辑是先判断是否有元表再判断元表的__index方法，不会直接查找元表。当在当前table找不到属性的时候会一直回溯到元表table声明时就存在的属性，这些属性在面向对象中会像静态变量一样存在。
-4. VSCode + EmmyLua + XLua 调试，配置.vscode/launch.json
+3. lua脚本跑在lua虚拟机上，lua虚拟机整合到动态库供Unity调用，然后在C#中启动lua虚拟机，此外动态库提供一些支持代码用以Lua和Unity交互，这就是xlua、tolua的工作。
+4. 虚拟机加载lua脚本：LuaEnv.AddLoader(CustomLoaderMethod)，CustomLoaderMethod为自定义脚本加载方式、返回byte[]
+5. lua设置元表，不能使lua寻找父类的方法或属性，需要设置原方法：self.__index = self。因table的查找逻辑是先判断是否有元表再判断元表的__index方法，不会直接查找元表。当在当前table找不到属性的时候会一直回溯到元表table声明时就存在的属性，这些属性在面向对象中会像静态变量一样存在。__index是方法，self.__index = self 是将方法导向表。
+6. 并不是说lua的继承不改变原值，而是如果要改变原值的话应该加上self.__newindex = self,这个方法也是为此而用的
+7. VSCode + EmmyLua + XLua 调试，配置.vscode/launch.json
 
    ```json
    "configurations": [
@@ -114,6 +117,9 @@
         }
     ]
    ```
+
+8. pairs ipairs区别在于pairs根据next，ipairs根据 pair(1,[t]) pair(2,[t])遍历
+9. lua没有提供拷贝函数，需要自行实现；浅拷贝不能复制table中的table，深拷贝特殊化table和setmatetable
 
 ### C\#
 
@@ -203,6 +209,80 @@
 20. Transform组件的Rotation属性返回的就是一个四元数，但不能直接对Quaternion.rotation赋值，而是使用Quaternion.euler（vector3 v）：
 transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 21. 一个场景只能有一个AudioListener
+22. 在运行时基于相同的AnimatorController交换 Animator.runtimeAnimatorController 和 AnimatorOverrideController，重写某个控制器的AnimationClip
+
+#### 性能优化
+
+1. 如何做好Unity项目性能优化的?
+出这个面试题,目的就是看你是否从系统上去思考如何把控游戏项目的性能。定位到了是某方面的问题，再去应对一些常用的手段，这里把一些常用的列举一下
+    - Drawcall优化: 确定是Drawcall问题后，根据游戏项目选择一种合适的合批技术，为这个技术创建可合批的条件，做好合批,具体可以参考我写的《Drawcall优化系列》教程详细的分析了Drawcall合批的技术手段与原理，性能与开销(what?合批还有开销？没有错)。
+    - 渲染优化: 看下pass的次数与set pass 次数, pass 次数，比如阴影这些都会导致多次pass,多光源这些会导致多次pass, 我们可以通过定制渲染管线,优化shader代码, 优化光照计算等，从Shader+渲染管线级别来做好渲染优化，现在比较火的UPR渲染，也可以参考我写的《URP 实战系列》的教程。还有LOD优化，远处用的面数少，近处用的面数多。抗锯齿算法优化等。
+    - 物理引擎优化: 这块化没有太多的空间了，用其它的技术去替代不用物理引擎，减少物理引擎的迭代参数,减少计算量，减少物理刚体的数目。
+    - 网络优化: 异步IO代替同步IO，多线程处理网络消息, protobuf序列化与反序列化优化网络包体体积。KCP 替换传统的TCP。
+    - 包体优化: 优化图片，声音体积，通过改变压缩参数来降低这些资源的体积大小。可以使用服务器上部署资源包来实现打空包机制进一步减少包体体积。
+    - 热更新优化：版本管理，增量下载，断点续传等。
+    - 内存优化: 减少资源的内存占用，不用的资源卸载掉，吃入显存的纹理可以采用平台支持的压缩格式。缓存池,减少内存碎片,减少对象的反复构建，避免GC峰值冲击等。具体可以看下《性能优化-内存篇》。
+    - 模型优化：通过细节增强,法线贴图，高度贴图，凹凸纹理等减少模型面试的同时获得很好的效果。
+    - 寻路导航优化: 优化算法，流场寻路等，多线程优化寻路算法。
+    - 代码写法优化: for循环内部不要过多跳转打乱CPU Cache等。……
+2. 性能问题定位和分析
+    - 代码算法与系统底层功底: 为什么大厂老要求算法，OS底层，数据结构，引擎底层,只有对这些基本的原理原则了解了，思考问题的时候才知道如何分析与解决。比如算法的时间复杂度，空间复杂度，比如Drawcall合批所带来的性能提升与性能开销的权衡等。
+    - 工程管理手段: 通过工程手段测试出来了性能问题，我们可以比对上一次测试与本次测试的开发记录，看看是引入与编写了哪些代码导致的性能问题，屏蔽掉可疑的代码,反复确定,这样能帮助我们瞬间就定位到出现的性能问题。(注：95%以上的问题我都是通过这种对比发现的，通过开发记录对比可疑代码，屏蔽可以代码确认，从而分析问题最后解决)
+    - 打印: 没有打印解决不了的问题，如果有继续打印，linux 内核的开发与调试基本就靠打印，因为复杂的多线程调度环境，任何工具都不好定位，所以没有打印解决不了的问题。
+    - 性能工具剖析手段: 通过Unity提供的性能剖析工具,来进行问题定位与分析。Unity引擎运行中会提供很多API与性能参数给用户获取，而Unity引擎自带的工具也是调用这些API获取游戏的性能,比如stats统计与Profiler统计。同时还有一些第三方的插件，也是做性能监视的，本质也是读取Unity引擎提供的性能参数API，把自带工具没有显示出来的重要性能参数显示出来给用户。注:不要迷恋工具，要从管理+数据+执行流程上对程序进行分析，性能工具是做这些分析的方法之一，甚至不是最重要的
+3. <https://blog.csdn.net/f402455894/article/details/120309344><https://developer.unity.cn/projects/60e2a5f9edbc2a04cfc5e341>
+   1. 资源内存
+      - 正确导入纹理
+      - 使用LOD
+      - 遮挡剔除（Window - Rendering - Occlusion）/ 设置静态对象
+   2. 图形和GPU
+      - 批处理
+      - 减少动态灯光
+      - 禁用阴影
+      - 将光照烘培到光照贴图
+      - 光照探针
+      - 限制摄像机
+   3. 代码框架
+      - 减少Update代码
+      - 不在Update创建对象
+      - 一次创建多次使用：在Awake和Start分配所有内容
+      - 避免空事件：删除空的Update/FixedUpdate
+      - 使用哈希而不是字符串参数，字符串方法只执行字符哈希处理
+      - 在C#中，字符串属于引用类型，而非值类型。减少不必要的字符串创建或更改操作，尽量避免解析JSON和XML等由字符串组成的数据文件，将数据存储于ScriptableObjects，或以MessagePack或Protobuf等格式保存。在运行时构建字符串，可使用StringBuilder类
+      - 尽可能不适应LINQ
+      - 注意装箱
+      - 仅在需要时运行代码：使用C#事件实现观察者设计模式
+      - 使用Array列表代替List数组
+      - LocalPosition代替Position
+      - 缓存Camera.main，避免直接调用
+      - 注意协程
+      - 避免运行时添加组件
+      - 使用ScriptObject
+      - 使用对象池
+      - 使用NonAlloc函数，碰撞检测函数常有不分配内存版本
+      - 减小GC影响：struct包含了引用类型
+      - 主动GC
+   4. UI
+      - 隐藏不可见UI
+      - 限制GraphicRaycaster的使用范围，禁用不需要的Raycast Target
+      - 避免使用Layout Group，内容动态应该避免嵌套/使用锚点进行比例布局/在LayoutGroup设置UI后将它禁用
+      - 合并图集
+   5. 音频
+      - 使用单声道创作剪辑
+      - 使用未压缩WAV作为源资源
+      - 选择合适的压缩格式
+      - 根据大小选择合适的加载类型
+      - 卸载静音的音源
+   6. 动画
+      - 减少使用人形
+      - 减少使用Animator，可以用第三方库实现（DOTween）
+   7. 物理
+      - 使用Project Setting - Prebake collision meshes，构筑时间会变长
+      - 禁用Auto Sync Transform使用Reuse Collision Callback & 简化Layer Collision Martix
+      - 同功能首先使用Trigger实现不用Collision
+      - 简化碰撞体/合并碰撞体
+      - 首先选择使用物理方式移动刚体（MovePosition/AddForce），再选择使用直接转换Transform的方式
+      - 修改FixedUpdate更新时间
 
 #### 热更新
 
@@ -422,7 +502,7 @@ Create->legacy->CubeMap在反射中作用
 
 ### 碰撞检测
 
-- 多变体碰撞检测（OBB）：分离轴定理（SAT）：依次再不同角度照射待检测物体，当存在一个角度两者影子没有重叠则分离轴存在（对凹多边形不适用）
+- 多变体碰撞检测（OBB）：分离轴定理（SAT）：依次再不同角度照射待检测物体，当存在一个角度两者影子没有重叠则分离轴存在（对凹多边形不适用）/ 找出两个多边形所有边的垂直向量；将两个多边形投影到垂直向量上，判断投影是否相交，如果不相交则两个多边形不相交，否则选下一条垂直向量继续进行投影判断。
 - 圆形碰撞检测：略
 - AABB碰撞检测：分别从X、Y轴向进行检测
 - Multi Box Pruning（SAP + 网格）
