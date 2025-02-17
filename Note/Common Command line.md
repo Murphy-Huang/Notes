@@ -25,12 +25,15 @@
 21. git remote add [alias] [remote repository url]
 22. git remote show origin
 23. git remote prune origin
-24. git stash save "..."
+24. git stash save "message"
 25. git stash pop
 26. git stash list
 27. git log -10
 28. git reset --soft [commit ID]
 29. git revert [commit ID]
+30. git diff (working & stash)
+31. git diff head (working & head)
+32. git diff -cached (stash & head)
 
 ### [Git Submodules](https://cloud.tencent.com/developer/article/2136829)
 

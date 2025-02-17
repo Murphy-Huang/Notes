@@ -50,12 +50,15 @@
 - 文件地址相关全lowercase
 - 非公开方法可以以Internal、Implement开头
 - 异步以Async结尾
-- 单词不能产生歧义
-  Order用于排序，不用于命令
-  Apply用于应用，不用于申请
+- 单词不能产生歧义  
+  Order用于排序，不用于命令  
+  Apply用于应用，不用于申请  
   Command用于名词，不用于动词
 - 尽量不使用单复数不符合常见形式的（适当的违背语法）
 - toc == to client / tos == to server 为分发事件名称
+- 事件内容参数 - AlarmEventArgs  
+  事件 - Alarm(动词,例如KeyPress)  
+  触发事件的方法 - void OnAlarm()
 
 ---
 
@@ -89,7 +92,7 @@
 2. 函数的参数合法性检测：一般只在用户的输入正确性，测试阶段调试或设计兼容性高的函数时需要检测合法性
 3. 委托是一个类型，将具体实现交付出去；回调是函数指针，将执行时机交付出去
 4. 整数ID比指针更容易指代无效的对象
-5. 闭包可以从类变量与类函数来作用域来理解，函数的闭包如同类中的函数调用类的变量（自由变量）。在当前作用域之外将自由变量的状态保存下来，保持对词法作用域的引用
+5. 闭包可以从类变量与类函数来作用域来理解，函数的闭包如同类中的函数调用类的变量（自由变量）。在当前作用域之外将自由变量的状态保存下来，保持对词法作用域的引用；它形成了一个自洽的体系，有自己内部的常量表，上值表，变量表。
 6. 类是引用传递，结构体默认是值传递；类可以有虚方法也可以继承其他类，结构体没有虚方法也不能继承
 7. 在仅仅使用方法时静态工具类取代单例，单例只在需要面向对象特性时使用
 8. 基于IEnumerable来隐藏替换List、Array等可迭代元素
@@ -99,13 +102,12 @@
 
 ### Lua
 
-1. lua调用CS存在多种方式xlua,tolua,slua
-2. lua调用CS脚本的绑定函数（事件实现），将对应函数绑定在cs脚本（生命周期）上，实现lua的逻辑
-3. lua脚本跑在lua虚拟机上，lua虚拟机整合到动态库供Unity调用，然后在C#中启动lua虚拟机，此外动态库提供一些支持代码用以Lua和Unity交互，这就是xlua、tolua的工作。
-4. 虚拟机加载lua脚本：LuaEnv.AddLoader(CustomLoaderMethod)，CustomLoaderMethod为自定义脚本加载方式、返回byte[]
-5. lua设置元表，不能使lua寻找父类的方法或属性，需要设置原方法：self.__index = self。因table的查找逻辑是先判断是否有元表再判断元表的__index方法，不会直接查找元表。当在当前table找不到属性的时候会一直回溯到元表table声明时就存在的属性，这些属性在面向对象中会像静态变量一样存在。__index是方法，self.__index = self 是将方法导向表。
-6. 并不是说lua的继承不改变原值，而是如果要改变原值的话应该加上self.__newindex = self,这个方法也是为此而用的
-7. VSCode + EmmyLua + XLua 调试，配置.vscode/launch.json
+1. lua调用CS脚本的绑定函数（事件实现），将对应函数绑定在cs脚本（生命周期）上，实现lua的逻辑
+2. lua脚本跑在lua虚拟机上，lua虚拟机整合到动态库供Unity调用，然后在C#中启动lua虚拟机，此外动态库提供一些支持代码用以Lua和Unity交互，这就是xlua、tolua的工作。
+3. 虚拟机加载lua脚本：LuaEnv.AddLoader(CustomLoaderMethod)，CustomLoaderMethod为自定义脚本加载方式、返回byte[]
+4. lua设置元表，不能使lua寻找父类的方法或属性，需要设置原方法：self.__index = self。因table的查找逻辑是先判断是否有元表再判断元表的__index方法，不会直接查找元表。当在当前table找不到属性的时候会一直回溯到元表table声明时就存在的属性，这些属性在面向对象中会像静态变量一样存在。__index是方法，self.__index = self 是将方法导向表。
+5. 并不是说lua的继承不改变原值，而是如果要改变原值的话应该加上self.__newindex = self,这个方法也是为此而用的
+6. VSCode + EmmyLua + XLua 调试，配置.vscode/launch.json
 
    ```json
    "configurations": [
@@ -118,8 +120,9 @@
     ]
    ```
 
-8. pairs ipairs区别在于pairs根据next，ipairs根据 pair(1,[t]) pair(2,[t])遍历
-9. lua没有提供拷贝函数，需要自行实现；浅拷贝不能复制table中的table，深拷贝特殊化table和setmatetable
+7. pairs ipairs区别在于pairs根据next，ipairs根据 pair(1,[t]) pair(2,[t])遍历
+8. lua没有提供拷贝函数，需要自行实现；浅拷贝不能复制table中的table，深拷贝特殊化table和setmatetable
+9.  __index访问表不存在的值（get），__newindex对表不存在的值赋值（set）；newindex会控制对表的赋值，将新值导向newindex字段
 
 ### C\#
 
@@ -133,7 +136,7 @@
    - 调用时无需传递第一个参数，默认调用this作为第一个参数
    - 是不是每个对象都加入了这个扩展方法？这个问题其实并未发生，因为C#使用的方式不是给每个对象加一个方法，而是另外提供了一个扩展方法的列表，在使用时通过列表找到被扩展的静态方法然后调用，也就是说方法还是只有那一个方法，并没有大范围的占据方法区。
 4. Enum做为字典的key的时候，会有装箱的行为，因为Enum没有实现IEquatable,这是字典的key必要的接口。
-5. ArrayList不是类型安全的，List时类型安全，而且使用时会有拆箱装箱操作，连着对比array优点在于动态长度
+5. ArrayList不是类型安全的，List时类型安全，而且使用时会有拆箱装箱（把堆栈上的值类型移动到堆上，被称为装箱）操作，连着对比array优点在于动态长度
 6. async/await：await不会开启新的线程；异步调用前的线程会在异步等待时放回线程池，异步等待结束后，会从线程池取一个空闲的线程，来运行异步等待调用结束后的后续代码。
 7. Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束；invoke（同步）和begininvoke（异步）的概念，其实它们所说的意思是相对于子线程而言的，其实对于控件的调用总是由主线程来执行的。
 8. 使用Mathf.PI时注意有效输入范围和结果精度（角度*PI/180 = 弧度）
@@ -165,6 +168,9 @@
     3. Socket/TcpClient异步通信:BeginConnect(); EndConnect();
        - BeginConnet方法在操作完成前不会组设，使用该方法时系统会动用独立的线程来执行，直到链接成功或抛出异常；EndConnet是一种阻塞的方法，用于完成BeginConnect方法的异步链接到远程主机的请求。异步BeginConnet只有在调用了EndConnet方法后才算执行完成，程序需要在提供给requestCallback委托调用的方法中调用TcpClient对象的EndConnet方法
 22. System.Reactive.Subjects.Subject 实现观察订阅模式
+23. final 在 J# 中已经弃用但有可能会在面试中提到
+24. sealed 关键字用于类时，该类被称为密封类，密封类不能被继承；用于方法时，该方法被称为密封方法，密封方法会重写基类中的方法；sealed修饰符应用于方法或属性时，必须始终与override一起使用；结构是隐式密封的，因此它们不能被继承
+25. Dictionary字典使用引用类型做key时需要注意，string是不可变的引用类型
 
 ### Unity
 
@@ -210,6 +216,7 @@
 transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 21. 一个场景只能有一个AudioListener
 22. 在运行时基于相同的AnimatorController交换 Animator.runtimeAnimatorController 和 AnimatorOverrideController，重写某个控制器的AnimationClip
+23. 帧同步<https://blog.csdn.net/wanzi215/article/details/82053036>
 
 #### 性能优化
 
@@ -550,6 +557,9 @@ Create->legacy->CubeMap在反射中作用
 
 ### 参考Link
 
+- [Unity IC CD](https://github.com/tommyboys0107/UnityXCICD)
+- [Amipfy Shader教程](https://zhuanlan.zhihu.com/p/339577256)
+- [URP Shader 入门](https://zhuanlan.zhihu.com/p/624520118)
 - [CS-Note](http://www.cyc2018.xyz/)
 - [Game AI Pro by Steve Rabin](http://www.gameaipro.com/)
 - [腾讯AI框架 HTN BT FSM](https://github.com/Tencent/behaviac/?tab=readme-ov-file) 有点老，中文资料少
