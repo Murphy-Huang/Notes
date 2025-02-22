@@ -2,7 +2,7 @@
 
 ## Untitled H2
 
-### Untitled H3
+### Categories
 
 #### [Linq.IEnumerable](https://learn.microsoft.com/zh-cn/dotnet/api/system.linq.enumerable?view=net-8.0)
 
@@ -293,6 +293,7 @@
 > `Mathf.MoveTowards(float position, float target, float maxDelta)`
 > `transform.Translate((target.positin - transform.position) * Time.deltaTime)`
 > `this.transform.position = Vector3.Lerp(objectPos, targetPos, curve.Evaluate(x)); //AnimationCurve变速调节应用`
+> `Rigidbody.MovePosition(transform.position + transform.forward * Time.deltaTime) //一般配合FixedUpdate使用，适用平滑移动同时避免穿透；如果在刚体上启用了刚体插值，则调用 Rigidbody.MovePosition 会导致在渲染的任意中间帧中的两个位置之间平滑过渡，如果将刚体的 isKinematic 设置为 false，则其以不同的方式工作。 它的工作方式类似于 transform.position=newPosition 并传送对象 （而不是平滑过渡）。`
 
 ---
 
@@ -501,15 +502,37 @@
 
 ---
 
+### Uncategories
+
+> 表示 Windows NT 性能计数器组件
+> ` PerformanceCounter `
+>> Sample
+>>
+>> ```CS
+>> using (var p1 = new PerformanceCounter("Process", "Working Set - Private", "GCtest.vshost"))
+>> {
+>>     Console.WriteLine( (p1.NextValue()/1024/1024).ToString("0.0")+"MB");
+>> }
+>> ```
+>
+> 垃圾回收
+> `System.GC.Collect();`
+> `Collect(Int32) 强制对 0 代到指定代进行即时垃圾回收;`
+>
+> 创建Delegate后运行
+> `Action mainFunc = (Action)Delegate.CreateDelegate(typeof(Action), MethodInfo method);`
+> 反射创建出对象后调用接口，实例化某些以泛型参数指定类型，例如Dll加载场景
+> `(Type)Activator.CreateInstance(Type type);`
+
 ### Template
 <!--
-    TEMPLATE:
     <span></span>
 
     #### Title
     > Usage scenarios / Subject description
     > **` Function declarations `** `//exegesis`
     >> Sample
+    >>
     >> ```CS
     >> Sample
     >> ```  

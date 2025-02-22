@@ -86,13 +86,13 @@
 6. attempt to index a boolean value：lua模块语句缺少return关键词
 7. Android打包libmain.os不能加载，Configuration的il2cpp模式缺少ARM64平台作为目标
 
-### 面向对象提示
+### 面向对象
 
 1. 使用事件来进行跨模块的传递，不需要引用数据实例
 2. 函数的参数合法性检测：一般只在用户的输入正确性，测试阶段调试或设计兼容性高的函数时需要检测合法性
 3. 委托是一个类型，将具体实现交付出去；回调是函数指针，将执行时机交付出去
 4. 整数ID比指针更容易指代无效的对象
-5. 闭包可以从类变量与类函数来作用域来理解，函数的闭包如同类中的函数调用类的变量（自由变量）。在当前作用域之外将自由变量的状态保存下来，保持对词法作用域的引用；它形成了一个自洽的体系，有自己内部的常量表，上值表，变量表。
+5. 闭包可以从类变量与类函数来作用域来理解，函数的闭包如同类中的函数调用类的变量（自由变量）。在当前作用域之外将自由变量的状态保存下来，保持对词法作用域的引用；它形成了一个自洽的体系，有自己内部的常量表，上值表，变量表。简单来讲就是函数可以访问其创建时的作用域中的局部变量。
 6. 类是引用传递，结构体默认是值传递；类可以有虚方法也可以继承其他类，结构体没有虚方法也不能继承
 7. 在仅仅使用方法时静态工具类取代单例，单例只在需要面向对象特性时使用
 8. 基于IEnumerable来隐藏替换List、Array等可迭代元素
@@ -155,7 +155,7 @@
     - 环境变量目录
 17. [MonoPInvokeCallbackAttribute()]，此属性在静态函数上有效，Mono 的提前编译器使用它来生成支持回调用托管代码的本机调用所需的代码。
 18. DllImport & MonoPInvokeCallbackAttribute 配合使用，
-19. 字符'$'作用：代替string.format()；格式：$"string{}"
+19. 字符'$'作用：代替string.format()；格式：$"string{}""${Application.streamingAssetsPath}"
 20. 字符'@'作用：原意标识符，即除了("")不会按字面解释，简单转义、Unicode转义序列都将按字面解释；格式：@"string"
 21. .Net.Sockets命名空间
     1. NetFrameWork为Socket通讯提供System.Net.Socket命名空间
@@ -217,6 +217,7 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 21. 一个场景只能有一个AudioListener
 22. 在运行时基于相同的AnimatorController交换 Animator.runtimeAnimatorController 和 AnimatorOverrideController，重写某个控制器的AnimationClip
 23. 帧同步<https://blog.csdn.net/wanzi215/article/details/82053036>
+24. 关于Unity程序集<https://blog.csdn.net/weixin_43405845/article/details/105174096>
 
 #### 性能优化
 
@@ -299,6 +300,16 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 4. 加载静态库方法env.AddBuildin
 5. XLua提供的只是一个库，并不包括下载的功能，需要自行安排目录、执行顺序、热更新资源
 6. [HybridCLR](https://github.com/focus-creative-games/hybridclr_trial)
+7. link.xml更新需要重新打包，挂载热更新脚本的资源（场景或prefab）必须打包成ab，在实例化资源前先加载热更新dll即可（这个要求是显然的！）
+8. 注意事项：非AOT泛型补充元数据；非AOT类型被剪裁(link.xml)；不同BuildTarget的裁剪AOT dll不可复用；不要在AOT程序集中引用热更新程序集，这会导致打包出错
+9. Unity 不允许以下程序集类型的引用
+   - 使用程序集定义创建的自定义程序集到预定义程序集的引用。
+   - 预定义程序集的显式引用。预定义程序集只能使用自动引用程序集中的代码。
+   - 循环引用，即两个程序集相互引用。如果您遇到循环引用错误，您必须重构代码以删除循环引用或将相互引用的类放在同一个程序集中
+   - 热更新脚本所挂载的资源（prefab、scene、ScriptableObject资源）必须打成assetbundle，从ab包中实例化资源，才能正确还原脚本
+10. `Assembly ass = Assembly.Load(assemblyData);`内部会自动复制assemblyData，调用完此函数可以释放assemblyData，不需要保存起来
+11. 通过通过初始化从打包成assetbundle的prefab或者scene还原挂载的热更新脚本，推荐用这种方式初始化热更新入口代码
+12. RequireComponent(typeof(AAA)) 要求AAA必须已经在别处资源中实例化或者AddComponent过，否则Unity无法识别AAA为脚本而忽略处理
 
 #### Editor
 
@@ -557,6 +568,8 @@ Create->legacy->CubeMap在反射中作用
 
 ### 参考Link
 
+- [UE5热更实战](https://zhuanlan.zhihu.com/p/694632941)
+- [SLG](https://zhuanlan.zhihu.com/p/151238164)
 - [Unity IC CD](https://github.com/tommyboys0107/UnityXCICD)
 - [Amipfy Shader教程](https://zhuanlan.zhihu.com/p/339577256)
 - [URP Shader 入门](https://zhuanlan.zhihu.com/p/624520118)
