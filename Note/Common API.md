@@ -170,7 +170,30 @@
 > ```
 >
 > Invoke C Sharp Events
-> 与Invoke Unity Events方式其实大致相同，需要我们自己先写好一个带有InputAction.CallbackContext类型入参的动作方法，不同的是我们挂载方式变成了脚本事件加载而不是在Unity界面上的可视化挂载
+> 与Invoke Unity Events方式其实大致相同，需要自己先写好一个带有InputAction.CallbackContext类型入参的动作方法，不同的是挂载方式变成了脚本事件加载而不是在Unity界面上的可视化挂载
+>> Sample
+>>
+>> ```CS
+>>  public PlayerInput playerInput;
+>>  void OnEnable()
+>>  {
+>>      playerInput.onActionTriggered += MyEventFunction;
+>>  }
+>>  void OnDisable()
+>>  {
+>>      playerInput.onActionTriggered -= MyEventFunction;
+>>  }
+>>  void MyEventFunction(InputAction.CallbackContext value)
+>>  {
+>>      Debug.Log(value.action.name + (" was triggered"));
+>>      if (value.action.name == "Move")
+>>      {
+>>          move = value.ReadValue<Vector2>();
+>>      }
+>>  }
+>> ```
+>
+> 生成C#脚本，在自己写的PlayerController 类中调用该脚本了
 >> Sample
 >>
 >> ```cs
@@ -242,6 +265,57 @@
 - EditorGUI/EditorGUILayout
 
 ---
+
+#### 編輯器扩展功能
+
+> ```CS
+> //一般这段代码写在EditorWindow的OnGUI()的某个button下，实现“点击保存”功能
+> EditorUtility.SetDirty(simpleScriptableObject); //标记脏数据
+> AssetDatabase.SaveAssets(); //对所有未写入硬盘保存的脏数据信息保存
+> ```
+>
+> ```CS
+> //值得注意的是，这种创建方式没有创建资产实例，仅仅是在内存中创建，不会保存在硬盘上。
+> var simpleScriptableObject = ScriptableObject.CreateInstance<SimpleScriptableObject>();
+> //如果想保存在硬盘上，需要使用如下方式
+> AssetDatabase.CreateAsset(simpleScriptableObject, "Assets/SomePath/simpleSO.asset"); //记得路径必须合法，也要加上文件后缀
+> ```
+>
+> ```CS
+> //这方法有许多重载，请自行查看
+> var flag = EditorUtility.DisplayDialog("标题", "显示消息", "确认键");
+> ```
+>
+> ```CS
+> private float value; //定义进度条填充值
+> private void OnGUI() //EditorWindow.OnGUI
+> {
+>     if (GUILayout.Button("增加进度")) //手动增加进度
+>     {
+>         value += 0.1f;
+>         value = Mathf.Clamp01(value); //约束value值到0~1
+>     }
+>     EditorUtility.DisplayProgressBar("进度条", "显示信息", value); //显示进度条
+>     if (value == 1)
+>     {
+>         EditorUtility.ClearProgressBar(); //关闭进度条
+>     }
+> }
+> ```
+>
+> ```CS
+> private Texture tex;
+> ...
+> if (GUILayout.Button("查找法线贴图"))
+> {
+>     //参数释义
+>     //1. 查找对象的引用
+>     //2. 是否允许查找场景对象
+>     //3. 查找对象名称过滤（比如这里的normal是指文件名称中有normal的会被搜索到）
+>     //4. controlID, 默认写0
+>     EditorGUIUtility.ShowObjectPicker<Texture>(tex, false, "normal", 0);
+> }
+> ```
 
 #### float到int/限制位数
 >
@@ -523,6 +597,9 @@
 > `Action mainFunc = (Action)Delegate.CreateDelegate(typeof(Action), MethodInfo method);`
 > 反射创建出对象后调用接口，实例化某些以泛型参数指定类型，例如Dll加载场景
 > `(Type)Activator.CreateInstance(Type type);`
+>
+> 将此属性添加至某个静态方法后，系统会在 Unity 即将打开资源时调用该方法。该方法应有以下签名之一：
+> `static bool OnOpenAsset(int instanceID, int line)`
 
 ### Template
 <!--

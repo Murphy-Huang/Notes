@@ -96,7 +96,7 @@
 6. 类是引用传递，结构体默认是值传递；类可以有虚方法也可以继承其他类，结构体没有虚方法也不能继承
 7. 在仅仅使用方法时静态工具类取代单例，单例只在需要面向对象特性时使用
 8. 基于IEnumerable来隐藏替换List、Array等可迭代元素
-9. enum 和 interface 搭配使用
+9. enum/attribute 和 interface 搭配使用
 10. 私有接口函数：处理接口函数之间重用部分而不在实现类实现，实现类不可访问
 11. 避免使用foreach，因为会释放内存
 
@@ -122,7 +122,7 @@
 
 7. pairs ipairs区别在于pairs根据next，ipairs根据 pair(1,[t]) pair(2,[t])遍历
 8. lua没有提供拷贝函数，需要自行实现；浅拷贝不能复制table中的table，深拷贝特殊化table和setmatetable
-9.  __index访问表不存在的值（get），__newindex对表不存在的值赋值（set）；newindex会控制对表的赋值，将新值导向newindex字段
+9. __index访问表不存在的值（get），__newindex对表不存在的值赋值（set）；newindex会控制对表的赋值，将新值导向newindex字段
 
 ### C\#
 
@@ -136,7 +136,7 @@
    - 调用时无需传递第一个参数，默认调用this作为第一个参数
    - 是不是每个对象都加入了这个扩展方法？这个问题其实并未发生，因为C#使用的方式不是给每个对象加一个方法，而是另外提供了一个扩展方法的列表，在使用时通过列表找到被扩展的静态方法然后调用，也就是说方法还是只有那一个方法，并没有大范围的占据方法区。
 4. Enum做为字典的key的时候，会有装箱的行为，因为Enum没有实现IEquatable,这是字典的key必要的接口。
-5. ArrayList不是类型安全的，List时类型安全，而且使用时会有拆箱装箱（把堆栈上的值类型移动到堆上，被称为装箱）操作，连着对比array优点在于动态长度
+5. ArrayList不是类型安全的，List时类型安全，而且使用时会有拆箱装箱（把堆栈上的值类型移动到堆上引用类型时，被称为装箱）操作，连着对比array优点在于动态长度
 6. async/await：await不会开启新的线程；异步调用前的线程会在异步等待时放回线程池，异步等待结束后，会从线程池取一个空闲的线程，来运行异步等待调用结束后的后续代码。
 7. Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束；invoke（同步）和begininvoke（异步）的概念，其实它们所说的意思是相对于子线程而言的，其实对于控件的调用总是由主线程来执行的。
 8. 使用Mathf.PI时注意有效输入范围和结果精度（角度*PI/180 = 弧度）
@@ -171,6 +171,9 @@
 23. final 在 J# 中已经弃用但有可能会在面试中提到
 24. sealed 关键字用于类时，该类被称为密封类，密封类不能被继承；用于方法时，该方法被称为密封方法，密封方法会重写基类中的方法；sealed修饰符应用于方法或属性时，必须始终与override一起使用；结构是隐式密封的，因此它们不能被继承
 25. Dictionary字典使用引用类型做key时需要注意，string是不可变的引用类型
+26. 字段的初始化优先于构造函数`int b = a; //等同于b = this.a，而此时this还未初始化`，初始化时可用` => `来处理
+27. 不同的数据结构，for和foreach执行效率是不一样的，不能说哪个一定快。有些数据结构差别不大，有些差别就比较大<https://www.cnblogs.com/chensuqian/p/4882207.html>
+28. ArrayList（实现IList接口）中每个item都是object类型，读取写入的时候都会装箱拆箱，在类型确定的情况下酌情使用。
 
 ### Unity
 
@@ -316,12 +319,14 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 1. where include a prefab often overrides the transform of root element of prefab
 2. 处理好prefab的apply、reverse、copy的关系
 3. ScriptableObject的非持久化
-4. Editor文件夹 EditorWindow类
-5. TextAsset文本资源存储txt/json/bytes格式文件，TextAsset不适用于运行时生成文本
-6. vr项目需要添加InputActionManager组件
-7. 直接使用prefab有的组件生成实体
-8. 在角色周围生成粒子可以形成在整个场景粒子的错觉
-9. 使用动画关键帧（add property）代替脚本
+4. Editor文件夹
+5. EditorWindow/OnGUILayout类
+6. TextAsset文本资源存储txt/json/bytes格式文件，TextAsset不适用于运行时生成文本
+7. vr项目需要添加InputActionManager组件
+8. 直接使用prefab有的组件生成实体
+9. 在角色周围生成粒子可以形成在整个场景粒子的错觉
+10. 使用动画关键帧（add property）代替脚本
+11. <https://zhuanlan.zhihu.com/p/503154643>
 
 #### Script
 
