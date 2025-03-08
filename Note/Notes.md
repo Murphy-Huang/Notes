@@ -155,7 +155,7 @@
     - 环境变量目录
 17. [MonoPInvokeCallbackAttribute()]，此属性在静态函数上有效，Mono 的提前编译器使用它来生成支持回调用托管代码的本机调用所需的代码。
 18. DllImport & MonoPInvokeCallbackAttribute 配合使用，
-19. 字符'$'作用：代替string.format()；格式：$"string{}""${Application.streamingAssetsPath}"
+19. 字符'\$'作用：代替string.format()；格式：\$"string{}""${Application.streamingAssetsPath}"
 20. 字符'@'作用：原意标识符，即除了("")不会按字面解释，简单转义、Unicode转义序列都将按字面解释；格式：@"string"
 21. .Net.Sockets命名空间
     1. NetFrameWork为Socket通讯提供System.Net.Socket命名空间
