@@ -317,6 +317,13 @@
 > }
 > ```
 
+```CS
+// UnityEditor 该属性为任意Component提供辅助图标渲染器
+[DrawGizmo(GizmoType.Selected | GizmoType.Active)]
+static void DrawGizmoForMyScript(MyScript scr, GizmoType gizmoType)
+{Gizmos.DrawIcon(position, "MyScript Gizmo.tiff");}
+```
+
 #### float到int/限制位数
 >
 > ```cs
