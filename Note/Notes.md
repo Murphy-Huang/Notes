@@ -15,6 +15,14 @@
 - smb共享：专用防火墙关闭，固定ip，开启网络发现，密码保护共享，smb文件共享功能，完成后重启
 - 混合編程（Lua & C#）：程序操作數據/内存，不同语言是不同操作模式的表达方式，不同语言是不同的手套，手套套手套是经常使用的方式，在程序中不同语言在程序里面转移控制权
 - 異步常用回調函數
+- .mtl文件:
+  三维模型处理会要读取.mtl文件来获得材质信息。
+   .mtl文件（Material Library File）是材质库文件，描述的是物体的材质信息，ASCII存储。一个.mtl文件可以包含一个或多个材质定义，对于每个材质都有其颜色，纹理和反射贴图的描述，应用于物体的表面和顶点。
+   以下是一个材质库文件的基本结构：
+   newmtl mymtl_1
+      材质颜色光照定义
+      纹理贴图定义
+      反射贴图定义
 
 ---
 
@@ -26,6 +34,7 @@
 4. flutter_unity_widget[android打包](https://juejin.cn/post/7021063008143015950)
 5. [paq8压缩](https://github.com/hxim/paq8px)
 6. Unity Amplify Shader
+7. Unity ProBuilder
 
 ### 注释说明
 
@@ -176,6 +185,7 @@
 28. ArrayList（实现IList接口）中每个item都是object类型，读取写入的时候都会装箱拆箱，在类型确定的情况下酌情使用。
 29. 实现 Finalize 方法或析构函数对性能可能会有负面影响，因此应避免不必要地使用它们。用 Finalize 方法回收对象使用的内存需要至少两次垃圾回收。所以有析构函数的对象，需要两次，第一次调用析构函数，第二次删除对象。而且在析构函数中包含大量的释放资源代码，会降低垃圾回收器的工作效率，影响性能。
 30. finailze() 是 object 类的内置方法；注意：你查看 object 类源码的时候，并不能查找到 finalize 方法，它是析构方法” ~Object() “编译产生的
+31. .Net在处理字符串的时候使用散列表：当创建了字符串"china"这个字符串的时候，当再创建这个字符串的时候，编译器是不会再去开辟新的内存来存储的。它会直接指向第一次创建的地址。因此ReferenceEquals会返回true。
 
 ### Unity
 
@@ -223,6 +233,12 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 22. 在运行时基于相同的AnimatorController交换 Animator.runtimeAnimatorController 和 AnimatorOverrideController，重写某个控制器的AnimationClip
 23. 帧同步<https://blog.csdn.net/wanzi215/article/details/82053036>
 24. 关于Unity程序集<https://blog.csdn.net/weixin_43405845/article/details/105174096>
+25. 摄像机放在LateUpdate中，当物体被多个脚本Update控制的时候，跟随这个物体的物体就会产生抖动，放在LateUpdate可以防止这种情况
+26. Rotation即使限制了旋转的增加幅度，也会导致角度增加；因此限制垂直方向的旋转需要其他方法——写死增加的值，固定住需要旋转的角度和幅度
+27. 遮挡剔除：Camera.Occlusion Culling, 
+    Occludee: `Component<Occlusion Area>`, Renderer.Enable Occlusion
+    Occluder: 默认不遮挡其他物体，脚本动态更新如Renderer.isVisible，或插件如GPU Occlusion Culling
+    如果使用了 LOD 组，则 Unity 会使用静态遮挡物的基础细节级别游戏对象 (LOD0) 来确定要遮挡的对象
 
 #### 性能优化
 
