@@ -234,7 +234,7 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 23. 帧同步<https://blog.csdn.net/wanzi215/article/details/82053036>
 24. 关于Unity程序集<https://blog.csdn.net/weixin_43405845/article/details/105174096>
 25. 摄像机放在LateUpdate中，当物体被多个脚本Update控制的时候，跟随这个物体的物体就会产生抖动，放在LateUpdate可以防止这种情况
-26. Rotation即使限制了旋转的增加幅度，也会导致角度增加；因此限制垂直方向的旋转需要其他方法——写死增加的值，固定住需要旋转的角度和幅度
+26. Rotation即使限制了旋转的增加幅度，也会导致角度增加；因此限制垂直方向的旋转需要其他方法——写死增加的值，固定住需要旋转的角度和幅度<https://blog.csdn.net/qinglingLS/article/details/107559742>
 27. 遮挡剔除：Camera.Occlusion Culling, 
     Occludee: `Component<Occlusion Area>`, Renderer.Enable Occlusion
     Occluder: 默认不遮挡其他物体，脚本动态更新如Renderer.isVisible，或插件如GPU Occlusion Culling
