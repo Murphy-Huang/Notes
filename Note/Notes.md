@@ -145,7 +145,7 @@
    - 调用时无需传递第一个参数，默认调用this作为第一个参数
    - 是不是每个对象都加入了这个扩展方法？这个问题其实并未发生，因为C#使用的方式不是给每个对象加一个方法，而是另外提供了一个扩展方法的列表，在使用时通过列表找到被扩展的静态方法然后调用，也就是说方法还是只有那一个方法，并没有大范围的占据方法区。
 4. Enum做为字典的key的时候，会有装箱的行为，因为Enum没有实现IEquatable,这是字典的key必要的接口。
-5. ArrayList不是类型安全的，List时类型安全，而且使用时会有拆箱装箱（把堆栈上的值类型移动到堆上引用类型时，被称为装箱）操作，连着对比array优点在于动态长度
+5. ArrayList不是类型安全的，List时类型安全，而且使用时会有拆箱装箱（把堆栈上的值类型移动到堆上引用类型时，被称为装箱，值类型基类是ValueType，引用类型基类是Object）操作，连着对比array优点在于动态长度
 6. async/await：await不会开启新的线程；异步调用前的线程会在异步等待时放回线程池，异步等待结束后，会从线程池取一个空闲的线程，来运行异步等待调用结束后的后续代码。
 7. Invoke，BeginInvoke区别：Invoke会阻塞当前线程，begininvoke则可以异步调用，不会等委托方法执行结束；invoke（同步）和begininvoke（异步）的概念，其实它们所说的意思是相对于子线程而言的，其实对于控件的调用总是由主线程来执行的。
 8. 使用Mathf.PI时注意有效输入范围和结果精度（角度*PI/180 = 弧度）
@@ -239,6 +239,7 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
     Occludee: `Component<Occlusion Area>`, Renderer.Enable Occlusion
     Occluder: 默认不遮挡其他物体，脚本动态更新如Renderer.isVisible，或插件如GPU Occlusion Culling
     如果使用了 LOD 组，则 Unity 会使用静态遮挡物的基础细节级别游戏对象 (LOD0) 来确定要遮挡的对象
+28. Effect2D Component (point box area platform(单向进入) Buoyancy(浮力))
 
 #### 性能优化
 
@@ -361,8 +362,14 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 9. 协程问题
    - Invoke受Time.timeScale影响，并且无法避免。Coroutine可以通过Time.unscaledDeltaTime，WaitForSecondsRealtime来执行不受Time.timeScale影响的代码。菜单、UI、HUD等可以考虑用Coroutine
    - 当类所属游戏对象active为false时，函数中的StartCoroutine无法执行，而函数中的Invoke仍可以执行。如果在SetActive(true)前需要进行一些与本体无关的额外处理而需要推迟SetActive(true)（如登场时的光效动画等），考虑使用Invoke。若用Coroutine，就需要很多额外代码来调整各部件的出现时间、Start中调用的函数何时开始执行等，或者就需要把动画和时间的处理函数写在其他类（如敌人或玩家角色的Manager类等）中
+   - 利用yield return实现，两个yield之间用MoveNext执行内容，利用迭代器分帧执行
 10. 协程无法返回值，可以利用回调函数、共享变量、事件来返回结果
 11. 协程适用于处理Unity 对象、生命周期等与Unity API交互相关的任务，如延时、动画序列、协作动作；线程更适合计算密集型任务，如物理模拟、算法计算
+12. AssetPostprocessor导入时设置图片
+13. 脚本修改图片设置：TextureImporter.SetTextureSettings() TextureImporter.GetTextureSettings()
+14. Sprite Packer 转换 Sprite Atlas <https://blog.csdn.net/a1191835397/article/details/131441954>
+15. Enumerator这个结构，每次在获取迭代器时都会被创建出来。如果大量使用迭代器，例如Update()中 foreach语句，就会产生大量的垃圾。
+16. AnimationCurve Unity自带的动画曲线，声明后再inspector调节 `y = AnimationCurve.Evaluate(x)`
 
 #### 资源持久化
 
@@ -595,7 +602,9 @@ Create->legacy->CubeMap在反射中作用
 
 ### 参考Link
 
+- [Unity Cinemachine](https://blog.csdn.net/linxinfa/article/details/124537415)
 - [UE5热更实战](https://zhuanlan.zhihu.com/p/694632941)
+- [UGUI 手机屏幕适配](https://zhuanlan.zhihu.com/p/579146633)
 - [SLG](https://zhuanlan.zhihu.com/p/151238164)
 - [Unity IC CD](https://github.com/tommyboys0107/UnityXCICD)
 - [Amipfy Shader教程](https://zhuanlan.zhihu.com/p/339577256)

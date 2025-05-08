@@ -189,6 +189,37 @@ lua的table.remove的不安全问题，数值型解决方法
 
 ---
 
+避免每帧GC
+字典的 GetEnumerator() 返回的是结构体：
+在 C# 中，Dictionary<TKey, TValue>.GetEnumerator() 返回的是一个结构体类型的枚举器（而非类对象），例如 Dictionary<int, NetSocket>.Enumerator。结构体是值类型，分配在栈上，不会触发堆内存分配，因此不会产生 GC 压力。
+
+避免 foreach 的隐式装箱：
+如果使用 foreach 遍历字典，在某些旧版本的 Unity 或 C# 运行时中，结构体枚举器可能会被隐式装箱为 IEnumerator 接口（引用类型），导致堆分配和 GC。而代码中通过 while (enumerator.MoveNext()) 手动遍历枚举器，避免了装箱操作，确保整个过程无堆内存分配。
+
+> ```CS
+> void Update ()
+> {
+>     //此种遍历方式可以避免每帧GC
+>     var enumerator = nets.GetEnumerator();
+>     while (enumerator.MoveNext())
+>     {
+>         var element = enumerator.Current;
+>         element.Value.Update();
+>     }
+> }
+> ```
+
+---
+
+单帧检测碰撞
+
+> ```CS
+> public static Collider[] Physics.OverlapSphere (Vector3 position, float radius, int layerMask= AllLayers, QueryTriggerInteraction queryTriggerInteraction= QueryTriggerInteraction.UseGlobal);
+> public static int Physics.OverlapCapsuleNonAlloc (Vector3 point0, Vector3 point1, float radius, Collider[] results, int layerMask= AllLayers, QueryTriggerInteraction queryTriggerInteraction= QueryTriggerInteraction.UseGlobal);    // 给定缓冲区 results，返回缓冲区长度
+> ```
+
+---
+
 技能特效系统
 Skill(Class)
 SkillEntity(ScriptObject).Controller(Monobehaviour)
