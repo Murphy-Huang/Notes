@@ -186,6 +186,7 @@
 29. 实现 Finalize 方法或析构函数对性能可能会有负面影响，因此应避免不必要地使用它们。用 Finalize 方法回收对象使用的内存需要至少两次垃圾回收。所以有析构函数的对象，需要两次，第一次调用析构函数，第二次删除对象。而且在析构函数中包含大量的释放资源代码，会降低垃圾回收器的工作效率，影响性能。
 30. finailze() 是 object 类的内置方法；注意：你查看 object 类源码的时候，并不能查找到 finalize 方法，它是析构方法” ~Object() “编译产生的
 31. .Net在处理字符串的时候使用散列表：当创建了字符串"china"这个字符串的时候，当再创建这个字符串的时候，编译器是不会再去开辟新的内存来存储的。它会直接指向第一次创建的地址。因此ReferenceEquals会返回true。
+32. Length是计算连续内存区域的一些对象长度，Count()计算非连续内存块的对象集合个数
 
 ### Unity
 
@@ -313,6 +314,9 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
       - 简化碰撞体/合并碰撞体
       - 首先选择使用物理方式移动刚体（MovePosition/AddForce），再选择使用直接转换Transform的方式
       - 修改FixedUpdate更新时间
+4. 常规2.5D移动端，同屏3万面
+   1. 小怪12个，角色10个，怪物800，角色2000
+   2. boss规格放开但不能超过3000
 
 #### 热更新
 
@@ -365,7 +369,7 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
    - 利用yield return实现，两个yield之间用MoveNext执行内容，利用迭代器分帧执行
 10. 协程无法返回值，可以利用回调函数、共享变量、事件来返回结果
 11. 协程适用于处理Unity 对象、生命周期等与Unity API交互相关的任务，如延时、动画序列、协作动作；线程更适合计算密集型任务，如物理模拟、算法计算
-12. AssetPostprocessor导入时设置图片
+12. AssetPostprocessor导入时设置图片<https://blog.csdn.net/kanggegegege/article/details/122360039>
 13. 脚本修改图片设置：TextureImporter.SetTextureSettings() TextureImporter.GetTextureSettings()
 14. Sprite Packer 转换 Sprite Atlas <https://blog.csdn.net/a1191835397/article/details/131441954>
 15. Enumerator这个结构，每次在获取迭代器时都会被创建出来。如果大量使用迭代器，例如Update()中 foreach语句，就会产生大量的垃圾。
@@ -584,6 +588,7 @@ Create->legacy->CubeMap在反射中作用
 - Entity它的意义在于生命期管理，Component 之间可以组合在一起作为 System 筛选的标准
 - System 之间也不需要相互调用（减少耦合），是由游戏世界（外部框架）来驱动若干 System 的。
 - Utility 函数的概念，行为涉及多个 Entity或者行为并不想修改 Component 的状态，共享给不同的 System 调用。为了降低系统复杂度，就要求要么这种函数是无副作用的，随便怎么调用都没问题。[https://blog.codingnow.com/2017/06/overwatch_ecs.html](https://blog.codingnow.com/2017/06/overwatch_ecs.html)
+- [ECS框架](https://mp.weixin.qq.com/s/yCE82LvrAyC8HB7ku26s1g)
 
 ### Git
 
@@ -594,7 +599,7 @@ Create->legacy->CubeMap在反射中作用
   - [合并commit](https://blog.csdn.net/Spade_/article/details/108698036)，git rebase -i HEAD~5
   - 个人认为应该尽量少使用force push，应该在本地分支确定好commit再谨慎推送
   - https方式使用账号和密码授权，简单易用，便于进行权限细分管理，而且防火墙一般会打开 http 和https协议的端口号80 和 443。可以进行匿名访问，对于开源项目，其他人即使没有任何权限也可以方便进行除提交之外的克隆和读取操作。但是可能需要每个项目成员都有一个代码托管平台的账号，而且缺乏凭证管理的话，可能要频繁的进行账号密码输入；`<br/>`ssh方式单独使用非对称的秘钥进行认证和加密传输，和账号密码分离开来，不需要账号也可以访问repo。生成和管理秘钥有点繁琐，需要管理员添加成员的public key。不能进行匿名访问，ssh不利于对权限进行细分，用户必须具有通过SSH协议访问你主机的权限，才能进行下一步操作，比较适合内部项目。
-- git-crypt issue: git cannot checkout after git-crypt encrypt file, use 'git crypt lock' then checkout can solve this problem. cannot do git-crypt init in same repo even id in different branch, one-to-one correspondence between git-crypt-key and repository. [https://github.com/AGWA/git-crypt/issues/125](https://github.com/AGWA/git-crypt/issues/125)
+- git-crypt issue: git cannot checkout after git-crypt encrypt file, use 'git crypt lock' then checkout can solve this problem. cannot do git-crypt init in same repo even id in different branch, one-to-one correspondence between git-crypt-key and repository. <https://github.com/AGWA/git-crypt/issues/125>
 - git-crypt add-gpg-user [gpgID]，会使用gpgID匹配的gpg公钥来加密由git-crypt init命令产生的对等密钥（.git/git-crypt/keys/default），并生成一个文件在根目录下来导出结果
 - git在window系统将凭证交给window管理，用户账号->管理凭证
 
@@ -602,10 +607,14 @@ Create->legacy->CubeMap在反射中作用
 
 ### 参考Link
 
+- [QFramework](https://gitee.com/liangxiegame/QFramework)
+- [GameFramework](https://zhuanlan.zhihu.com/p/426136370)
+- [MMOGamePlay技术](https://zhuanlan.zhihu.com/p/147681650)
+- [主程笔记](https://www.cnblogs.com/CatSevenMillion/category/2308689.html)
 - [Unity Cinemachine](https://blog.csdn.net/linxinfa/article/details/124537415)
 - [UE5热更实战](https://zhuanlan.zhihu.com/p/694632941)
 - [UGUI 手机屏幕适配](https://zhuanlan.zhihu.com/p/579146633)
-- [SLG](https://zhuanlan.zhihu.com/p/151238164)
+- [Unity 入坟系列](https://zhuanlan.zhihu.com/p/151238164)
 - [Unity IC CD](https://github.com/tommyboys0107/UnityXCICD)
 - [Amipfy Shader教程](https://zhuanlan.zhihu.com/p/339577256)
 - [URP Shader 入门](https://zhuanlan.zhihu.com/p/624520118)

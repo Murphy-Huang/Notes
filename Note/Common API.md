@@ -362,6 +362,8 @@ static void DrawGizmoForMyScript(MyScript scr, GizmoType gizmoType)
 > // 当 Canvas renderMode 为 RenderMode.ScreenSpaceOverlay 时 uiCamera 可以为空
 > RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, screenPoint, uiCamera, out globalMousePos);
 > RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRT, screenPoint, uiCamera, out localPos);
+> transform.TransformPoint(Vector3)  //  局部转世界
+> transform.InverseTransformPoint(Vector3)   // 世界转局部
 > ```
 >
 原文链接：<https://blog.csdn.net/LIQIANGEASTSUN/article/details/124413387>
