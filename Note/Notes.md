@@ -323,19 +323,20 @@ transform.rotation = Quaternion.Euler(new vector3 (0,90,0));
 1. ![热更新流程图](../Picture/hotRefresh%20flowChart.png)
 2. 需要IL注入的是打[HotFix]标签的类和函数，因此不需要热更C#代码的项目不需要IL注入<https://www.cnblogs.com/gangtie/p/13665727.html>
 3. XLua默认会到Resource目录寻找txt/bytes后缀的Lua脚本呢，在LuaEnv调用env.AddLoader(CUstomLoader)重定向查找优先查找的目录
-4. 加载静态库方法env.AddBuildin
-5. XLua提供的只是一个库，并不包括下载的功能，需要自行安排目录、执行顺序、热更新资源
-6. [HybridCLR](https://github.com/focus-creative-games/hybridclr_trial)
-7. link.xml更新需要重新打包，挂载热更新脚本的资源（场景或prefab）必须打包成ab，在实例化资源前先加载热更新dll即可（这个要求是显然的！）
-8. 注意事项：非AOT泛型补充元数据；非AOT类型被剪裁(link.xml)；不同BuildTarget的裁剪AOT dll不可复用；不要在AOT程序集中引用热更新程序集，这会导致打包出错
-9. Unity 不允许以下程序集类型的引用
+4. Xlua导入可以自定义一个单独的脚本，例如[CSharpToLua]
+5. 加载静态库方法env.AddBuildin
+6. XLua提供的只是一个库，并不包括下载的功能，需要自行安排目录、执行顺序、热更新资源
+7. [HybridCLR](https://github.com/focus-creative-games/hybridclr_trial)
+8. link.xml更新需要重新打包，挂载热更新脚本的资源（场景或prefab）必须打包成ab，在实例化资源前先加载热更新dll即可（这个要求是显然的！）
+9. 注意事项：非AOT泛型补充元数据；非AOT类型被剪裁(link.xml)；不同BuildTarget的裁剪AOT dll不可复用；不要在AOT程序集中引用热更新程序集，这会导致打包出错
+10. Unity 不允许以下程序集类型的引用
    - 使用程序集定义创建的自定义程序集到预定义程序集的引用。
    - 预定义程序集的显式引用。预定义程序集只能使用自动引用程序集中的代码。
    - 循环引用，即两个程序集相互引用。如果您遇到循环引用错误，您必须重构代码以删除循环引用或将相互引用的类放在同一个程序集中
    - 热更新脚本所挂载的资源（prefab、scene、ScriptableObject资源）必须打成assetbundle，从ab包中实例化资源，才能正确还原脚本
-10. `Assembly ass = Assembly.Load(assemblyData);`内部会自动复制assemblyData，调用完此函数可以释放assemblyData，不需要保存起来
-11. 通过通过初始化从打包成assetbundle的prefab或者scene还原挂载的热更新脚本，推荐用这种方式初始化热更新入口代码
-12. RequireComponent(typeof(AAA)) 要求AAA必须已经在别处资源中实例化或者AddComponent过，否则Unity无法识别AAA为脚本而忽略处理
+11. `Assembly ass = Assembly.Load(assemblyData);`内部会自动复制assemblyData，调用完此函数可以释放assemblyData，不需要保存起来
+12. 通过通过初始化从打包成assetbundle的prefab或者scene还原挂载的热更新脚本，推荐用这种方式初始化热更新入口代码
+13. RequireComponent(typeof(AAA)) 要求AAA必须已经在别处资源中实例化或者AddComponent过，否则Unity无法识别AAA为脚本而忽略处理
 
 #### Editor
 
